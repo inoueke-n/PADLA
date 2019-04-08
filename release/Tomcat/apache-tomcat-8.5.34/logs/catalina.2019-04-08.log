@@ -1,0 +1,331 @@
+08-Apr-2019 15:03:03.529 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.5.34
+08-Apr-2019 15:03:03.532 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Sep 4 2018 22:28:22 UTC
+08-Apr-2019 15:03:03.533 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.5.34.0
+08-Apr-2019 15:03:03.533 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+08-Apr-2019 15:03:03.534 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+08-Apr-2019 15:03:03.534 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+08-Apr-2019 15:03:03.534 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jre1.8.0_191
+08-Apr-2019 15:03:03.534 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_191-b12
+08-Apr-2019 15:03:03.534 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+08-Apr-2019 15:03:03.534 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:03:03.535 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:03:03.535 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\conf\logging.properties
+08-Apr-2019 15:03:03.536 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+08-Apr-2019 15:03:03.536 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dlog4j.configurationFile=file://C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34/conf/log4j2.xml
+08-Apr-2019 15:03:03.537 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+08-Apr-2019 15:03:03.537 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+08-Apr-2019 15:03:03.538 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -javaagent:..\HeijoAgent\HeijoAgent.jar=target=jpetstore_plus_tomcat-juli.jar,learningData=vectors.txt,bufferOutput=buffer.txt,phaseOutput=vecs.txt,buffer=300,interval=5
+08-Apr-2019 15:03:03.539 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+08-Apr-2019 15:03:03.539 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:03:03.540 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:03:03.540 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\temp
+08-Apr-2019 15:03:03.541 情報 [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jre1.8.0_191\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Java\jdk1.8.0_191\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\xampp\apache\bin;C:\Program Files (x86)\Kensington\TrackballWorks;C:\Program Files\nodejs\;C:\Users\m-tys\Anaconda3;C:\Users\m-tys\Anaconda3\Library\mingw-w64\bin;C:\Users\m-tys\Anaconda3\Library\usr\bin;C:\Users\m-tys\Anaconda3\Library\bin;C:\Users\m-tys\Anaconda3\Scripts;C:\Users\m-tys\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;"C:\Program Files\Java\jdk1.8.0_191\bin;";C:\Program Files\gradle-4.10.1\bin;C:\Users\m-tys\AppData\Local\Android\Sdk\tools\bin;C:\Users\m-tys\AppData\Roaming\npm;.]
+08-Apr-2019 15:03:04.276 情報 [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:03:04.400 情報 [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+08-Apr-2019 15:03:04.406 情報 [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:03:04.408 情報 [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+08-Apr-2019 15:03:04.408 情報 [main] org.apache.catalina.startup.Catalina.load Initialization processed in 1163 ms
+08-Apr-2019 15:03:04.429 情報 [main] org.apache.catalina.core.StandardService.startInternal サービス [Catalina] を起動します
+08-Apr-2019 15:03:04.430 情報 [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.34
+08-Apr-2019 15:03:04.442 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\docs] を配備します
+08-Apr-2019 15:03:04.679 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:03:04.718 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\docs] has finished in [275] ms
+08-Apr-2019 15:03:04.718 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\examples] を配備します
+08-Apr-2019 15:03:05.755 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:03:05.801 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\examples] has finished in [1,083] ms
+08-Apr-2019 15:03:05.801 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\host-manager] を配備します
+08-Apr-2019 15:03:05.850 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:03:05.853 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\host-manager] has finished in [52] ms
+08-Apr-2019 15:03:05.854 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\jpetstore] を配備します
+08-Apr-2019 15:03:09.248 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:03:12.711 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\jpetstore] has finished in [6,857] ms
+08-Apr-2019 15:03:12.712 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\manager] を配備します
+08-Apr-2019 15:03:12.752 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:03:12.755 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\manager] has finished in [42] ms
+08-Apr-2019 15:03:12.755 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\ROOT] を配備します
+08-Apr-2019 15:03:12.789 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:03:12.791 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\ROOT] has finished in [36] ms
+08-Apr-2019 15:03:12.795 情報 [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:03:12.854 情報 [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:03:12.857 情報 [main] org.apache.catalina.startup.Catalina.start Server startup in 8448 ms
+08-Apr-2019 15:05:22.680 重大 [main] org.apache.catalina.startup.Catalina.stopServer Could not contact [localhost:[8005]]. Tomcat may not be running.
+08-Apr-2019 15:05:22.689 重大 [main] org.apache.catalina.startup.Catalina.stopServer Catalina.stop: 
+ java.net.ConnectException: Connection refused: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at java.net.Socket.<init>(Unknown Source)
+	at java.net.Socket.<init>(Unknown Source)
+	at org.apache.catalina.startup.Catalina.stopServer(Catalina.java:497)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.catalina.startup.Bootstrap.stopServer(Bootstrap.java:406)
+	at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:498)
+
+08-Apr-2019 15:06:21.036 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.5.34
+08-Apr-2019 15:06:21.040 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Sep 4 2018 22:28:22 UTC
+08-Apr-2019 15:06:21.041 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.5.34.0
+08-Apr-2019 15:06:21.041 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+08-Apr-2019 15:06:21.041 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+08-Apr-2019 15:06:21.041 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+08-Apr-2019 15:06:21.041 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jre1.8.0_191
+08-Apr-2019 15:06:21.041 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_191-b12
+08-Apr-2019 15:06:21.042 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+08-Apr-2019 15:06:21.042 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:06:21.042 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:06:21.043 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\conf\logging.properties
+08-Apr-2019 15:06:21.043 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+08-Apr-2019 15:06:21.044 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dlog4j.configurationFile=file://C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34/conf/log4j2.xml
+08-Apr-2019 15:06:21.044 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+08-Apr-2019 15:06:21.045 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+08-Apr-2019 15:06:21.046 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -javaagent:..\HeijoAgent\HeijoAgent.jar=target=.\jpetstore_plus_tomcat-juli.jar,learningData=.\vectors.txt,bufferOutput=.\buffer.txt,phaseOutput=.\vecs.txt,buffer=300,interval=5
+08-Apr-2019 15:06:21.046 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+08-Apr-2019 15:06:21.047 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:06:21.047 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:06:21.048 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\temp
+08-Apr-2019 15:06:21.049 情報 [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jre1.8.0_191\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Java\jdk1.8.0_191\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\xampp\apache\bin;C:\Program Files (x86)\Kensington\TrackballWorks;C:\Program Files\nodejs\;C:\Users\m-tys\Anaconda3;C:\Users\m-tys\Anaconda3\Library\mingw-w64\bin;C:\Users\m-tys\Anaconda3\Library\usr\bin;C:\Users\m-tys\Anaconda3\Library\bin;C:\Users\m-tys\Anaconda3\Scripts;C:\Users\m-tys\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;"C:\Program Files\Java\jdk1.8.0_191\bin;";C:\Program Files\gradle-4.10.1\bin;C:\Users\m-tys\AppData\Local\Android\Sdk\tools\bin;C:\Users\m-tys\AppData\Roaming\npm;.]
+08-Apr-2019 15:06:21.160 情報 [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:06:21.280 情報 [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+08-Apr-2019 15:06:21.285 情報 [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:06:21.287 情報 [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+08-Apr-2019 15:06:21.288 情報 [main] org.apache.catalina.startup.Catalina.load Initialization processed in 550 ms
+08-Apr-2019 15:06:21.308 情報 [main] org.apache.catalina.core.StandardService.startInternal サービス [Catalina] を起動します
+08-Apr-2019 15:06:21.309 情報 [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.34
+08-Apr-2019 15:06:21.319 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\docs] を配備します
+08-Apr-2019 15:06:21.530 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:06:21.568 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\docs] has finished in [248] ms
+08-Apr-2019 15:06:21.569 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\examples] を配備します
+08-Apr-2019 15:06:21.866 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:06:21.910 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\examples] has finished in [341] ms
+08-Apr-2019 15:06:21.911 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\host-manager] を配備します
+08-Apr-2019 15:06:21.952 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:06:21.955 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\host-manager] has finished in [44] ms
+08-Apr-2019 15:06:21.956 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\jpetstore] を配備します
+08-Apr-2019 15:06:23.777 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:06:27.179 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\jpetstore] has finished in [5,224] ms
+08-Apr-2019 15:06:27.180 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\manager] を配備します
+08-Apr-2019 15:06:27.216 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:06:27.218 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\manager] has finished in [38] ms
+08-Apr-2019 15:06:27.219 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\ROOT] を配備します
+08-Apr-2019 15:06:27.251 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:06:27.253 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\ROOT] has finished in [33] ms
+08-Apr-2019 15:06:27.257 情報 [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:06:27.321 情報 [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:06:27.323 情報 [main] org.apache.catalina.startup.Catalina.start Server startup in 6036 ms
+08-Apr-2019 15:07:03.553 情報 [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+08-Apr-2019 15:07:03.553 情報 [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:07:03.660 情報 [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:07:03.740 情報 [main] org.apache.catalina.core.StandardService.stopInternal サービス [Catalina] を停止します
+08-Apr-2019 15:07:03.797 警告 [localhost-startStop-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [jpetstore] registered the JDBC driver [org.hsqldb.jdbc.JDBCDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+08-Apr-2019 15:07:03.798 警告 [localhost-startStop-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [jpetstore] appears to have started a thread named [Thread-8] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.security.AccessController.doPrivileged(Native Method)
+ java.net.Socket.getInputStream(Unknown Source)
+ jp.naist.heijo.Connector.readRaw(Connector.java:52)
+ jp.naist.heijo.Connector.read(Connector.java:42)
+ jp.ac.osaka_u.ist.mymemcache.PhaseLogger.run(PhaseLogger.java:65)
+08-Apr-2019 15:07:03.806 情報 [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:07:03.809 情報 [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:07:03.812 情報 [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:07:03.813 情報 [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:07:03.816 情報 [Thread-11] org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading 不正なアクセス: このWebアプリケーションのインスタンスは既に停止されています  Could not load [java.io.BufferedWriter]. 不正なアクセスを引き起こしたスレッドを終了させ、投げられたエラーによりデバッグ用に次のスタックトレースが生成されましたが，機能に影響はありません
+ java.lang.IllegalStateException: 不正なアクセス: このWebアプリケーションのインスタンスは既に停止されています  Could not load [java.io.BufferedWriter]. 不正なアクセスを引き起こしたスレッドを終了させ、投げられたエラーによりデバッグ用に次のスタックトレースが生成されましたが，機能に影響はありません
+	at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading(WebappClassLoaderBase.java:1329)
+	at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForClassLoading(WebappClassLoaderBase.java:1317)
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1176)
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1137)
+	at jp.ac.osaka_u.ist.mymemcache.PhaseLogger$1.run(PhaseLogger.java:174)
+
+08-Apr-2019 15:08:12.208 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.5.34
+08-Apr-2019 15:08:12.212 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Sep 4 2018 22:28:22 UTC
+08-Apr-2019 15:08:12.212 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.5.34.0
+08-Apr-2019 15:08:12.213 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+08-Apr-2019 15:08:12.213 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+08-Apr-2019 15:08:12.213 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+08-Apr-2019 15:08:12.213 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jre1.8.0_191
+08-Apr-2019 15:08:12.213 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_191-b12
+08-Apr-2019 15:08:12.214 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+08-Apr-2019 15:08:12.214 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:08:12.214 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:08:12.214 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\conf\logging.properties
+08-Apr-2019 15:08:12.215 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+08-Apr-2019 15:08:12.215 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dlog4j.configurationFile=file://C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34/conf/log4j2.xml
+08-Apr-2019 15:08:12.216 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+08-Apr-2019 15:08:12.217 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+08-Apr-2019 15:08:12.217 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -javaagent:..\HeijoAgent\HeijoAgent.jar=target=C:\Users\m-tys\Desktop\mizouchi\research\load_test\jpetstore_plus_tomcat-juli.jar,learningData=.\vectors.txt,bufferOutput=.\buffer.txt,phaseOutput=.\vecs.txt,buffer=300,interval=5
+08-Apr-2019 15:08:12.218 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+08-Apr-2019 15:08:12.218 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:08:12.219 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:08:12.220 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\temp
+08-Apr-2019 15:08:12.220 情報 [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jre1.8.0_191\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Java\jdk1.8.0_191\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\xampp\apache\bin;C:\Program Files (x86)\Kensington\TrackballWorks;C:\Program Files\nodejs\;C:\Users\m-tys\Anaconda3;C:\Users\m-tys\Anaconda3\Library\mingw-w64\bin;C:\Users\m-tys\Anaconda3\Library\usr\bin;C:\Users\m-tys\Anaconda3\Library\bin;C:\Users\m-tys\Anaconda3\Scripts;C:\Users\m-tys\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;"C:\Program Files\Java\jdk1.8.0_191\bin;";C:\Program Files\gradle-4.10.1\bin;C:\Users\m-tys\AppData\Local\Android\Sdk\tools\bin;C:\Users\m-tys\AppData\Roaming\npm;.]
+08-Apr-2019 15:08:12.337 情報 [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:08:12.458 情報 [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+08-Apr-2019 15:08:12.463 情報 [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:08:12.465 情報 [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+08-Apr-2019 15:08:12.465 情報 [main] org.apache.catalina.startup.Catalina.load Initialization processed in 541 ms
+08-Apr-2019 15:08:12.487 情報 [main] org.apache.catalina.core.StandardService.startInternal サービス [Catalina] を起動します
+08-Apr-2019 15:08:12.488 情報 [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.34
+08-Apr-2019 15:08:12.498 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\docs] を配備します
+08-Apr-2019 15:08:12.714 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:08:12.755 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\docs] has finished in [256] ms
+08-Apr-2019 15:08:12.756 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\examples] を配備します
+08-Apr-2019 15:08:13.076 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:08:13.120 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\examples] has finished in [364] ms
+08-Apr-2019 15:08:13.120 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\host-manager] を配備します
+08-Apr-2019 15:08:13.162 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:08:13.165 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\host-manager] has finished in [45] ms
+08-Apr-2019 15:08:13.165 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\jpetstore] を配備します
+08-Apr-2019 15:08:14.943 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:08:18.366 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\jpetstore] has finished in [5,201] ms
+08-Apr-2019 15:08:18.367 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\manager] を配備します
+08-Apr-2019 15:08:18.403 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:08:18.405 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\manager] has finished in [38] ms
+08-Apr-2019 15:08:18.406 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\ROOT] を配備します
+08-Apr-2019 15:08:18.436 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:08:18.437 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\ROOT] has finished in [31] ms
+08-Apr-2019 15:08:18.441 情報 [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:08:18.499 情報 [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:08:18.502 情報 [main] org.apache.catalina.startup.Catalina.start Server startup in 6036 ms
+08-Apr-2019 15:08:36.507 情報 [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+08-Apr-2019 15:08:36.507 情報 [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:08:36.621 情報 [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:08:36.725 情報 [main] org.apache.catalina.core.StandardService.stopInternal サービス [Catalina] を停止します
+08-Apr-2019 15:08:36.784 警告 [localhost-startStop-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [jpetstore] registered the JDBC driver [org.hsqldb.jdbc.JDBCDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+08-Apr-2019 15:08:36.784 警告 [localhost-startStop-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [jpetstore] appears to have started a thread named [Thread-8] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.net.SocketInputStream.socketRead0(Native Method)
+ java.net.SocketInputStream.socketRead(Unknown Source)
+ java.net.SocketInputStream.read(Unknown Source)
+ java.net.SocketInputStream.read(Unknown Source)
+ jp.naist.heijo.Connector.readRaw(Connector.java:52)
+ jp.naist.heijo.Connector.read(Connector.java:42)
+ jp.ac.osaka_u.ist.mymemcache.PhaseLogger.run(PhaseLogger.java:65)
+08-Apr-2019 15:08:36.795 情報 [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:08:36.796 情報 [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:08:36.797 情報 [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:08:36.798 情報 [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:13:54.721 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.5.34
+08-Apr-2019 15:13:54.724 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Sep 4 2018 22:28:22 UTC
+08-Apr-2019 15:13:54.725 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.5.34.0
+08-Apr-2019 15:13:54.726 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+08-Apr-2019 15:13:54.726 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+08-Apr-2019 15:13:54.726 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+08-Apr-2019 15:13:54.726 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jre1.8.0_191
+08-Apr-2019 15:13:54.726 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_191-b12
+08-Apr-2019 15:13:54.726 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+08-Apr-2019 15:13:54.726 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:13:54.727 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:13:54.727 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\conf\logging.properties
+08-Apr-2019 15:13:54.727 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+08-Apr-2019 15:13:54.728 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dlog4j.configurationFile=file://C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34/conf/log4j2.xml
+08-Apr-2019 15:13:54.729 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+08-Apr-2019 15:13:54.729 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+08-Apr-2019 15:13:54.730 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -javaagent:..\HeijoAgent\HeijoAgent.jar=target=jpetstore_plus_tomcat-juli.jar,learningData=vectors.txt,bufferOutput=buffer.txt,phaseOutput=vecs.txt,buffer=300,interval=5
+08-Apr-2019 15:13:54.731 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+08-Apr-2019 15:13:54.731 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:13:54.732 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:13:54.732 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\temp
+08-Apr-2019 15:13:54.733 情報 [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jre1.8.0_191\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Java\jdk1.8.0_191\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\xampp\apache\bin;C:\Program Files (x86)\Kensington\TrackballWorks;C:\Program Files\nodejs\;C:\Users\m-tys\Anaconda3;C:\Users\m-tys\Anaconda3\Library\mingw-w64\bin;C:\Users\m-tys\Anaconda3\Library\usr\bin;C:\Users\m-tys\Anaconda3\Library\bin;C:\Users\m-tys\Anaconda3\Scripts;C:\Users\m-tys\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;"C:\Program Files\Java\jdk1.8.0_191\bin;";C:\Program Files\gradle-4.10.1\bin;C:\Users\m-tys\AppData\Local\Android\Sdk\tools\bin;C:\Users\m-tys\AppData\Roaming\npm;.]
+08-Apr-2019 15:13:54.850 情報 [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:13:54.972 情報 [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+08-Apr-2019 15:13:54.978 情報 [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:13:54.980 情報 [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+08-Apr-2019 15:13:54.980 情報 [main] org.apache.catalina.startup.Catalina.load Initialization processed in 542 ms
+08-Apr-2019 15:13:55.006 情報 [main] org.apache.catalina.core.StandardService.startInternal サービス [Catalina] を起動します
+08-Apr-2019 15:13:55.007 情報 [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.34
+08-Apr-2019 15:13:55.020 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\docs] を配備します
+08-Apr-2019 15:13:55.235 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:13:55.275 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\docs] has finished in [254] ms
+08-Apr-2019 15:13:55.276 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\examples] を配備します
+08-Apr-2019 15:13:55.569 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:13:55.612 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\examples] has finished in [336] ms
+08-Apr-2019 15:13:55.612 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\host-manager] を配備します
+08-Apr-2019 15:13:55.653 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:13:55.656 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\host-manager] has finished in [44] ms
+08-Apr-2019 15:13:55.657 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\jpetstore] を配備します
+08-Apr-2019 15:13:57.462 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:14:00.848 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\jpetstore] has finished in [5,191] ms
+08-Apr-2019 15:14:00.848 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\manager] を配備します
+08-Apr-2019 15:14:00.883 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:14:00.885 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\manager] has finished in [37] ms
+08-Apr-2019 15:14:00.886 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\ROOT] を配備します
+08-Apr-2019 15:14:00.916 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:14:00.918 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\ROOT] has finished in [32] ms
+08-Apr-2019 15:14:00.922 情報 [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:14:00.979 情報 [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:14:00.982 情報 [main] org.apache.catalina.startup.Catalina.start Server startup in 6000 ms
+08-Apr-2019 15:16:58.111 情報 [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+08-Apr-2019 15:19:34.755 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.5.34
+08-Apr-2019 15:19:34.758 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Sep 4 2018 22:28:22 UTC
+08-Apr-2019 15:19:34.759 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.5.34.0
+08-Apr-2019 15:19:34.760 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+08-Apr-2019 15:19:34.760 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+08-Apr-2019 15:19:34.760 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+08-Apr-2019 15:19:34.760 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jre1.8.0_191
+08-Apr-2019 15:19:34.761 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_191-b12
+08-Apr-2019 15:19:34.761 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+08-Apr-2019 15:19:34.761 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:19:34.761 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:19:34.762 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\conf\logging.properties
+08-Apr-2019 15:19:34.762 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+08-Apr-2019 15:19:34.763 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dlog4j.configurationFile=file://C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34/conf/log4j2.xml
+08-Apr-2019 15:19:34.763 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+08-Apr-2019 15:19:34.764 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+08-Apr-2019 15:19:34.765 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -javaagent:..\HeijoAgent\HeijoAgent.jar=target=jpetstore_plus_tomcat-juli.jar,learningData=vectors.txt,bufferOutput=buffer.txt,phaseOutput=vecs.txt,buffer=300,interval=5
+08-Apr-2019 15:19:34.765 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+08-Apr-2019 15:19:34.766 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:19:34.767 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34
+08-Apr-2019 15:19:34.767 情報 [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\temp
+08-Apr-2019 15:19:34.768 情報 [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jre1.8.0_191\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Java\jdk1.8.0_191\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft VS Code\bin;C:\xampp\apache\bin;C:\Program Files (x86)\Kensington\TrackballWorks;C:\Program Files\nodejs\;C:\Users\m-tys\Anaconda3;C:\Users\m-tys\Anaconda3\Library\mingw-w64\bin;C:\Users\m-tys\Anaconda3\Library\usr\bin;C:\Users\m-tys\Anaconda3\Library\bin;C:\Users\m-tys\Anaconda3\Scripts;C:\Users\m-tys\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;"C:\Program Files\Java\jdk1.8.0_191\bin;";C:\Program Files\gradle-4.10.1\bin;C:\Users\m-tys\AppData\Local\Android\Sdk\tools\bin;C:\Users\m-tys\AppData\Roaming\npm;.]
+08-Apr-2019 15:19:34.889 情報 [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:19:35.011 情報 [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+08-Apr-2019 15:19:35.016 情報 [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:19:35.018 情報 [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+08-Apr-2019 15:19:35.018 情報 [main] org.apache.catalina.startup.Catalina.load Initialization processed in 548 ms
+08-Apr-2019 15:19:35.040 情報 [main] org.apache.catalina.core.StandardService.startInternal サービス [Catalina] を起動します
+08-Apr-2019 15:19:35.040 情報 [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.34
+08-Apr-2019 15:19:35.051 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\docs] を配備します
+08-Apr-2019 15:19:35.263 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:19:35.301 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\docs] has finished in [249] ms
+08-Apr-2019 15:19:35.302 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\examples] を配備します
+08-Apr-2019 15:19:35.612 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:19:35.654 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\examples] has finished in [352] ms
+08-Apr-2019 15:19:35.654 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\host-manager] を配備します
+08-Apr-2019 15:19:35.695 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:19:35.698 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\host-manager] has finished in [44] ms
+08-Apr-2019 15:19:35.699 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\jpetstore] を配備します
+08-Apr-2019 15:19:37.531 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:19:41.300 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\jpetstore] has finished in [5,601] ms
+08-Apr-2019 15:19:41.300 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\manager] を配備します
+08-Apr-2019 15:19:41.337 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:19:41.339 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\manager] has finished in [39] ms
+08-Apr-2019 15:19:41.340 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Webアプリケーションディレクトリ [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\ROOT] を配備します
+08-Apr-2019 15:19:41.372 情報 [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Apr-2019 15:19:41.374 情報 [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\m-tys\Desktop\mizouchi\research\workspace\PADLA\release\Tomcat\apache-tomcat-8.5.34\webapps\ROOT] has finished in [34] ms
+08-Apr-2019 15:19:41.377 情報 [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:19:41.385 情報 [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:19:41.387 情報 [main] org.apache.catalina.startup.Catalina.start Server startup in 6369 ms
+08-Apr-2019 15:20:14.337 情報 [http-nio-8080-exec-84] org.apache.tomcat.util.http.parser.Cookie.logInvalidHeader A cookie header was received [/jpetstore] that contained an invalid cookie. That cookie will be ignored.Note: further occurrences of this error will be logged at DEBUG level.
+08-Apr-2019 15:21:58.004 情報 [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+08-Apr-2019 15:21:58.004 情報 [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:21:58.110 情報 [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:21:58.228 情報 [main] org.apache.catalina.core.StandardService.stopInternal サービス [Catalina] を停止します
+08-Apr-2019 15:21:59.256 警告 [localhost-startStop-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [jpetstore] registered the JDBC driver [org.hsqldb.jdbc.JDBCDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+08-Apr-2019 15:21:59.263 警告 [localhost-startStop-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [jpetstore] appears to have started a thread named [Thread-8] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.net.SocketInputStream.socketRead0(Native Method)
+ java.net.SocketInputStream.socketRead(Unknown Source)
+ java.net.SocketInputStream.read(Unknown Source)
+ java.net.SocketInputStream.read(Unknown Source)
+ jp.naist.heijo.Connector.readRaw(Connector.java:52)
+ jp.naist.heijo.Connector.read(Connector.java:42)
+ jp.ac.osaka_u.ist.mymemcache.LevelChanger.run(LevelChanger.java:65)
+08-Apr-2019 15:21:59.329 情報 [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:21:59.346 情報 [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["ajp-nio-8009"]
+08-Apr-2019 15:21:59.349 情報 [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+08-Apr-2019 15:21:59.354 情報 [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["ajp-nio-8009"]

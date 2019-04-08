@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Premain-Class: jp.naist.heijo.Start
+Boot-Class-Path: javassist-3.22.0-GA.jar msgpack-0.6.12.jar
