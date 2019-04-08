@@ -1,6 +1,6 @@
 # projects
 ## Overview
-![overview](fig1.jpg)
+![overview](fig1.JPG)
 
 ## HeijoAgent
 * A performance reporter for PADLA.
