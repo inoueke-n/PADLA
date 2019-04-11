@@ -54,7 +54,3 @@ set CATALINA_OPTS=%JAVA_OPTS% -javaagent:"..\HeijoAgent\HeijoAgent.jar=target=jp
 * To startup JMter, execute bin\ApacheJMeter.jar.
 * A sample access pattern is in "[File]->[open]->[templates]->[Script_jpetstore_exam.jmx]".
 * If you want to change "low<->high" of load, adjust "[Thread Group]->[Number of Threads]".
-
-## Executable_files_of_PADLA
-* log4j-core.jar
-* HeijoAgent.jar
