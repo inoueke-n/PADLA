@@ -6,7 +6,7 @@
         <Property name="format1">%d{yyyy/MM/dd HH:mm:ss.SSS} [%t] %-6p %c{10} %m%n</Property>
     </Properties>
 	<Appenders>
-	    <File name="Adopter" fileName="E:/log_MyFile/log4j2_file.log">
+	    <File name="Learning" fileName="../outputs/log4j.log">
 	      <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
 	    </File>
 		<Console name="Console" target="SYSTEM_OUT">
@@ -16,7 +16,7 @@
 
     <Loggers>
         <Root level="trace">
-         <AppenderRef ref="Adopter" level="info"/>
+         <AppenderRef ref="Learning" level="info"/>
          <AppenderRef ref="Console" level="info"/>
         </Root>
     </Loggers>

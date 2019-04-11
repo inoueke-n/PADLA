@@ -29,7 +29,7 @@ public class LearningData {
 	List<double[]> learningData = new ArrayList<double[]>();
 	double ep = 0;
 
-	public LearningData(String filename, double EP) throws FileNotFoundException {
+	public LearningData(String filename, double EP, int numOfMethods) throws FileNotFoundException {
 		ep = EP;
 		if(filename != null) {
 			File learningDataFile = new File(filename);
@@ -48,30 +48,17 @@ public class LearningData {
 				for (int i = 0; i < exeTimeVector.length; i++) {
 					exeTimeVector[i] = Double.parseDouble(exeTimeVectorString[i]);
 				}
-				learningData.add(exeTimeVector);
+				if(exeTimeVector.length == numOfMethods) {
+					learningData.add(exeTimeVector);
+				}
 			}
 			try {
 				learningDataBr.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("Ldata size:" + learningData.get(0).length);
+			System.out.println("[PADLA]:Learning data size:" + learningData.size());
 		}
-	}
-
-	/**
-	 * 学習データの数を返す
-	 * @return
-	 */
-	public int size() {
-		return learningData.size();
-	}
-
-	/**
-	 * 学習データの中からインデックスで指定したものを返す
-	 */
-	public double[] get(int i) {
-		return learningData.get(i);
 	}
 
 	/**
@@ -93,21 +80,21 @@ public class LearningData {
 		double innerProduct = 0;
 		double[] max = null;
 
-		for (int i = 0; i < this.size(); i++) {
-			innerProduct = calcInnerProduct(vec, this.get(i), numOfMethods);
+		for (int i = 0; i < learningData.size(); i++) {
+			innerProduct = calcInnerProduct(vec, learningData.get(i), numOfMethods);
 			if(innerProduct == 0.0) {
 				double sum = 0.0;
-				for(int j = 0; j < vec.length; j++) {
-					sum += vec[j];
+				for(double v : vec) {
+					sum += v;
 				}
 				for(int j = 0; j < vec.length; j++) {
-					sum += this.get(i)[j];
+					sum += learningData.get(i)[j];
 				}
 				if(sum == 0.0) innerProduct = 1;
 			}
 			if (innerProduct > maxSimilarity) {
 				maxSimilarity = innerProduct;
-				max = this.get(i);
+				max = learningData.get(i);
 			}
 		}
 		if(maxSimilarity > ep) {

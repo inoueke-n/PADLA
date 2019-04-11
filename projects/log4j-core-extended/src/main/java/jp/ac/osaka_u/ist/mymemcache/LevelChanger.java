@@ -72,7 +72,7 @@ public class LevelChanger extends Thread{
 				try {
 					firstReceive(message);
 					try {
-						learningdata = new LearningData(FILENAME,ep);
+						learningdata = new LearningData(FILENAME,ep,numOfMethods);
 					} catch (FileNotFoundException e4) {
 						// TODO 自動生成された catch ブロック
 						e4.printStackTrace();
