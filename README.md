@@ -10,6 +10,8 @@
 PADLA is distributed under the [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
 ## Folders
+### executableFiles
+* It contains jar files of PADLA.
 ### projects
 * It contains projects for development of the PADLA(HeijoAgent and log4j-core-extended).
 ### release
@@ -87,6 +89,9 @@ for details of these options, please refer to  PADLA/projects/HeijoAgent/README.
 java -javaagent:"executableFiles\HeijoAgentHeijoAgent.jar=target=target.jar,learningData=vectors.txt,bufferOutput=buffer.txt,buffer=300,interval=5"  -jar sampleApp.jar
 ```
 for details of these options, please refer to  PADLA\projects\HeijoAgent\README.md. You can use vectors.txt that was generated the "Learning" mode as learningData.
+
 4. If the target system performs an irregular behavior that is not exist in the learning data, PADLA will change the log level.
+
 5. You can watch the log level changing on a console. When PADLA detects irregular behaviors and change the log level, "[PADLA]:Unknown Phase Detected!\n[PADLA]Logging Level Down\n↓↓↓↓↓↓↓↓" is displayed.
+
 6. You can get a log file log4j.log. In the file, all level log messages are appeared at the time irregular behaviors occured. Also, you can get buffered log messages in buffer.txt. PADLA keeps log messages internally and output them when it change the log level. In the file, log messages between two "[output]" are outputed at onece. To know when the messages are outputed, please refer to timestamps of them.
