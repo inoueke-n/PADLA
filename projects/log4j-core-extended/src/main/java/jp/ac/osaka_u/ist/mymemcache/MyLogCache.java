@@ -35,7 +35,6 @@ public class MyLogCache {
         try {
 			byteBw = new BufferedWriter(new FileWriter(byteFile));
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 	}
@@ -68,20 +67,13 @@ public class MyLogCache {
 		try {
 			byteBw.write("[OUTPUT]\n");
 		} catch (IOException e1) {
-			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
 		for(int i = 0; i < numOfOutputLogs; i++) {
 			try {
 				byteBw.write(cachedLogs[(oldestIndex + i) % CACHESIZE]);
-			} catch (IOException e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-			}
-			try {
 				byteBw.flush();
 			} catch (IOException e) {
-				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
 		}

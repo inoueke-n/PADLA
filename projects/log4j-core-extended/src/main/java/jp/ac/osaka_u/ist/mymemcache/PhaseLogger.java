@@ -41,6 +41,8 @@ public class PhaseLogger extends Thread{
 	static int LLLevel = 0;
 	static BufferedWriter bwVector = null;
 
+	private static String messageHead = "[LOG4JCORE-EXTENDED]:";
+
 
 	public void run() {
 
@@ -53,7 +55,6 @@ public class PhaseLogger extends Thread{
 		}
 
 		Connector connector = new Connector(socket);
-		closeOnExit();
 
 		int countOfSample = 0;
 		double[] sumOfVt = null; //Vtの和．5回(0.5秒)分のデータを取ったらWiを作成して初期化
@@ -64,8 +65,7 @@ public class PhaseLogger extends Thread{
 			try {
 				message = connector.read(Message.class);
 			} catch (SocketTimeoutException e) {
-				System.err.println("[PADLA]:Socket timeout");
-				closeOnExit();
+				System.err.println(messageHead + "Socket timeout");
 				break;
 			} catch (IOException e) {
 				// TODO 自動生成された catch ブロック
@@ -75,17 +75,7 @@ public class PhaseLogger extends Thread{
 			if (message.Methods != null && 0 < message.Methods.size()) {
 				try {
 					firstReceive(message);
-				} catch (UnsupportedEncodingException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (FileNotFoundException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					// TODO 自動生成された catch ブロック
+				} catch (IOException |InterruptedException e) {
 					e.printStackTrace();
 				}
 				//sumOF5Vtを初期化
@@ -109,30 +99,20 @@ public class PhaseLogger extends Thread{
 	}
 
 	private Socket connect2Agent() {
-		System.out.println("[PADLA]Waiting for Connection,,,");
+		System.out.println(messageHead + "Waiting for Connection,,,");
 		// 接続待ち
 		ServerSocket server = null;
-		try {
-			server = new ServerSocket(8000);
-		} catch (IOException e3) {
-			// TODO 自動生成された catch ブロック
-			e3.printStackTrace();
-		}
 		Socket socket = null;
 		try {
+			server = new ServerSocket(8000);
 			socket = server.accept();
-		} catch (IOException e2) {
-			// TODO 自動生成された catch ブロック
-			e2.printStackTrace();
-		}
-		try {
 			server.close();
-		} catch (IOException e1) {
+		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 
-		System.out.println("[PADLA]Connection Complete");
+		System.out.println(messageHead + "Connection Complete");
 		return socket;
 	}
 
@@ -145,11 +125,11 @@ public class PhaseLogger extends Thread{
 		INTERVAL = message.INTERVAL;
 		OUTPUTFILENAME = message.PHASEOUTPUT;
 		System.out.println("\n[PADLA]:---optionsForPhaseExporter---");
-		System.out.println("[PADLA]:interval = " + INTERVAL);
-		System.out.println("[PADLA]:output = " + OUTPUTFILENAME);
-		System.out.println("[PADLA]:---optionsForPhaseExporter---\n");
+		System.out.println(messageHead + "interval = " + INTERVAL);
+		System.out.println(messageHead + "output = " + OUTPUTFILENAME);
+		System.out.println(messageHead + "---optionsForPhaseExporter---\n");
 		numOfMethods = message.Methods.size();
-		System.out.println("[PADLA]:Number of Methods:" + numOfMethods);
+		System.out.println(messageHead + "Number of Methods:" + numOfMethods);
 
 		try {
 			bwVector = new BufferedWriter(new FileWriter(new File(OUTPUTFILENAME)));
@@ -157,34 +137,6 @@ public class PhaseLogger extends Thread{
 			// TODO 自動生成された catch ブロック
 			e5.printStackTrace();
 		}
-	}
-
-	/**
-	 * ターゲットプロセスの終了時にjmxtermを終了
-	 * @param exeTimeJsons
-	 */
-	private static void closeOnExit() {
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-
-				File byteFile= new File("e:\\gomi.txt");
-				BufferedWriter byteBw = null;
-				try {
-					byteBw = new BufferedWriter(new FileWriter(byteFile));
-				} catch (IOException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
-				try {
-					byteBw.close();
-				} catch (IOException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
-				System.out.println("[PADLA]:Closing...");
-			}
-		});
 	}
 
 	/**added by mizouchi**/

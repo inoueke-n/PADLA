@@ -40,6 +40,8 @@ public class Monitor extends Thread
 	public int buffer = 0;
 	public int interval = 0;
 
+	private String messageHead = "[AGENT]:";
+
 	private static Monitor instance = null;
 
 	// FIXME too long
@@ -51,7 +53,7 @@ public class Monitor extends Thread
 
 	public void setArgs(String option) {
 		if(option == null) {
-			System.out.println("[ERROR]No option");
+			System.out.println(messageHead + "ERROR No option");
 			System.exit(0);
 		}
 		this.args = option.split(",",0);
@@ -78,17 +80,17 @@ public class Monitor extends Thread
 				this.interval = Integer.valueOf(argumentValue);
 				break;
 			default:
-				System.out.println("[ERROR]Invalid argument:" + argumentTag);
+				System.out.println(messageHead + "ERROR Invalid argument:" + argumentTag);
 			}
 		}
-		System.out.println("\n---options---");
-		System.out.println("target = " + this.target);
-		System.out.println("learningData = " + this.learningData);
-		System.out.println("bufferoutput = " + this.bufferoutput);
-		System.out.println("phaseoutput = " + this.phaseoutput);
-		System.out.println("buffer = " + this.buffer);
-		System.out.println("interval = " + this.interval);
-		System.out.println("---options---\n");
+		System.out.println("\n" + messageHead + "---options---");
+		System.out.println(messageHead + "target = " + this.target);
+		System.out.println(messageHead + "learningData = " + this.learningData);
+		System.out.println(messageHead + "bufferoutput = " + this.bufferoutput);
+		System.out.println(messageHead + "phaseoutput = " + this.phaseoutput);
+		System.out.println(messageHead + "buffer = " + this.buffer);
+		System.out.println(messageHead + "interval = " + this.interval);
+		System.out.println(messageHead + "---options---\n");
 		Scheduler = new Scheduler(learningData, bufferoutput, phaseoutput, buffer, interval);
 	}
 
@@ -100,7 +102,7 @@ public class Monitor extends Thread
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
-		System.out.println("Setting agent...");
+		System.out.println(messageHead + "Setting agent...");
 
 		boolean success = true;
 
@@ -109,7 +111,7 @@ public class Monitor extends Thread
 			try {
 				getInstance().Config.load();
 			} catch (Exception e) {
-				System.err.println("Failed to load " + ConstValue.CONFIG_FILE_PATH);
+				System.err.println("messageHead + Failed to load " + ConstValue.CONFIG_FILE_PATH);
 			}
 
 			// ビジュアライザに接続
@@ -118,7 +120,7 @@ public class Monitor extends Thread
 				try {
 					getInstance().Connector.connect(getInstance().Config.Host, getInstance().Config.Port);
 				} catch (Exception e) {
-					System.err.println("Failed to connect " + getInstance().Config.Host + ":" + getInstance().Config.Port);
+					System.err.println(messageHead + "Failed to connect " + getInstance().Config.Host + ":" + getInstance().Config.Port);
 					success = false;
 					break;
 				}
@@ -131,7 +133,7 @@ public class Monitor extends Thread
 			try {
 				getInstance().StructureDB.collectFromClassPath();
 			} catch (IOException e) {
-				System.out.println("Failed to access to class files");
+				System.out.println(messageHead + "Failed to access to class files");
 				if (!(DebugValue.DEBUG_FLAG && DebugValue.DEBUG_NO_CONNECT)) {
 					getInstance().Connector.close();
 				}
@@ -142,7 +144,7 @@ public class Monitor extends Thread
 		} while (false);
 
 		if (success) {
-			System.out.println("Succeeded to set agent");
+			System.out.println(messageHead + "Succeeded to set agent");
 			getInstance().Scheduler.start();
 		}
 	}

@@ -55,6 +55,7 @@ public class StructureDB
 
 
   public String target = null;
+  private String messageHead = "[AGENT]:";
 
   public void registMethod(String className, String methodName)
   {
@@ -103,7 +104,7 @@ public boolean isIgnorePackage(String packageName)
     for (int i = 0; i < j; i++)
     {
       String path = arrayOfString1[i];
-      System.out.println(path);
+      System.out.println(messageHead + path);
     }
     // classファイル、jarファイルを再帰的に走査
     Set<String> classFiles = new HashSet<String>();

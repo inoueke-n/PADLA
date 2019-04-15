@@ -42,6 +42,8 @@ public class UpdateThread extends Thread
   public int buffer = 0;
   public int interval = 0;
 
+  private String messageHead = "[AGENT]:";
+
   public UpdateThread(String learningData, String bufferoutput,String phaseoutput,int buffer, int interval)
   {
     if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_FLAG) {
@@ -115,7 +117,7 @@ public class UpdateThread extends Thread
       try {
         Monitor.getInstance().Connector.write(message);
       } catch (IOException e) {
-        System.err.println("Connection is closed");
+        System.err.println(messageHead + "Connection is closed");
         Monitor.getInstance().Scheduler.Executor.shutdownNow();
       }
     }
@@ -137,7 +139,7 @@ public class UpdateThread extends Thread
     try {
       Monitor.getInstance().Connector.write(message);
     } catch (IOException e) {
-      System.err.println("Connection is closed");
+      System.err.println(messageHead + "Connection is closed");
       Monitor.getInstance().Scheduler.Executor.shutdownNow();
     }
   }

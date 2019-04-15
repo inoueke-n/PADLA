@@ -37,7 +37,9 @@ public class LevelChanger extends Thread{
 	static int INTERVAL = 5; //区間の数1つ0.1s
 	static String FILENAME = null;
 	static MyLogCache mylogcache = null;
-	static int LLLevel = 0;
+	static boolean isFirstLevel = true;
+
+	private static String messageHead = "[LOG4JCORE-EXTENDED]:";
 
 	public LevelChanger(MyLogCache logCache) {
 		mylogcache = logCache;
@@ -52,7 +54,7 @@ public class LevelChanger extends Thread{
 		List<ExeTimeJson> exeTimeJsons = new LinkedList<>();
 
 		int countOfSample = 0;
-		double[] sumOfVt = null; //Vtの和．5回(0.5秒)分のデータを取ったらWiを作成して初期化
+		double[] sumOfVectors = null; //Vtの和．5回(0.5秒)分のデータを取ったらWiを作成して初期化
 		PrevState ps = null;
 
 		closeOnExit(exeTimeJsons);
@@ -64,83 +66,55 @@ public class LevelChanger extends Thread{
 			try {
 				message = connector.read(Message.class);
 			} catch (Exception e) {
-				System.err.println("[PADLA]:Cannot recieve");
+				System.err.println(messageHead + "Cannot recieve");
 				break;
 			}
 
 			if (message.Methods != null && 0 < message.Methods.size()) {
 				try {
 					firstReceive(message);
-					try {
-						learningdata = new LearningData(FILENAME,ep,numOfMethods);
-					} catch (FileNotFoundException e4) {
-						// TODO 自動生成された catch ブロック
-						e4.printStackTrace();
-					}
-				} catch (UnsupportedEncodingException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (FileNotFoundException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					// TODO 自動生成された catch ブロック
+					learningdata = new LearningData(FILENAME,ep,numOfMethods);
+
+				} catch (InterruptedException | IOException e) {
 					e.printStackTrace();
 				}
-				//sumOF5Vtを初期化
-				sumOfVt = new double[numOfMethods];
+				//sumOfVtを初期化
+				sumOfVectors = new double[numOfMethods];
 				ps = new PrevState();
 			}
 
 			if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
-				sumOfVt =  addVtToV(message, sumOfVt);
+				sumOfVectors =  addVtToV(message, sumOfVectors);
 				countOfSample++;
 				if(countOfSample == INTERVAL) {
 					countOfSample = 0;
-					setLogLevel(learningdata, sumOfVt, ps);
+					setLogLevel(learningdata, sumOfVectors, ps);
 				}
 			}
 		}
 	}
 
 	private Socket connect2Agent() {
-		System.out.println("[PADLA]:Waiting for Connection,,,");
+		System.out.println(messageHead + "Waiting for Connection,,,");
 
 		// 接続待ち
 		ServerSocket server = null;
-		try {
-			server = new ServerSocket(8000);
-		} catch (IOException e3) {
-			// TODO 自動生成された catch ブロック
-			e3.printStackTrace();
-		}
 		Socket socket = null;
 		try {
+			server = new ServerSocket(8000);
 			socket = server.accept();
-		} catch (IOException e2) {
-			// TODO 自動生成された catch ブロック
-			e2.printStackTrace();
-		}
-		try {
 			server.close();
-		} catch (IOException e1) {
+		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
 
-		System.out.println("[PADLA]:Connection Complete");
+		System.out.println(messageHead + "Connection Complete");
 		return socket;
 	}
 
 	public boolean isFirstLevel() {
-		if(LLLevel == 0) {
-			return true;
-		}else {
-			return false;
-		}
+		return isFirstLevel;
 	}
 
 	/**
@@ -148,25 +122,27 @@ public class LevelChanger extends Thread{
 	 * @param learningData
 	 * @param jmxterm
 	 * @param isLowerLevel
-	 * @param sumOfVt
+	 * @param sumOfVectors
 	 * @return
 	 */
-	private void setLogLevel(LearningData learningdata, double[] sumOfVt, PrevState ps) {
+	private void setLogLevel(LearningData learningdata, double[] sumOfVectors, PrevState ps) {
 		double[] normalizedVector = new double[numOfMethods];
-		normalizedVector = normalizeVector(sumOfVt);
-		initArray(sumOfVt);
+		normalizedVector = normalizeVector(sumOfVectors);
+		initArray(sumOfVectors);
 		//learningDataと比較
 		if(learningdata.isUnknownPhase(normalizedVector, numOfMethods)) {
 			if(this.isFirstLevel()) {
 				mylogcache.outputLogs();
-				LLLevel = 1;
-				System.out.println("[PADLA]:Unknown Phase Detected!\n[PADLA]Logging Level Down\n↓↓↓↓↓↓↓↓");
+				isFirstLevel = false;
+				System.out.println(messageHead + "Unknown Phase Detected!\n");
+				System.out.println(messageHead + "Logging Level Down\n↓↓↓↓↓↓↓↓");
 			}
 			addLearningData(learningdata,ps,normalizedVector);
 		}else {
 			if(!this.isFirstLevel()) {
-				LLLevel = 0;
-				System.out.println("[PADLA]:Returned to Normal Phase\n[PADLA]Logging Level Up\n↑↑↑↑↑↑↑↑");
+				isFirstLevel = true;
+				System.out.println(messageHead + "Returned to Normal Phase\n");
+				System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
 			}
 		}
 	}
@@ -188,8 +164,9 @@ public class LevelChanger extends Thread{
 			if(ps.getCount() >= 2) {
 				learningdata.add(cloneCurrent);
 				ps.refresh();
-				LLLevel = 0;
-				System.out.println("[PADLA]:Learned\n[PADLA]Logging Level Up\n↑↑↑↑↑↑↑↑");
+				isFirstLevel = true;
+				System.out.println(messageHead + "Learned\n");
+				System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
 			}
 		}else {
 			ps.stayCount();
@@ -215,17 +192,17 @@ public class LevelChanger extends Thread{
 		mylogcache.setOUTPUT(message.BUFFEROUTPUT);
 		mylogcache.setCACHESIZE(message.BUFFER);
 		INTERVAL = message.INTERVAL;
-		System.out.println("\n[PADLA]:---optionsForLevelChanger---");
-		System.out.println("[PADLA]:learningData = " + FILENAME);
-		System.out.println("[PADLA]:output = " + mylogcache.getOUTPUT());
-		System.out.println("[PADLA]:buffer = " + mylogcache.getCACHESIZE());
-		System.out.println("[PADLA]:nterval = " + INTERVAL);
-		System.out.println("[PADLA]:---optionsForLevelChanger---\n");
+		System.out.println("\n"+ messageHead + "---optionsForLevelChanger---");
+		System.out.println(messageHead + "learningData = " + FILENAME);
+		System.out.println(messageHead + "output = " + mylogcache.getOUTPUT());
+		System.out.println(messageHead + "buffer = " + mylogcache.getCACHESIZE());
+		System.out.println(messageHead + "nterval = " + INTERVAL);
+		System.out.println(messageHead + "---optionsForLevelChanger---\n");
 		//jmxtermを起動してアプリと接続
 		Thread.sleep(5000);
 
 		numOfMethods = message.Methods.size();
-		System.out.println("[PADLA]:Number of methods:" + numOfMethods);
+		System.out.println(messageHead + "Number of methods:" + numOfMethods);
 	}
 
 	/**
@@ -236,7 +213,7 @@ public class LevelChanger extends Thread{
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-				System.out.println("[PADLA]:Target process finished");
+				System.out.println(messageHead + "Target process finished");
 			}
 		});
 	}

@@ -48,6 +48,8 @@ public class AppenderControl extends AbstractFilterable {
 	MyLogCache logcache = null;
 	LevelChanger levelchanger = null;
 	PhaseLogger phaselogger = null;
+
+	private String messageHead = "[LOG4JCORE-EXTENDED]:";
 	/**
 	 * Constructor.
 	 *
@@ -63,16 +65,16 @@ public class AppenderControl extends AbstractFilterable {
 		this.intLevel = level == null ? Level.ALL.intLevel() : level.intLevel();
 		start();
 
-		System.out.println("[PADLA]:appenderName:" + this.appenderName);
+		System.out.println(messageHead + "appenderName:" + this.appenderName);
 		if(this.appenderName.equals("Adopter")) {
 			logcache = new MyLogCache();
 			levelchanger = new LevelChanger(logcache);
 			levelchanger.start();
-			System.out.println("[PADLA]:LevelChanger start!");
+			System.out.println(messageHead + "LevelChanger start!");
 		}else if(this.appenderName.equals("Learning")){
 			phaselogger = new PhaseLogger();
 			phaselogger.start();
-			System.out.println("[PADLA]:PhaseLogger start!");
+			System.out.println(messageHead + "PhaseLogger start!");
 
 		}
 	}

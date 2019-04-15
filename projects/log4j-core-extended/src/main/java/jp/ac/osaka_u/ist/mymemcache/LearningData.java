@@ -29,6 +29,8 @@ public class LearningData {
 	List<double[]> learningData = new ArrayList<double[]>();
 	double ep = 0;
 
+	private String messageHead = "[LOG4JCORE-EXTENDED]:";
+
 	public LearningData(String filename, double EP, int numOfMethods) throws FileNotFoundException {
 		ep = EP;
 		if(filename != null) {
@@ -57,7 +59,7 @@ public class LearningData {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("[PADLA]:Learning data size:" + learningData.size());
+			System.out.println(messageHead + "Learning data size:" + learningData.size());
 		}
 	}
 
