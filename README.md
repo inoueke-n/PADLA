@@ -12,12 +12,13 @@ PADLA is distributed under the [Apache License, version 2.0](http://www.apache.o
 ## Folders
 ### executableFiles
 * It contains jar files of PADLA.
+* executableFiles/HeijoAgent/HeijoAgent.jar needs javassist-3.22.0-GA.jar and msgpack-0.6.12.jar, so put them in the same folder.
 ### projects
 * It contains projects for the development of the PADLA (HeijoAgent and log4j-core-extended).
 ### release
-* It contains sample software to try PADLA.
+* It contains sample software to try PADLA. Download this folder and try PADLA easily if you want.
 
-## Getting started
+## Getting started in your project
 * PADLA has two modes, "Learning" and "Adapter".
 * In "Learning" mode, it records vectors of a target program as known phase.
 * In "Adapter" mode, it adapts the log level of a target program according to its behavior.
@@ -98,4 +99,4 @@ for details of these options, please refer to  PADLA\projects\HeijoAgent\README.
 
 5. You can watch the log level changing on a console. When PADLA detects irregular behavior and changes the log level, "[PADLA]:Unknown Phase Detected!\n[PADLA]Logging Level Down\n↓↓↓↓↓↓↓↓" is displayed.
 
-6. You can get a log file log4j.log. In this file, all level log messages appear at the time irregular behavior occurred. Also, you can get buffered log messages in buffer.txt. PADLA keeps log messages internally and outputs them when it changes the log level. In this file, log messages between two "[output]" are outputted at once. To know when the messages are outputted, please refer to timestamps of them.
+6. You can get a log file log4j.log. In this file, all level log messages appear at the time irregular behavior occurred. Also, you can get buffered log messages in buffer.txt. PADLA keeps the latest N (defiled by "buffer" option) log messages internally and outputs them with "[OUTPUT]" at the beginning when it changes the log level. In this file, log messages between two "[output]" are outputted at once. To know when the messages are outputted, please refer to timestamps of them.

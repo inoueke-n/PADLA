@@ -7,28 +7,25 @@
 ## apache-jmeter-5.0
 * It is a load-test tool to try PADLA
 * To startup JMter, execute bin\ApacheJMeter.jar.
-* A sample access pattern is in "[File]->[open]->[templates]->[Script_jpetstore_exam.jmx]".
+* You can use a sample access pattern. If you want to use, click "[File]->[open]" and select "[templates]->[Script_jpetstore_exam.jmx]".
 * If you want to change "low<->high" of load, adjust "[Thread Group]->[Number of Threads]".
 
-### Running Tomcat with "Adapter" mode of PADLA
-1. Uncomment the following 2 lines of apache-tomcat-8.5.34/bin/setenv.bat. Sample learning data already exist in apache-tomcat-8.5.34/outputs/vectors.txt.
-```bat
-rem set CATALINA_OPTS=%JAVA_OPTS% -javaagent:"..\HeijoAgent\HeijoAgent.jar=target=jpetstore_plus_tomcat-juli.jar,learningData=..\outputs\vectors.txt,bufferOutput=..\outputs\buffer.txt,buffer=300,interval=5"
-rem @SET JAVA_OPTS=%JAVA_OPTS% -Dlog4j.configurationFile=file://%CATALINA_HOME%/conf/log4j2_for_adapterMode.xml
-↓
-set CATALINA_OPTS=%JAVA_OPTS% -javaagent:"..\HeijoAgent\HeijoAgent.jar=target=jpetstore_plus_tomcat-juli.jar,learningData=..\outputs\vectors.txt,bufferOutput=..\outputs\buffer.txt,buffer=300,interval=5"
-@SET JAVA_OPTS=%JAVA_OPTS% -Dlog4j.configurationFile=file://%CATALINA_HOME%/conf/log4j2_for_adapterMode.xml
+## Try PADLA on Tomcat under a load-test
+### load-test outline
+In this sample, you can try PADLA on Tomcat under a load-test. At first, startup Tomcat. When Tomcat is starting up, PADLA loads sample learning data(low load access pattern). After Tomcats starts, start a load-test with high load access pattern using JMeter. If PADLA detects irregular phases like high load access that does not exist in the learning data, it changes the log level. The sample Tomcat records log messages with "info" level at normal behavior. After the log level is changed, "debug" and "trace" level log messages are also recorded.
+
+### load-test process
+1. Execute apache-tomcat-8.5.34/bin/startup.bat to startup Tomcat.
+2. After Tomcat starts, start JMeter by executing apache-jmeter-5.0/bin/ApacheJMeter.jar
+3. In JMeter, you can use the sample access pattern. Click "[File]->[open]" and select "[templates]->[Script_jpetstore_exam.jmx]".
+4. Set "[Thread Group]->[Number of Threads]" to 10000 to make irregular behavior of Tomcat by high load access. The sample learning data in apache-tomcat-8.5.34/outputs/vectors.txt was collected with 100 threads as low load access.
+5. Start a load-test by click "start"(green triangle).
+6. You can watch the log level changing on a console. When PADLA detects irregular behavior and changes the log level, the following statements are displayed in the console.
+```sh
+[LOG4JCORE-EXTENDED]:Unknown Phase Detected!
+[LOG4JCORE-EXTENDED]:Logging Level Down
+↓↓↓↓↓↓↓↓
 ```
-and comment out the following 2 lines.
-```bat
-set CATALINA_OPTS=%JAVA_OPTS% -javaagent:"..\HeijoAgent\HeijoAgent.jar=target=jpetstore_plus_tomcat-juli.jar,phaseOutput=..\outputs\vectors.txt,interval=5"
-@SET JAVA_OPTS=%JAVA_OPTS% -Dlog4j.configurationFile=file://%CATALINA_HOME%/conf/log4j2_for_LearningMode.xml
-```
-2. Execute apache-tomcat-8.5.34/bin/startup.bat to startup Tomcat.
-3. After Tomcat starts, start JMeter by executing apache-jmeter-5.0/bin/ApacheJMeter.jar
-4. In JMeter, you can use the sample access pattern. Open "[File]->[open]->[templates]->[Script_jpetstore_exam.jmx]".
-5. Set "[Thread Group]->[Number of Threads]" to 10000 to make irregular behavior of Tomcat by high load access.
-6. Start a load-test by click "start"(green triangle).
-7. You can watch the log level changing on a console. When PADLA detects irregular behavior and changes the log level, "[PADLA]:Unknown Phase Detected!\n[PADLA]Logging Level Down\n↓↓↓↓↓↓↓↓" is displayed.
-8. After the load-test finished, shutdown Tomcat by executing apache-tomcat-8.5.34/bin/shutdown.bat.
-9. You can get a log file as apache-tomcat-8.5.34/outputs/log4j.log. In the file, debug and trace level log messages are appeared at the time the load-test started. Also, you can get buffered log messages in apache-tomcat-8.5.34/outputs/buffer.txt. PADLA keeps log messages internally and outputs them when it changes the log level. In the file, log messages between two "[output]" are outputted at once. To know when the messages are outputted, please refer to timestamps of them.
+
+7. After the load-test finished, shutdown Tomcat by executing apache-tomcat-8.5.34/bin/shutdown.bat and close the console window.
+8. You can get a log file as apache-tomcat-8.5.34/outputs/log4j.log. In the file, debug and trace level log messages are appeared at the time the load-test started. Also, you can get buffered log messages in apache-tomcat-8.5.34/outputs/buffer.txt. PADLA keeps the latest 300 (in this setting) log messages internally and outputs them with "[OUTPUT]" at the beginning when it changes the log level. To know when the messages are outputted, please refer to timestamps of them.

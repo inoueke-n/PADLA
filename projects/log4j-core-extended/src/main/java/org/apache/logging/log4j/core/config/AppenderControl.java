@@ -66,7 +66,7 @@ public class AppenderControl extends AbstractFilterable {
 		start();
 
 		System.out.println(messageHead + "appenderName:" + this.appenderName);
-		if(this.appenderName.equals("Adopter")) {
+		if(this.appenderName.equals("Adapter")) {
 			logcache = new MyLogCache();
 			levelchanger = new LevelChanger(logcache);
 			levelchanger.start();
@@ -120,7 +120,7 @@ public class AppenderControl extends AbstractFilterable {
 	 * @param event The event to process.
 	 */
 	public void callAppender(final LogEvent event) {
-		if(this.appenderName.equals("Adopter")) {
+		if(this.appenderName.equals("Adapter")) {
 			final String str = getStringLayout().toSerializable(event);
 			logcache.appendLogToCache(str);
 			if(levelchanger.isFirstLevel()) {
