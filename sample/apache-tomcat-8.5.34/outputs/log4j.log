@@ -1,0 +1,1 @@
+18:37:50 [localhost-startStop-2] INFO  org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory - Shutting down embedded database: url='jdbc:hsqldb:mem:dataSource'

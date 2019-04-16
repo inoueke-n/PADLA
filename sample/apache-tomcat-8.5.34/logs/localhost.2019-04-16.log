@@ -1,0 +1,13 @@
+16-Apr-2019 18:05:56.786 î•ñ [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log ContextListener: contextInitialized()
+16-Apr-2019 18:05:56.786 î•ñ [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log SessionListener: contextInitialized()
+16-Apr-2019 18:05:56.788 î•ñ [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log ContextListener: attributeAdded('StockTicker', 'async.Stockticker@1ab54fad')
+16-Apr-2019 18:05:58.606 î•ñ [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log No Spring WebApplicationInitializer types detected on classpath
+16-Apr-2019 18:05:58.626 î•ñ [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+16-Apr-2019 18:24:18.733 î•ñ [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log ContextListener: contextInitialized()
+16-Apr-2019 18:24:18.733 î•ñ [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log SessionListener: contextInitialized()
+16-Apr-2019 18:24:18.734 î•ñ [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log ContextListener: attributeAdded('StockTicker', 'async.Stockticker@1ecd1fd3')
+16-Apr-2019 18:24:20.636 î•ñ [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log No Spring WebApplicationInitializer types detected on classpath
+16-Apr-2019 18:24:20.658 î•ñ [localhost-startStop-1] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+16-Apr-2019 18:37:50.387 î•ñ [localhost-startStop-2] org.apache.catalina.core.ApplicationContext.log SessionListener: contextDestroyed()
+16-Apr-2019 18:37:50.388 î•ñ [localhost-startStop-2] org.apache.catalina.core.ApplicationContext.log ContextListener: contextDestroyed()
+16-Apr-2019 18:37:50.404 î•ñ [localhost-startStop-2] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext

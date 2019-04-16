@@ -15,8 +15,8 @@ PADLA is distributed under the [Apache License, version 2.0](http://www.apache.o
 * executableFiles/HeijoAgent/HeijoAgent.jar needs javassist-3.22.0-GA.jar and msgpack-0.6.12.jar, so put them in the same folder.
 ### projects
 * It contains projects for the development of the PADLA (HeijoAgent and log4j-core-extended).
-### release
-* It contains sample software to try PADLA. Download this folder and try PADLA easily if you want.
+### sample
+* It contains sample software to try PADLA. <font color="Salmon">Download this folder and try PADLA easily if you want</font>. For detail instructions, please refer to sample/README.md.
 
 ## Getting started in your project
 * PADLA has two modes, "Learning" and "Adapter".
