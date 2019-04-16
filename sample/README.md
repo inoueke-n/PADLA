@@ -1,14 +1,14 @@
-# Release
+# sample
 ## apache-tomcat-8.5.34
 * It is a sample software to try PADLA.
 * It contains jar files for running PADLA.
-* OS : Windows 10
-* Use jdk1.8.0_191 or higher. 
-* If you have not set JAVA_HOME yet, please set.
+* <font color="Salmon">OS : Windows 10</font>
+* <font color="Salmon">Use jdk1.8.0_191 or higher.</font>
+* <font color="Salmon">If you have not set JAVA_HOME yet, please set.</font>
 
 ## apache-jmeter-5.0
 * It is a load-test tool to try PADLA
-* To startup JMter, execute bin\ApacheJMeter.jar.
+* To startup JMter, execute bin/ApacheJMeter.jar.
 * You can use a sample access pattern. If you want to use, click "[File]->[open]" and select "[templates]->[Script_jpetstore_exam.jmx]".
 * If you want to change "low<->high" of load, adjust "[Thread Group]->[Number of Threads]".
 
