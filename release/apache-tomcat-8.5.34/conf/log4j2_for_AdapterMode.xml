@@ -9,15 +9,11 @@
 	    <File name="Adapter" fileName="../outputs/log4j.log">
 	      <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
 	    </File>
-		<Console name="Console" target="SYSTEM_OUT">
-	      <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
-	    </Console>
     </Appenders>
 
     <Loggers>
         <Root level="trace">
          <AppenderRef ref="Adapter" level="info"/>
-         <AppenderRef ref="Console" level="info"/>
         </Root>
     </Loggers>
 </Configuration>

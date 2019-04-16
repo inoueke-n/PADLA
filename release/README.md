@@ -3,6 +3,7 @@
 * It is a sample software to try PADLA.
 * It contains jar files for running PADLA.
 * OS : Windows 10
+* If you have not set JAVA_HOME yet, please set.
 
 ## apache-jmeter-5.0
 * It is a load-test tool to try PADLA
@@ -28,4 +29,4 @@ In this sample, you can try PADLA on Tomcat under a load-test. At first, startup
 ```
 
 7. After the load-test finished, shutdown Tomcat by executing apache-tomcat-8.5.34/bin/shutdown.bat and close the console window.
-8. You can get a log file as apache-tomcat-8.5.34/outputs/log4j.log. In the file, debug and trace level log messages are appeared at the time the load-test started. Also, you can get buffered log messages in apache-tomcat-8.5.34/outputs/buffer.txt. PADLA keeps the latest 300 (in this setting) log messages internally and outputs them with "[OUTPUT]" at the beginning when it changes the log level. To know when the messages are outputted, please refer to timestamps of them.
+8. You can get a log file as apache-tomcat-8.5.34/outputs/log4j.log (about 47MB in our environment). In the file, debug and trace level log messages are appeared at the time the load-test started. Also, you can get buffered log messages in apache-tomcat-8.5.34/outputs/buffer.txt. PADLA keeps the latest 300 (in this setting) log messages internally and outputs them with "[OUTPUT]" at the beginning when it changes the log level. To know when the messages are outputted, please refer to timestamps of them.
