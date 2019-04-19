@@ -31,10 +31,9 @@ import jp.naist.heijo.json.ExeTimeJson;
 import jp.naist.heijo.message.Message;
 
 public class LevelChanger extends Thread{
-	/**added by mizouchi**/
-	static int numOfMethods = 0; //ベクトルの要素数
-	static final double ep = 0.95; //フェイズの一致の判定に用いる閾値
-	static int INTERVAL = 5; //区間の数1つ0.1s
+	static int numOfMethods = 0;
+	static final double ep = 0.95; //Threshold used to phase detection
+	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
 	static String FILENAME = null;
 	static MyLogCache mylogcache = null;
 	static boolean isFirstLevel = true;
@@ -54,14 +53,13 @@ public class LevelChanger extends Thread{
 		List<ExeTimeJson> exeTimeJsons = new LinkedList<>();
 
 		int countOfSample = 0;
-		double[] sumOfVectors = null; //Vtの和．5回(0.5秒)分のデータを取ったらWiを作成して初期化
+		double[] sumOfVectors = null;
 		PrevState ps = null;
 
 		closeOnExit(exeTimeJsons);
 
-		// データ受信ループ
+		// Data receive roop
 		while (socket.isConnected()) {
-			// データを受信
 			Message message = null;
 			try {
 				message = connector.read(Message.class);
@@ -70,6 +68,7 @@ public class LevelChanger extends Thread{
 				break;
 			}
 
+			// Data receive (first)
 			if (message.Methods != null && 0 < message.Methods.size()) {
 				try {
 					firstReceive(message);
@@ -78,11 +77,11 @@ public class LevelChanger extends Thread{
 				} catch (InterruptedException | IOException e) {
 					e.printStackTrace();
 				}
-				//sumOfVtを初期化
 				sumOfVectors = new double[numOfMethods];
 				ps = new PrevState();
 			}
 
+			// Data receive (after the second time)
 			if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
 				sumOfVectors =  addVtToV(message, sumOfVectors);
 				countOfSample++;
@@ -96,8 +95,6 @@ public class LevelChanger extends Thread{
 
 	private Socket connect2Agent() {
 		System.out.println(messageHead + "Waiting for Connection,,,");
-
-		// 接続待ち
 		ServerSocket server = null;
 		Socket socket = null;
 		try {
@@ -105,7 +102,6 @@ public class LevelChanger extends Thread{
 			socket = server.accept();
 			server.close();
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 
@@ -117,19 +113,18 @@ public class LevelChanger extends Thread{
 		return isFirstLevel;
 	}
 
+
 	/**
-	 * 未知フェイズが来るとログの出力レベルを変更
-	 * @param learningData
-	 * @param jmxterm
-	 * @param isLowerLevel
+	 * It check whether sumOfVectors is known or unknown and change "isFirstLevel" flag
+	 * @param learningdata
 	 * @param sumOfVectors
-	 * @return
+	 * @param ps
 	 */
 	private void setLogLevel(LearningData learningdata, double[] sumOfVectors, PrevState ps) {
 		double[] normalizedVector = new double[numOfMethods];
 		normalizedVector = normalizeVector(sumOfVectors);
 		initArray(sumOfVectors);
-		//learningDataと比較
+		//Compare to learningData
 		if(learningdata.isUnknownPhase(normalizedVector, numOfMethods)) {
 			if(this.isFirstLevel()) {
 				mylogcache.outputLogs();
@@ -148,8 +143,7 @@ public class LevelChanger extends Thread{
 	}
 
 	/**
-	 * 未知のフェイズが2区間分続けば既知のフェイズとして学習データに登録
-	 * 登録するベクトルは最後の区間のものだけ
+	 * It records the last vector of unknown phase that lasts two intervals as learning data.
 	 * @param learningdata
 	 * @param ps
 	 * @param current
@@ -174,13 +168,10 @@ public class LevelChanger extends Thread{
 		}
 	}
 
+
 	/**
-	 * メソッド情報を受信したとき（初回）
-	 * targetプロセスのPIDを取得しjmxtermで接続
-	 * targetプロセスの総メソッド数をnumOfMethodsに格納する
-	 * @param args
+	 * It extracts options from message
 	 * @param message
-	 * @param sumOfVt
 	 * @throws UnsupportedEncodingException
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -205,8 +196,9 @@ public class LevelChanger extends Thread{
 		System.out.println(messageHead + "Number of methods:" + numOfMethods);
 	}
 
+
 	/**
-	 * ターゲットプロセスの終了時にjmxtermを終了
+	 * It prints a message when a target process ends
 	 * @param exeTimeJsons
 	 */
 	private static void closeOnExit(List<ExeTimeJson> exeTimeJsons) {
@@ -218,69 +210,67 @@ public class LevelChanger extends Thread{
 		});
 	}
 
-	/**added by mizouchi**/
 	/**
-	 * ある区間のVtの和であるVの作成
+	 * It extracts method execution times from message and add them to sumOfVectors
 	 * @param message
-	 * @param sumOf5Vt
+	 * @param sumOfVectors
+	 * @return
 	 */
-	static double[] addVtToV(Message message, double[] sumOf5Vt) {
-		double[] Vt = new double[numOfMethods];
+	static double[] addVtToV(Message message, double[] sumOfVectors) {
+		double[] tmpArray = new double[numOfMethods];
 
-		//Vtの初期化
-		initArray(Vt);
+		initArray(tmpArray);
 
-		//messageに格納された実行時間を，メソッドIDに対応するVtの要素に格納する
 		for (int index = 0; index < message.ExeTimes.size(); index++) {
-			if (Vt[message.ExeTimes.get(index).MethodID] < message.ExeTimes.get(index).ExeTime) { //メソッドIDは同じでもスレッドIDが違う場合は実行時間が長いほうを採用する
-				Vt[message.ExeTimes.get(index).MethodID] = message.ExeTimes.get(index).ExeTime;
+			if (tmpArray[message.ExeTimes.get(index).MethodID] < message.ExeTimes.get(index).ExeTime) { //If the method ID is the same but the thread ID is different, use the longer execution time
+				tmpArray[message.ExeTimes.get(index).MethodID] = message.ExeTimes.get(index).ExeTime;
 			}
 		}
 
 		for (int i = 0; i < numOfMethods; i++) {
-			sumOf5Vt[i] += Vt[i];
+			sumOfVectors[i] += tmpArray[i];
 		}
 
-		return sumOf5Vt;
+		return sumOfVectors;
 	}
 
+
 	/**
-	 * ベクトルを正規化
+	 * It returns normalized vector
+	 * @param vector
+	 * @return
 	 */
-	static double[] normalizeVector(double[] sumOfVt) {
-		double[] Wi = new double[numOfMethods];
-		double normOfV = 0;
+	static double[] normalizeVector(double[] vector) {
+		double[] normalizedVector = new double[numOfMethods];
+		double normOfVector = 0;
 
-		//Wiの初期化
-		initArray(Wi);
+		initArray(normalizedVector);
 
-		//Vのノルムを求める
+		// calculate norm of the vector
 		for (int i = 0; i < numOfMethods; i++) {
-			normOfV += sumOfVt[i] * sumOfVt[i];
+			normOfVector += vector[i] * vector[i];
 		}
-		normOfV = Math.sqrt(normOfV);
+		normOfVector = Math.sqrt(normOfVector);
 
-		//Wiの各要素をWiのノルムで割って正規化完了
 		for (int i = 0; i < numOfMethods; i++) {
-			if (normOfV != 0) {
-				Wi[i] = sumOfVt[i] / normOfV;
+			if (normOfVector != 0) {
+				normalizedVector[i] = vector[i] / normOfVector;
 			}
 		}
 
-		return Wi;
+		return normalizedVector;
 	}
 
 	/**
-	 * 配列を0で初期化
+	 * It initializes array
 	 * @param array
-	 * @param numOfContents
 	 */
 	static void initArray(double[] array) {
 		Arrays.fill(array, 0.0);
 	}
 
 	/**
-	 * 二つのベクトルの内積を返す
+	 * It returns inner product of two vectors(array1 and array2)
 	 * @param array1
 	 * @param array2
 	 * @return

@@ -150,10 +150,6 @@ public class AppenderControl extends AbstractFilterable {
 
 	@PerformanceSensitive
 	private boolean isFilteredByLevel(final LogEvent event) {
-		//    	if(this.appenderName.equals("MyFile")) {
-		//    		Level currentLevel = rootLoggerConfig.getAppenderRefs().get(0).getLevel();
-		//    		return currentLevel!= null && currentLevel.intLevel() < event.getLevel().intLevel();
-		//    	}
 		return level != null && intLevel < event.getLevel().intLevel();
 	}
 

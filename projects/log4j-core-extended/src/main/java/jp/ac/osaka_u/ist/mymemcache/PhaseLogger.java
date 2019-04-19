@@ -33,10 +33,9 @@ import jp.naist.heijo.Connector;
 import jp.naist.heijo.message.Message;
 
 public class PhaseLogger extends Thread{
-	/**added by mizouchi**/
-	static int numOfMethods = 0; //ベクトルの要素数
-	static final double ep = 0.95; //フェイズの一致の判定に用いる閾値
-	static int INTERVAL = 5; //区間の数1つ0.1s
+	static int numOfMethods = 0; //
+	static final double ep = 0.95; //Threshold used to phase detection
+	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
 	static String OUTPUTFILENAME = null;
 	static int LLLevel = 0;
 	static BufferedWriter bwVector = null;
@@ -50,15 +49,14 @@ public class PhaseLogger extends Thread{
 		try {
 			socket.setSoTimeout(2000);
 		} catch (SocketException e1) {
-			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
 
 		Connector connector = new Connector(socket);
 
 		int countOfSample = 0;
-		double[] sumOfVt = null; //Vtの和．5回(0.5秒)分のデータを取ったらWiを作成して初期化
-		// データ受信ループ
+		double[] sumOfVt = null;
+		// Data receive roop
 		while (socket.isConnected()) {
 			// データを受信
 			Message message = null;
@@ -68,20 +66,20 @@ public class PhaseLogger extends Thread{
 				System.err.println(messageHead + "Socket timeout");
 				break;
 			} catch (IOException e) {
-				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
 
+			// Data receive (first)
 			if (message.Methods != null && 0 < message.Methods.size()) {
 				try {
 					firstReceive(message);
 				} catch (IOException |InterruptedException e) {
 					e.printStackTrace();
 				}
-				//sumOF5Vtを初期化
 				sumOfVt = new double[numOfMethods];
 			}
 
+			// Data receive (after the second time)
 			if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
 				sumOfVt =  addVtToV(message, sumOfVt);
 				countOfSample++;
@@ -89,7 +87,6 @@ public class PhaseLogger extends Thread{
 					try {
 						bwVector.write(Arrays.toString(sumOfVt) + "\n");
 					} catch (IOException e) {
-						// TODO 自動生成された catch ブロック
 						e.printStackTrace();
 					}
 					countOfSample = 0;
@@ -98,9 +95,9 @@ public class PhaseLogger extends Thread{
 		}
 	}
 
+
 	private Socket connect2Agent() {
 		System.out.println(messageHead + "Waiting for Connection,,,");
-		// 接続待ち
 		ServerSocket server = null;
 		Socket socket = null;
 		try {
@@ -108,7 +105,6 @@ public class PhaseLogger extends Thread{
 			socket = server.accept();
 			server.close();
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 
@@ -116,9 +112,14 @@ public class PhaseLogger extends Thread{
 		return socket;
 	}
 
+
 	/**
-	 * メソッド情報を受信したとき（初回）
-	 * 一区間にどれだけサンプリングデータを入れるかmessageから取得
+	 * It extracts options from message
+	 * @param message
+	 * @throws UnsupportedEncodingException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws InterruptedException
 	 */
 	private static void firstReceive(Message message)
 			throws UnsupportedEncodingException, FileNotFoundException, IOException, InterruptedException {
@@ -134,74 +135,72 @@ public class PhaseLogger extends Thread{
 		try {
 			bwVector = new BufferedWriter(new FileWriter(new File(OUTPUTFILENAME)));
 		} catch (IOException e5) {
-			// TODO 自動生成された catch ブロック
 			e5.printStackTrace();
 		}
 	}
 
-	/**added by mizouchi**/
+
 	/**
-	 * ある区間のVtの和であるVの作成
+	 * It extracts method execution times from message and add them to sumOfVectors
 	 * @param message
-	 * @param sumOf5Vt
+	 * @param sumOfVectors
+	 * @return
 	 */
-	static double[] addVtToV(Message message, double[] sumOf5Vt) {
-		double[] Vt = new double[numOfMethods];
+	static double[] addVtToV(Message message, double[] sumOfVectors) {
+		double[] tmpArray = new double[numOfMethods];
 
-		//Vtの初期化
-		initArray(Vt);
+		initArray(tmpArray);
 
-		//messageに格納された実行時間を，メソッドIDに対応するVtの要素に格納する
 		for (int index = 0; index < message.ExeTimes.size(); index++) {
-			if (Vt[message.ExeTimes.get(index).MethodID] < message.ExeTimes.get(index).ExeTime) { //メソッドIDは同じでもスレッドIDが違う場合は実行時間が長いほうを採用する
-				Vt[message.ExeTimes.get(index).MethodID] = message.ExeTimes.get(index).ExeTime;
+			if (tmpArray[message.ExeTimes.get(index).MethodID] < message.ExeTimes.get(index).ExeTime) { //If the method ID is the same but the thread ID is different, use the longer execution time
+				tmpArray[message.ExeTimes.get(index).MethodID] = message.ExeTimes.get(index).ExeTime;
 			}
 		}
 
 		for (int i = 0; i < numOfMethods; i++) {
-			sumOf5Vt[i] += Vt[i];
+			sumOfVectors[i] += tmpArray[i];
 		}
 
-		return sumOf5Vt;
+		return sumOfVectors;
 	}
 
+
 	/**
-	 * ベクトルを正規化
+	 * It returns normalized vector
+	 * @param vector
+	 * @return
 	 */
-	static double[] normalizeVector(double[] sumOfVt) {
-		double[] Wi = new double[numOfMethods];
-		double normOfV = 0;
+	static double[] normalizeVector(double[] vector) {
+		double[] normalizedVector = new double[numOfMethods];
+		double normOfVector = 0;
 
-		//Wiの初期化
-		initArray(Wi);
+		initArray(normalizedVector);
 
-		//Vのノルムを求める
+		// calculate norm of the vector
 		for (int i = 0; i < numOfMethods; i++) {
-			normOfV += sumOfVt[i] * sumOfVt[i];
+			normOfVector += vector[i] * vector[i];
 		}
-		normOfV = Math.sqrt(normOfV);
+		normOfVector = Math.sqrt(normOfVector);
 
-		//Wiの各要素をWiのノルムで割って正規化完了
 		for (int i = 0; i < numOfMethods; i++) {
-			if (normOfV != 0) {
-				Wi[i] = sumOfVt[i] / normOfV;
+			if (normOfVector != 0) {
+				normalizedVector[i] = vector[i] / normOfVector;
 			}
 		}
 
-		return Wi;
+		return normalizedVector;
 	}
 
 	/**
-	 * 配列を0で初期化
+	 * It initializes array
 	 * @param array
-	 * @param numOfContents
 	 */
 	static void initArray(double[] array) {
 		Arrays.fill(array, 0.0);
 	}
 
 	/**
-	 * 二つのベクトルの内積を返す
+	 * It returns inner product of two vectors(array1 and array2)
 	 * @param array1
 	 * @param array2
 	 * @return

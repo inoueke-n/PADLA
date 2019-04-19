@@ -63,8 +63,9 @@ public class LearningData {
 		}
 	}
 
+
 	/**
-	 * 学習データに指定したベクトルを追加
+	 * It adds vec to learningdata
 	 * @param vec
 	 */
 	public void add(double[] vec) {
@@ -75,6 +76,15 @@ public class LearningData {
 	 * ベクトルを学習データと比較し，類似度が閾値以上のものがあればfalse,なければtrueを返す
 	 * 0ベクトル同士の場合は類似度1として扱う
 	 * @param array1
+	 * @return
+	 */
+
+
+	/**
+	 * It compare vec with learningData and return false if the similarity is above threshold, otherwise return true
+	 * If vec and learningData are both zero vector, the similarity is 1
+	 * @param vec
+	 * @param numOfMethods
 	 * @return
 	 */
 	public boolean isUnknownPhase(double[] vec, int numOfMethods) {
@@ -105,8 +115,9 @@ public class LearningData {
 		return true;
 	}
 
+
 	/**
-	 * 二つのベクトルの内積の計算を行う
+	 * It returns inner product of two vectors(array1 and array2)
 	 * @param array1
 	 * @param array2
 	 * @param numOfMethods

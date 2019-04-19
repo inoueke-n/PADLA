@@ -54,8 +54,9 @@ public class MyLogCache {
 
 
 
+
 	/**
-	 * 配列にためたログをファイルに書き出す
+	 * It output log messages that are kept in the cachedLogs
 	 */
 	public void outputLogs() {
 		int numOfOutputLogs = 0;
@@ -79,8 +80,9 @@ public class MyLogCache {
 		}
 	}
 
+
 	/**
-	 * ログを配列に追加
+	 * It add a log message to the cachedLogs
 	 * @param str
 	 */
 	public void appendLogToCache(String str) {
