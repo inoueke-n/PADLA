@@ -189,7 +189,6 @@ public class LevelChanger extends Thread{
 		System.out.println(messageHead + "buffer = " + mylogcache.getCACHESIZE());
 		System.out.println(messageHead + "nterval = " + INTERVAL);
 		System.out.println(messageHead + "---optionsForLevelChanger---\n");
-		//jmxtermを起動してアプリと接続
 		Thread.sleep(5000);
 
 		numOfMethods = message.Methods.size();
