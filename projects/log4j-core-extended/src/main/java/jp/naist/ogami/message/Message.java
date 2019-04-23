@@ -15,17 +15,44 @@
  * limitations under the license.
  */
 
-package jp.naist.heijo.json;
+package jp.naist.ogami.message;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import jp.naist.heijo.message.ExeTimeInfo;
-
-public class ExeTimeJson
+@org.msgpack.annotation.Message
+public class Message
 {
 
-  public long CurrentTime = 0;
-  public List<ExeTimeInfo> ExeTimes = new LinkedList<>();
+	@org.msgpack.annotation.Index(0)
+	public long CurrentTime = 0;
+
+	@org.msgpack.annotation.Index(1)
+	public double TimeLength = 0;
+
+	@org.msgpack.annotation.Index(2)
+	public List<MethodInfo> Methods = new LinkedList<>();
+
+	@org.msgpack.annotation.Index(3)
+	public List<ExeTimeInfo> ExeTimes = new LinkedList<>();
+
+	@org.msgpack.annotation.Index(4)
+	public String PID = "pid";
+
+	@org.msgpack.annotation.Index(5)
+	public String LEARNINGDATA = null;
+
+
+	@org.msgpack.annotation.Index(6)
+	public String BUFFEROUTPUT = null;
+
+	@org.msgpack.annotation.Index(7)
+	public String PHASEOUTPUT = null;
+
+	@org.msgpack.annotation.Index(8)
+	public int BUFFER = 0;
+
+	@org.msgpack.annotation.Index(9)
+	public int INTERVAL = 0;
 
 }

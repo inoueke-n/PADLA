@@ -15,36 +15,30 @@
  * limitations under the license.
  */
 
-package jp.naist.heijo.message;
+package jp.naist.ogami.message;
 
 @org.msgpack.annotation.Message
-public class MethodInfo
+public class ExeTimeInfo
 {
 
   @org.msgpack.annotation.Index(0)
-  public int MethodID;
+  public int MethodID = 0;
 
   @org.msgpack.annotation.Index(1)
-  public String ClassName;
+  public long ThreadID = 0;
 
   @org.msgpack.annotation.Index(2)
-  public String MethodName;
+  public double ExeTime = 0;
 
-  public MethodInfo()
+  public ExeTimeInfo()
   {
   }
 
-  public MethodInfo(int methodID, String className, String methodName)
+  public ExeTimeInfo(int methodID, long threadID, double exeTime)
   {
     MethodID = methodID;
-    ClassName = className;
-    MethodName = methodName;
-  }
-
-  @Override
-  public String toString()
-  {
-    return ClassName + "." + MethodName;
+    ThreadID = threadID;
+    ExeTime = exeTime;
   }
 
 }

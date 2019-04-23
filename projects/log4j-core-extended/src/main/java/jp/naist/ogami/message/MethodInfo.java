@@ -15,44 +15,36 @@
  * limitations under the license.
  */
 
-package jp.naist.heijo.message;
-
-import java.util.LinkedList;
-import java.util.List;
+package jp.naist.ogami.message;
 
 @org.msgpack.annotation.Message
-public class Message
+public class MethodInfo
 {
 
-	@org.msgpack.annotation.Index(0)
-	public long CurrentTime = 0;
+  @org.msgpack.annotation.Index(0)
+  public int MethodID;
 
-	@org.msgpack.annotation.Index(1)
-	public double TimeLength = 0;
+  @org.msgpack.annotation.Index(1)
+  public String ClassName;
 
-	@org.msgpack.annotation.Index(2)
-	public List<MethodInfo> Methods = new LinkedList<>();
+  @org.msgpack.annotation.Index(2)
+  public String MethodName;
 
-	@org.msgpack.annotation.Index(3)
-	public List<ExeTimeInfo> ExeTimes = new LinkedList<>();
+  public MethodInfo()
+  {
+  }
 
-	@org.msgpack.annotation.Index(4)
-	public String PID = "pid";
+  public MethodInfo(int methodID, String className, String methodName)
+  {
+    MethodID = methodID;
+    ClassName = className;
+    MethodName = methodName;
+  }
 
-	@org.msgpack.annotation.Index(5)
-	public String LEARNINGDATA = null;
-
-
-	@org.msgpack.annotation.Index(6)
-	public String BUFFEROUTPUT = null;
-
-	@org.msgpack.annotation.Index(7)
-	public String PHASEOUTPUT = null;
-
-	@org.msgpack.annotation.Index(8)
-	public int BUFFER = 0;
-
-	@org.msgpack.annotation.Index(9)
-	public int INTERVAL = 0;
+  @Override
+  public String toString()
+  {
+    return ClassName + "." + MethodName;
+  }
 
 }

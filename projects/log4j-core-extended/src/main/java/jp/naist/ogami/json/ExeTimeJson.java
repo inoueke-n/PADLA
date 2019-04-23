@@ -15,30 +15,17 @@
  * limitations under the license.
  */
 
-package jp.naist.heijo.message;
+package jp.naist.ogami.json;
 
-@org.msgpack.annotation.Message
-public class ExeTimeInfo
+import java.util.LinkedList;
+import java.util.List;
+
+import jp.naist.ogami.message.ExeTimeInfo;
+
+public class ExeTimeJson
 {
 
-  @org.msgpack.annotation.Index(0)
-  public int MethodID = 0;
-
-  @org.msgpack.annotation.Index(1)
-  public long ThreadID = 0;
-
-  @org.msgpack.annotation.Index(2)
-  public double ExeTime = 0;
-
-  public ExeTimeInfo()
-  {
-  }
-
-  public ExeTimeInfo(int methodID, long threadID, double exeTime)
-  {
-    MethodID = methodID;
-    ThreadID = threadID;
-    ExeTime = exeTime;
-  }
+  public long CurrentTime = 0;
+  public List<ExeTimeInfo> ExeTimes = new LinkedList<>();
 
 }

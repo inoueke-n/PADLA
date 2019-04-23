@@ -15,83 +15,86 @@
  * limitations under the license.
  */
 
-package jp.ac.osaka_u.ist.mymemcache;
+package jp.ac.osaka_u.ist.padla;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
-import jp.naist.heijo.Connector;
-import jp.naist.heijo.json.ExeTimeJson;
-import jp.naist.heijo.message.Message;
+import jp.naist.ogami.Connector;
+import jp.naist.ogami.message.Message;
 
-public class LevelChanger extends Thread{
-	static int numOfMethods = 0;
+public class PhaseLogger extends Thread{
+	static int numOfMethods = 0; //
 	static final double ep = 0.95; //Threshold used to phase detection
 	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
-	static String FILENAME = null;
-	static MyLogCache mylogcache = null;
-	static boolean isFirstLevel = true;
+	static String OUTPUTFILENAME = null;
+	static int LLLevel = 0;
+	static BufferedWriter bwVector = null;
 
 	private static String messageHead = "[LOG4JCORE-EXTENDED]:";
 
-	public LevelChanger(MyLogCache logCache) {
-		mylogcache = logCache;
-	}
 
 	public void run() {
-		LearningData learningdata = null;
 
 		Socket socket = connect2Agent();
+		try {
+			socket.setSoTimeout(2000);
+		} catch (SocketException e1) {
+			e1.printStackTrace();
+		}
 
 		Connector connector = new Connector(socket);
-		List<ExeTimeJson> exeTimeJsons = new LinkedList<>();
 
 		int countOfSample = 0;
-		double[] sumOfVectors = null;
-		PrevState ps = null;
-
-		closeOnExit(exeTimeJsons);
-
+		double[] sumOfVt = null;
 		// Data receive roop
 		while (socket.isConnected()) {
+			// データを受信
 			Message message = null;
 			try {
 				message = connector.read(Message.class);
-			} catch (Exception e) {
-				System.err.println(messageHead + "Cannot recieve");
+			} catch (SocketTimeoutException e) {
+				System.err.println(messageHead + "Socket timeout");
 				break;
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 
 			// Data receive (first)
 			if (message.Methods != null && 0 < message.Methods.size()) {
 				try {
 					firstReceive(message);
-					learningdata = new LearningData(FILENAME,ep,numOfMethods);
-
-				} catch (InterruptedException | IOException e) {
+				} catch (IOException |InterruptedException e) {
 					e.printStackTrace();
 				}
-				sumOfVectors = new double[numOfMethods];
-				ps = new PrevState();
+				sumOfVt = new double[numOfMethods];
 			}
 
 			// Data receive (after the second time)
 			if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
-				sumOfVectors =  addVtToV(message, sumOfVectors);
+				sumOfVt =  addVtToV(message, sumOfVt);
 				countOfSample++;
 				if(countOfSample == INTERVAL) {
+					try {
+						bwVector.write(Arrays.toString(sumOfVt) + "\n");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					countOfSample = 0;
-					setLogLevel(learningdata, sumOfVectors, ps);
 				}
 			}
 		}
 	}
+
 
 	private Socket connect2Agent() {
 		System.out.println(messageHead + "Waiting for Connection,,,");
@@ -109,65 +112,6 @@ public class LevelChanger extends Thread{
 		return socket;
 	}
 
-	public boolean isFirstLevel() {
-		return isFirstLevel;
-	}
-
-
-	/**
-	 * It check whether sumOfVectors is known or unknown and change "isFirstLevel" flag
-	 * @param learningdata
-	 * @param sumOfVectors
-	 * @param ps
-	 */
-	private void setLogLevel(LearningData learningdata, double[] sumOfVectors, PrevState ps) {
-		double[] normalizedVector = new double[numOfMethods];
-		normalizedVector = normalizeVector(sumOfVectors);
-		initArray(sumOfVectors);
-		//Compare to learningData
-		if(learningdata.isUnknownPhase(normalizedVector, numOfMethods)) {
-			if(this.isFirstLevel()) {
-				mylogcache.outputLogs();
-				isFirstLevel = false;
-				System.out.println(messageHead + "Unknown Phase Detected!\n");
-				System.out.println(messageHead + "Logging Level Down\n↓↓↓↓↓↓↓↓");
-			}
-			addLearningData(learningdata,ps,normalizedVector);
-		}else {
-			if(!this.isFirstLevel()) {
-				isFirstLevel = true;
-				System.out.println(messageHead + "Returned to Normal Phase\n");
-				System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
-			}
-		}
-	}
-
-	/**
-	 * It records the last vector of unknown phase that lasts two intervals as learning data.
-	 * @param learningdata
-	 * @param ps
-	 * @param current
-	 */
-	private static void addLearningData(LearningData learningdata, PrevState ps, double[] current) {
-		double innerproduct = calcInnerProduct(ps.get(), current);
-		double[] cloneCurrent = new double[numOfMethods];
-		cloneCurrent = current.clone();
-		if(innerproduct > ep) {
-			ps.incCount();
-			ps.update(current);
-			if(ps.getCount() >= 2) {
-				learningdata.add(cloneCurrent);
-				ps.refresh();
-				isFirstLevel = true;
-				System.out.println(messageHead + "Learned\n");
-				System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
-			}
-		}else {
-			ps.stayCount();
-			ps.update(current);
-		}
-	}
-
 
 	/**
 	 * It extracts options from message
@@ -179,35 +123,22 @@ public class LevelChanger extends Thread{
 	 */
 	private static void firstReceive(Message message)
 			throws UnsupportedEncodingException, FileNotFoundException, IOException, InterruptedException {
-		FILENAME = message.LEARNINGDATA;
-		mylogcache.setOUTPUT(message.BUFFEROUTPUT);
-		mylogcache.setCACHESIZE(message.BUFFER);
 		INTERVAL = message.INTERVAL;
-		System.out.println("\n"+ messageHead + "---optionsForLevelChanger---");
-		System.out.println(messageHead + "learningData = " + FILENAME);
-		System.out.println(messageHead + "output = " + mylogcache.getOUTPUT());
-		System.out.println(messageHead + "buffer = " + mylogcache.getCACHESIZE());
-		System.out.println(messageHead + "nterval = " + INTERVAL);
-		System.out.println(messageHead + "---optionsForLevelChanger---\n");
-		Thread.sleep(5000);
-
+		OUTPUTFILENAME = message.PHASEOUTPUT;
+		System.out.println("\n[PADLA]:---optionsForPhaseExporter---");
+		System.out.println(messageHead + "interval = " + INTERVAL);
+		System.out.println(messageHead + "output = " + OUTPUTFILENAME);
+		System.out.println(messageHead + "---optionsForPhaseExporter---\n");
 		numOfMethods = message.Methods.size();
-		System.out.println(messageHead + "Number of methods:" + numOfMethods);
+		System.out.println(messageHead + "Number of Methods:" + numOfMethods);
+
+		try {
+			bwVector = new BufferedWriter(new FileWriter(new File(OUTPUTFILENAME)));
+		} catch (IOException e5) {
+			e5.printStackTrace();
+		}
 	}
 
-
-	/**
-	 * It prints a message when a target process ends
-	 * @param exeTimeJsons
-	 */
-	private static void closeOnExit(List<ExeTimeJson> exeTimeJsons) {
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				System.out.println(messageHead + "Target process finished");
-			}
-		});
-	}
 
 	/**
 	 * It extracts method execution times from message and add them to sumOfVectors
@@ -284,41 +215,5 @@ public class LevelChanger extends Thread{
 		return innerProduct;
 	}
 
-	public static class PrevState {
-		private double[] prev;
-		private int count;
 
-		public PrevState() {
-			prev = new double[numOfMethods];
-			refresh();
-		}
-
-		/**
-		 * 同じフェイズで連続する区間のカウントを1にする
-		 */
-		public void stayCount() {
-			count = 1;
-		}
-
-		public void refresh() {
-			initArray(prev);
-			count = 0;
-		}
-
-		public void update(double[] current) {
-			prev = current.clone();
-		}
-
-		public double[] get() {
-			return prev;
-		}
-
-		public void incCount() {
-			count++;
-		}
-
-		public int getCount() {
-			return count;
-		}
-	}
 }

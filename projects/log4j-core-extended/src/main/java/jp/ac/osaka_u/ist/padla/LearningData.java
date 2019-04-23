@@ -15,7 +15,7 @@
  * limitations under the license.
  */
 
-package jp.ac.osaka_u.ist.mymemcache;
+package jp.ac.osaka_u.ist.padla;
 
 import java.io.BufferedReader;
 import java.io.File;

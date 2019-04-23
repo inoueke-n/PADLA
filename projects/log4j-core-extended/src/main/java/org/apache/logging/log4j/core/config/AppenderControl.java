@@ -30,9 +30,9 @@ import org.apache.logging.log4j.core.filter.AbstractFilterable;
 import org.apache.logging.log4j.core.filter.Filterable;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 
-import jp.ac.osaka_u.ist.mymemcache.LevelChanger;
-import jp.ac.osaka_u.ist.mymemcache.MyLogCache;
-import jp.ac.osaka_u.ist.mymemcache.PhaseLogger;
+import jp.ac.osaka_u.ist.padla.LevelChanger;
+import jp.ac.osaka_u.ist.padla.MyLogCache;
+import jp.ac.osaka_u.ist.padla.PhaseLogger;
 
 /**
  * Wraps an {@link Appender} with details an appender implementation shouldn't need to know about.

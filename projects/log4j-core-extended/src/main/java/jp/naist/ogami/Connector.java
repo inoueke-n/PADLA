@@ -15,7 +15,7 @@
  * limitations under the license.
  */
 
-package jp.naist.heijo;
+package jp.naist.ogami;
 
 import java.io.IOException;
 import java.net.Socket;
