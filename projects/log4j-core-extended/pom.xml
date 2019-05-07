@@ -315,6 +315,7 @@
     </dependency>
   </dependencies>
   <build>
+  	<finalName>log4j-core-extended-2.11.0</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

@@ -187,7 +187,7 @@ public class LevelChanger extends Thread{
 		System.out.println(messageHead + "learningData = " + FILENAME);
 		System.out.println(messageHead + "output = " + mylogcache.getOUTPUT());
 		System.out.println(messageHead + "buffer = " + mylogcache.getCACHESIZE());
-		System.out.println(messageHead + "nterval = " + INTERVAL);
+		System.out.println(messageHead + "interval = " + INTERVAL);
 		System.out.println(messageHead + "---optionsForLevelChanger---\n");
 		Thread.sleep(5000);
 
