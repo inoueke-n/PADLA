@@ -25,7 +25,7 @@ PADLA is distributed under the [Apache License, version 2.0](http://www.apache.o
 
 ### Running target system with "Learning" mode of PADLA
 * For the "Learning" mode, follow the steps below
-1. Replace log4j-core.jar of the target system with executableFiles/log4j-core-3.0.0-SNAPSHOT.jar.
+1. Replace log4j-core.jar of the target system with executableFiles/log4j-core-extended-2.11.0.jar.
 2. Edit log4j2.xml to add an appender named "Learning". A sample is below:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -62,7 +62,7 @@ for details of these options, please refer to  PADLA/projects/HeijoAgent/README.
 
 ### Running target system with "Adapter" mode of PADLA
  * For the "Adapter" mode, follow the steps below
-1. Replace log4j-core.jar of the target system with log4j-core-3.0.0-SNAPSHOT.jar.
+1. Replace log4j-core.jar of the target system with log4j-core-extended-2.11.0.jar.
 2. Edit log4j2.xml to add an appender named "Adapter". A sample is below:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
