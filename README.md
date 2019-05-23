@@ -18,6 +18,10 @@ PADLA is distributed under the [Apache License, version 2.0](http://www.apache.o
 ### sample
 * It contains sample software to try PADLA. <font color="Salmon">Download this folder and try PADLA easily if you want</font>. For detail instructions, please refer to sample/README.md.
 
+## Demo movie
+* A 2D action game with PADLA
+* https://youtu.be/qoqilsbhD38
+
 ## Getting started in your project
 * PADLA has two modes, "Learning" and "Adapter".
 * In "Learning" mode, it records vectors of a target program as known phase.
