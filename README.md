@@ -2,7 +2,7 @@
 ## Overview
 ![overview](fig1.JPG)
 * PADLA is a tool that dynamically adjusts the log level of a running system. It is an extension of Apache Log4j.
-* For detail, please refer to "PADLA: A Dynamic Log Level Adapter Using Online Phase Detection" (paper.pdf).
+* For more detail, please refer to the paper ["PADLA: A Dynamic Log Level Adapter Using Online Phase Detection"](paper.pdf).
 
 
 ## License
@@ -11,12 +11,12 @@ PADLA is distributed under the [Apache License, version 2.0](http://www.apache.o
 
 ## Folders
 ### executableFiles
-* It contains jar files of PADLA.
-* executableFiles/HeijoAgent/HeijoAgent.jar needs javassist-3.22.0-GA.jar and msgpack-0.6.12.jar, so put them in the same folder.
+* It contains the jar files of PADLA.
+* `executableFiles/HeijoAgent/HeijoAgent.jar` needs `javassist-3.22.0-GA.jar` and `msgpack-0.6.12.jar`, so put them in the same folder.
 ### projects
 * It contains projects for the development of the PADLA (HeijoAgent and log4j-core-extended).
 ### sample
-* It contains sample software to try PADLA. <font color="Salmon">Download this folder and try PADLA easily if you want</font>. For detail instructions, please refer to sample/README.md.
+* It contains sample software to try PADLA. <font color="Salmon">Download this folder and try PADLA easily if you want</font>. For detailed instructions, please refer to [sample/README.md](sample/README.md).
 
 ## Demo movie
 * A 2D action game with PADLA
@@ -99,8 +99,8 @@ java -javaagent:"executableFiles\HeijoAgentHeijoAgent.jar=target=target.jar,lear
 ```
 for details of these options, please refer to  PADLA\projects\HeijoAgent\README.md. You can use vectors.txt that was generated the "Learning" mode as learningData.
 
-4. If the target system performs an irregular behavior that does not exist in the learning data, PADLA will change the log level.
+4. If the target system performs an irregular behavior that does not exist in the learning data, PADLA will change the log level to emit more detailed logging.
 
 5. You can watch the log level changing on a console. When PADLA detects irregular behavior and changes the log level, "[PADLA]:Unknown Phase Detected!\n[PADLA]Logging Level Down\n↓↓↓↓↓↓↓↓" is displayed.
 
-6. You can get a log file log4j.log. In this file, all level log messages appear at the time irregular behavior occurred. Also, you can get buffered log messages in buffer.txt. PADLA keeps the latest N (defiled by "buffer" option) log messages internally and outputs them with "[OUTPUT]" at the beginning when it changes the log level. In this file, log messages between two "[output]" are outputted at once. To know when the messages are outputted, please refer to timestamps of them.
+6. You can get a log file `log4j.log`. In this file, all level log messages appear at the time irregular behavior occurred. Also, you can get buffered log messages in buffer.txt. PADLA keeps the latest N (defiled by "buffer" option) log messages internally and outputs them with "[OUTPUT]" at the beginning when it changes the log level. In this file, log messages between two "[output]" are outputted at once. To know when the messages are outputted, please refer to timestamps of them.
