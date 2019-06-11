@@ -31,8 +31,8 @@ public class MyLogCache {
 	}
 	public void setOUTPUT(String oUTPUT) {
 		BUFFEROUTPUT = oUTPUT;
-        File byteFile= new File(BUFFEROUTPUT);
-        try {
+		File byteFile= new File(BUFFEROUTPUT);
+		try {
 			byteBw = new BufferedWriter(new FileWriter(byteFile));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -86,14 +86,16 @@ public class MyLogCache {
 	 * @param str
 	 */
 	public void appendLogToCache(String str) {
-    	cachedLogs[nextIndex] = str;
-    	currentIndex = nextIndex;
-    	if(count != 0) {
-    		if(oldestIndex == currentIndex) {
-    			oldestIndex = (oldestIndex + 1) % CACHESIZE;
-    		}
-    	}
-    	nextIndex = (nextIndex + 1) % CACHESIZE;
-    	count++;
+		if(cachedLogs != null) {
+			cachedLogs[nextIndex] = str;
+			currentIndex = nextIndex;
+			if(count != 0) {
+				if(oldestIndex == currentIndex) {
+					oldestIndex = (oldestIndex + 1) % CACHESIZE;
+				}
+			}
+			nextIndex = (nextIndex + 1) % CACHESIZE;
+			count++;
+		}
 	}
 }
