@@ -97,7 +97,7 @@ public class Monitor extends Thread
 	public void run()
 	{
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();

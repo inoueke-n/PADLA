@@ -70,10 +70,20 @@ public class AppenderControl extends AbstractFilterable {
 			logcache = new MyLogCache();
 			levelchanger = new LevelChanger(logcache);
 			levelchanger.start();
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			System.out.println(messageHead + "LevelChanger start!");
 		}else if(this.appenderName.equals("Learning")){
 			phaselogger = new PhaseLogger();
 			phaselogger.start();
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			System.out.println(messageHead + "PhaseLogger start!");
 
 		}
