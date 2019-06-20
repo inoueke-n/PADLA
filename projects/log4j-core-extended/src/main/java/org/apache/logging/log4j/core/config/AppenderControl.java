@@ -49,7 +49,7 @@ public class AppenderControl extends AbstractFilterable {
 	LevelChanger levelchanger = null;
 	PhaseLogger phaselogger = null;
 
-	private String messageHead = "[LOG4JCORE-EXTENDED]:";
+	private final String messageHead = "[LOG4JCORE-EXTENDED]:";
 	/**
 	 * Constructor.
 	 *

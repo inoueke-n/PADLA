@@ -32,13 +32,13 @@ import jp.naist.ogami.message.Message;
 
 public class LevelChanger extends Thread{
 	static int numOfMethods = 0;
-	static final double ep = 0.95; //Threshold used to phase detection
+	static final double ep = 0.98; //Threshold used to phase detection
 	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
 	static String FILENAME = null;
 	static MyLogCache mylogcache = null;
 	static boolean isFirstLevel = true;
 
-	private static String messageHead = "[LOG4JCORE-EXTENDED]:";
+	private final static String messageHead = "[LOG4JCORE-EXTENDED]:";
 
 	public LevelChanger(MyLogCache logCache) {
 		mylogcache = logCache;

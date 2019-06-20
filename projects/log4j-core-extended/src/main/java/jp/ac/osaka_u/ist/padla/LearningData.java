@@ -29,7 +29,7 @@ public class LearningData {
 	List<double[]> learningData = new ArrayList<double[]>();
 	double ep = 0;
 
-	private String messageHead = "[LOG4JCORE-EXTENDED]:";
+	private final String messageHead = "[LOG4JCORE-EXTENDED]:";
 
 	public LearningData(String filename, double EP, int numOfMethods) throws FileNotFoundException {
 		ep = EP;
@@ -41,6 +41,7 @@ public class LearningData {
 				try {
 					text = learningDataBr.readLine();
 				} catch (IOException e) {
+					e.printStackTrace();
 				}
 				if (text == null)
 					break;
@@ -71,14 +72,6 @@ public class LearningData {
 	public void add(double[] vec) {
 		learningData.add(vec);
 	}
-
-	/**
-	 * ベクトルを学習データと比較し，類似度が閾値以上のものがあればfalse,なければtrueを返す
-	 * 0ベクトル同士の場合は類似度1として扱う
-	 * @param array1
-	 * @return
-	 */
-
 
 	/**
 	 * It compare vec with learningData and return false if the similarity is above threshold, otherwise return true
@@ -123,7 +116,7 @@ public class LearningData {
 	 * @param numOfMethods
 	 * @return
 	 */
-	public double calcInnerProduct(double[] array1, double[] array2, int numOfMethods) {
+	private double calcInnerProduct(double[] array1, double[] array2, int numOfMethods) {
 		double innerProduct = 0;
 
 		for (int i = 0; i < numOfMethods; i++) {

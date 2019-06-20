@@ -37,10 +37,9 @@ public class PhaseLogger extends Thread{
 	static final double ep = 0.95; //Threshold used to phase detection
 	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
 	static String OUTPUTFILENAME = null;
-	static int LLLevel = 0;
 	static BufferedWriter bwVector = null;
 
-	private static String messageHead = "[LOG4JCORE-EXTENDED]:";
+	private final static String messageHead = "[LOG4JCORE-EXTENDED]:";
 
 
 	public void run() {
