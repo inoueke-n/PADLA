@@ -127,10 +127,10 @@ public class LevelChanger extends Thread{
 		//Compare to learningData
 		if(learningdata.isUnknownPhase(normalizedVector, numOfMethods)) {
 			if(this.isFirstLevel()) {
-				mylogcache.outputLogs();
 				isFirstLevel = false;
 				System.out.println(messageHead + "Unknown Phase Detected!\n");
 				System.out.println(messageHead + "Logging Level Down\n↓↓↓↓↓↓↓↓");
+				mylogcache.outputLogs();
 			}
 			addLearningData(learningdata,ps,normalizedVector);
 		}else {
@@ -158,9 +158,9 @@ public class LevelChanger extends Thread{
 			if(ps.getCount() >= 2) {
 				learningdata.add(cloneCurrent);
 				ps.refresh();
-				isFirstLevel = true;
+				//isFirstLevel = true;
 				System.out.println(messageHead + "Learned\n");
-				System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
+				//System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
 			}
 		}else {
 			ps.stayCount();

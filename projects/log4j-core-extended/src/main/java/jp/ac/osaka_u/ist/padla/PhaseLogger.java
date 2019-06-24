@@ -27,17 +27,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import jp.naist.ogami.Connector;
 import jp.naist.ogami.message.Message;
 
-public class PhaseLogger extends Thread{
+public class PhaseLogger extends Thread {
 	static int numOfMethods = 0; //
 	static final double ep = 0.95; //Threshold used to phase detection
 	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
 	static String OUTPUTFILENAME = null;
 	static BufferedWriter bwVector = null;
+	List<double[]> learningData = new ArrayList<double[]>();
 
 	private final static String messageHead = "[LOG4JCORE-EXTENDED]:";
 
@@ -55,6 +58,7 @@ public class PhaseLogger extends Thread{
 
 		int countOfSample = 0;
 		double[] sumOfVt = null;
+		boolean isFirstData = true;
 		// Data receive roop
 		while (socket.isConnected()) {
 			// データを受信
@@ -72,7 +76,7 @@ public class PhaseLogger extends Thread{
 			if (message.Methods != null && 0 < message.Methods.size()) {
 				try {
 					firstReceive(message);
-				} catch (IOException |InterruptedException e) {
+				} catch (IOException | InterruptedException e) {
 					e.printStackTrace();
 				}
 				sumOfVt = new double[numOfMethods];
@@ -80,20 +84,24 @@ public class PhaseLogger extends Thread{
 
 			// Data receive (after the second time)
 			if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
-				sumOfVt =  addSamplingDataToVector(message, sumOfVt);
+				sumOfVt = addSamplingDataToVector(message, sumOfVt);
 				countOfSample++;
-				if(countOfSample == INTERVAL) {
-					try {
-						bwVector.write(Arrays.toString(normalizeVector(sumOfVt)) + "\n");
-					} catch (IOException e) {
-						e.printStackTrace();
+				if (countOfSample == INTERVAL) {
+					if (isFirstData || isUnknownPhase(normalizeVector(sumOfVt))) {
+						try {
+							learningData.add(normalizeVector(sumOfVt));
+							bwVector.write(Arrays.toString(normalizeVector(sumOfVt)) + "\n");
+							bwVector.flush();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						isFirstData = false;
 					}
 					countOfSample = 0;
 				}
 			}
 		}
 	}
-
 
 	private Socket connect2Agent() {
 		System.out.println(messageHead + "Waiting for Connection,,,");
@@ -110,7 +118,6 @@ public class PhaseLogger extends Thread{
 		System.out.println(messageHead + "Connection Complete");
 		return socket;
 	}
-
 
 	/**
 	 * It extracts options from message
@@ -138,7 +145,6 @@ public class PhaseLogger extends Thread{
 		}
 	}
 
-
 	/**
 	 * It extracts method execution times from message and add them to sumOfVectors
 	 * @param message
@@ -162,7 +168,6 @@ public class PhaseLogger extends Thread{
 
 		return sumOfVectors;
 	}
-
 
 	/**
 	 * It returns normalized vector
@@ -214,5 +219,38 @@ public class PhaseLogger extends Thread{
 		return innerProduct;
 	}
 
+	/**
+	 * It compare vec with learningData and return false if the similarity is above threshold, otherwise return true
+	 * If vec and learningData are both zero vector, the similarity is 1
+	 * @param vec
+	 * @param numOfMethods
+	 * @return
+	 */
+	public boolean isUnknownPhase(double[] vec) {
+		double maxSimilarity = 0;
+		double innerProduct = 0;
+
+		for (int i = 0; i < learningData.size(); i++) {
+			innerProduct = calcInnerProduct(vec, learningData.get(i));
+			if (innerProduct == 0.0) {
+				double sum = 0.0;
+				for (double v : vec) {
+					sum += v;
+				}
+				for (int j = 0; j < vec.length; j++) {
+					sum += learningData.get(i)[j];
+				}
+				if (sum == 0.0)
+					innerProduct = 1;
+			}
+			if (innerProduct > maxSimilarity) {
+				maxSimilarity = innerProduct;
+			}
+		}
+		if (maxSimilarity > ep) {
+			return false;
+		}
+		return true;
+	}
 
 }

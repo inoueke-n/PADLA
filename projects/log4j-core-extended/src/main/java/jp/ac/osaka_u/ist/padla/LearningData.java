@@ -35,6 +35,15 @@ public class LearningData {
 
 	public LearningData(String filename, double EP, int numOfMethods) throws FileNotFoundException {
 		ep = EP;
+
+		//forExperiment
+		try {
+			file = new FileWriter("..\\log4j2\\logs\\output.log");
+		} catch (IOException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+		}
+		//
 		if(filename != null) {
 			File learningDataFile = new File(filename);
 			BufferedReader learningDataBr = new BufferedReader(new FileReader(learningDataFile));
@@ -86,6 +95,7 @@ public class LearningData {
 		double maxSimilarity = 0;
 		double innerProduct = 0;
 		double[] max = null;
+		int phaseNum = 0;
 
 		for (int i = 0; i < learningData.size(); i++) {
 			innerProduct = calcInnerProduct(vec, learningData.get(i), numOfMethods);
@@ -102,11 +112,30 @@ public class LearningData {
 			if (innerProduct > maxSimilarity) {
 				maxSimilarity = innerProduct;
 				max = learningData.get(i);
+				phaseNum = i;
 			}
 		}
 		if(maxSimilarity > ep) {
+	        //forExperiment
+			try {
+				file.write(messageHead + "Sim: " + maxSimilarity + "  phaseNum: " + phaseNum +" <Known phase>\n" );
+				file.flush();
+			} catch (IOException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+			//
 			return false;
 		}
+        //forExperiment
+		try {
+			file.write(messageHead + "Sim: " + maxSimilarity + "  phaseNum: " + phaseNum +" <Unknown phase>\n" );
+			file.flush();
+		} catch (IOException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		//
 		return true;
 	}
 
