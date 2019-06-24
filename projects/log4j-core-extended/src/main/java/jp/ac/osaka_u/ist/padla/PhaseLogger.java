@@ -80,11 +80,11 @@ public class PhaseLogger extends Thread{
 
 			// Data receive (after the second time)
 			if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
-				sumOfVt =  addVtToV(message, sumOfVt);
+				sumOfVt =  addSamplingDataToVector(message, sumOfVt);
 				countOfSample++;
 				if(countOfSample == INTERVAL) {
 					try {
-						bwVector.write(Arrays.toString(sumOfVt) + "\n");
+						bwVector.write(Arrays.toString(normalizeVector(sumOfVt)) + "\n");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -145,7 +145,7 @@ public class PhaseLogger extends Thread{
 	 * @param sumOfVectors
 	 * @return
 	 */
-	static double[] addVtToV(Message message, double[] sumOfVectors) {
+	static double[] addSamplingDataToVector(Message message, double[] sumOfVectors) {
 		double[] tmpArray = new double[numOfMethods];
 
 		initArray(tmpArray);
