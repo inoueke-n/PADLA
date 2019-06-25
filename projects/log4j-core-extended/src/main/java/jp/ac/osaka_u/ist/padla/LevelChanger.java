@@ -73,6 +73,10 @@ public class LevelChanger extends Thread{
 				try {
 					firstReceive(message);
 					learningdata = new LearningData(FILENAME,ep,numOfMethods);
+					if(learningdata.isInvalidLearningData()) {
+						System.out.println(messageHead + "Exit PADLA...");
+						break;
+					}
 
 				} catch (InterruptedException | IOException e) {
 					e.printStackTrace();

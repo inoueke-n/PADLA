@@ -29,6 +29,7 @@ import java.util.List;
 public class LearningData {
 	List<double[]> learningData = new ArrayList<double[]>();
 	double ep = 0;
+	private boolean exitFlag = false;
 	FileWriter file = null;
 
 	private final String messageHead = "[LOG4JCORE-EXTENDED]:";
@@ -66,7 +67,8 @@ public class LearningData {
 					learningData.add(exeTimeVector);
 				}else {
 					System.out.println(messageHead + "ERROR Invalid Length of Learning Data");
-					System.exit(1);
+					exitFlag = true;
+					break;
 				}
 			}
 			try {
@@ -78,6 +80,10 @@ public class LearningData {
 		}
 	}
 
+
+	public boolean isInvalidLearningData() {
+		return exitFlag;
+	}
 
 	/**
 	 * It adds vec to learningdata
