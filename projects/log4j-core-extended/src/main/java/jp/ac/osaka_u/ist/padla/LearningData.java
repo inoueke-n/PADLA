@@ -64,6 +64,9 @@ public class LearningData {
 				}
 				if(exeTimeVector.length == numOfMethods) {
 					learningData.add(exeTimeVector);
+				}else {
+					System.out.println(messageHead + "ERROR Invalid Length of Learning Data");
+					System.exit(1);
 				}
 			}
 			try {
