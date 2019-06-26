@@ -132,7 +132,7 @@ public class PhaseLogger extends Thread {
 		INTERVAL = message.INTERVAL;
 		OUTPUTFILENAME = message.PHASEOUTPUT;
 		EP = message.EP;
-		System.out.println("\n[PADLA]:---optionsForPhaseExporter---");
+		System.out.println("\n" + "[PADLA]:---optionsForPhaseExporter---");
 		System.out.println(messageHead + "interval = " + INTERVAL);
 		System.out.println(messageHead + "output = " + OUTPUTFILENAME);
 		System.out.println(messageHead + "threshold = " + EP);

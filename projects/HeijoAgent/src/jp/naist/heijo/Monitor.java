@@ -94,7 +94,7 @@ public class Monitor extends Thread
 		System.out.println(messageHead + "phaseoutput = " + this.phaseoutput);
 		System.out.println(messageHead + "buffer = " + this.buffer);
 		System.out.println(messageHead + "interval = " + this.interval);
-		System.out.println(messageHead + "interval = " + this.ep);
+		System.out.println(messageHead + "threshold = " + this.ep);
 		System.out.println(messageHead + "---options---\n");
 		Scheduler = new Scheduler(learningData, bufferoutput, phaseoutput, buffer, interval, ep);
 	}

@@ -136,6 +136,7 @@ public class UpdateThread extends Thread
     message.setPHASEOUTPUT(phaseoutput);
     message.setBUFFER(buffer);
     message.setINTERVAL(interval);
+    message.setEP(ep);
     message.CurrentTime = 0;
     message.TimeLength = 0;
     message.Methods.addAll(Monitor.getInstance().StructureDB.IdDataMap.values());
