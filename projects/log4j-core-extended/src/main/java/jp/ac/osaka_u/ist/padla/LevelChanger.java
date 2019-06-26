@@ -136,7 +136,9 @@ public class LevelChanger extends Thread{
 				//System.out.println(messageHead + "Logging Level Down\n↓↓↓↓↓↓↓↓");
 				mylogcache.outputLogs();
 			}
-			addLearningData(learningdata,ps,normalizedVector);
+			if(continuesIn2Intervals(ps,normalizedVector)) {
+				addLearningData(learningdata,ps,normalizedVector);
+			}
 		}else {
 			if(!this.isFirstLevel()) {
 				isFirstLevel = true;
@@ -153,25 +155,35 @@ public class LevelChanger extends Thread{
 	 * @param current
 	 */
 	private static void addLearningData(LearningData learningdata, PrevState ps, double[] current) {
-		double innerproduct = calcInnerProduct(ps.get(), current);
 		double[] cloneCurrent = new double[numOfMethods];
 		cloneCurrent = current.clone();
+		learningdata.add(cloneCurrent);
+		ps.refresh();
+		//System.out.println(messageHead + "Learned\n");
+		////System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
+	}
+
+	/**
+	 * Judges if the current phase continues in 2 intervals
+	 * @param ps
+	 * @param current
+	 * @return
+	 */
+	private static boolean continuesIn2Intervals(PrevState ps, double[] current) {
+		double innerproduct = calcInnerProduct(ps.get(), current);
 		if(innerproduct > EP) {
 			ps.incCount();
 			ps.update(current);
 			if(ps.getCount() >= 2) {
-				learningdata.add(cloneCurrent);
-				ps.refresh();
-				//isFirstLevel = true;
-				//System.out.println(messageHead + "Learned\n");
-				////System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
+				return true;
 			}
+			return false;
 		}else {
 			ps.stayCount();
 			ps.update(current);
+			return false;
 		}
 	}
-
 
 	/**
 	 * It extracts options from message
