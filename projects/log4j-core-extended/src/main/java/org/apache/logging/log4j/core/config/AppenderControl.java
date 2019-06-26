@@ -30,7 +30,7 @@ import org.apache.logging.log4j.core.filter.AbstractFilterable;
 import org.apache.logging.log4j.core.filter.Filterable;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 
-import jp.ac.osaka_u.ist.padla.LevelChanger;
+import jp.ac.osaka_u.ist.padla.LevelChangerCombined;
 import jp.ac.osaka_u.ist.padla.MyLogCache;
 import jp.ac.osaka_u.ist.padla.PhaseLogger;
 
@@ -46,7 +46,7 @@ public class AppenderControl extends AbstractFilterable {
 	private final String appenderName;
 
 	MyLogCache logcache = null;
-	LevelChanger levelchanger = null;
+	LevelChangerCombined levelchanger = null;
 	PhaseLogger phaselogger = null;
 
 	private final String messageHead = "[LOG4JCORE-EXTENDED]:";
@@ -68,7 +68,7 @@ public class AppenderControl extends AbstractFilterable {
 		//System.out.println(messageHead + "appenderName:" + this.appenderName);
 		if(this.appenderName.equals("Adapter")) {
 			logcache = new MyLogCache();
-			levelchanger = new LevelChanger(logcache);
+			levelchanger = new LevelChangerCombined(logcache,"Adapter");
 			levelchanger.start();
 			try {
 				Thread.sleep(10000);
@@ -77,8 +77,11 @@ public class AppenderControl extends AbstractFilterable {
 			}
 			//System.out.println(messageHead + "LevelChanger start!");
 		}else if(this.appenderName.equals("Learning")){
-			phaselogger = new PhaseLogger();
-			phaselogger.start();
+			logcache = new MyLogCache();
+			levelchanger = new LevelChangerCombined(logcache,"Learning");
+			levelchanger.start();
+			//phaselogger = new PhaseLogger();
+			//phaselogger.start();
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
