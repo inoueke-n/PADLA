@@ -45,10 +45,10 @@ public class Scheduler
 
 	private static final int MILISEC_TO_NANOSEC = 1000000;
 
-	public Scheduler(String learningData, String bufferoutput, String phaseoutput,int buffer, int interval)
+	public Scheduler(String learningData, String bufferoutput, String phaseoutput,int buffer, int interval, double ep)
 	{
 		Sampler = new SampleThread();
-		Updater = new UpdateThread(learningData,bufferoutput,phaseoutput, buffer,interval);
+		Updater = new UpdateThread(learningData,bufferoutput,phaseoutput, buffer,interval, ep);
 	}
 
 	public void start()

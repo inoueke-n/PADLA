@@ -74,4 +74,11 @@ public class Message
 	public void setINTERVAL(int iNTERVAL) {
 		INTERVAL = iNTERVAL;
 	}
+
+	@org.msgpack.annotation.Index(10)
+	public double EP = 0;
+
+	public void setEP(double eP) {
+		EP = eP;
+	}
 }

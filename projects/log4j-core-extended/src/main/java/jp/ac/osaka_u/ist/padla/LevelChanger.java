@@ -32,7 +32,7 @@ import jp.naist.ogami.message.Message;
 
 public class LevelChanger extends Thread{
 	static int numOfMethods = 0;
-	static final double ep = 0.95; //Threshold used to phase detection
+	static double EP = 0; //Threshold used to phase detection
 	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
 	static String FILENAME = null;
 	static MyLogCache mylogcache = null;
@@ -72,7 +72,7 @@ public class LevelChanger extends Thread{
 			if (message.Methods != null && 0 < message.Methods.size()) {
 				try {
 					firstReceive(message);
-					learningdata = new LearningData(FILENAME,ep,numOfMethods);
+					learningdata = new LearningData(FILENAME,EP,numOfMethods);
 					if(learningdata.isInvalidLearningData()) {
 						//System.out.println(messageHead + "Exit PADLA...");
 						break;
@@ -156,7 +156,7 @@ public class LevelChanger extends Thread{
 		double innerproduct = calcInnerProduct(ps.get(), current);
 		double[] cloneCurrent = new double[numOfMethods];
 		cloneCurrent = current.clone();
-		if(innerproduct > ep) {
+		if(innerproduct > EP) {
 			ps.incCount();
 			ps.update(current);
 			if(ps.getCount() >= 2) {
@@ -187,6 +187,7 @@ public class LevelChanger extends Thread{
 		mylogcache.setOUTPUT(message.BUFFEROUTPUT);
 		mylogcache.setCACHESIZE(message.BUFFER);
 		INTERVAL = message.INTERVAL;
+		EP = message.EP;
 		//System.out.println("\n"+ messageHead + "---optionsForLevelChanger---");
 		//System.out.println(messageHead + "learningData = " + FILENAME);
 		//System.out.println(messageHead + "output = " + mylogcache.getOUTPUT());

@@ -41,10 +41,11 @@ public class UpdateThread extends Thread
   public String phaseoutput = null;
   public int buffer = 0;
   public int interval = 0;
+  public double ep = 0;
 
   private String messageHead = "[AGENT]:";
 
-  public UpdateThread(String learningData, String bufferoutput,String phaseoutput,int buffer, int interval)
+  public UpdateThread(String learningData, String bufferoutput,String phaseoutput,int buffer, int interval, double ep)
   {
     if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_FLAG) {
       debugIntervalPrinter = new IntervalPrinter(DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_TIME, "UPDATE");
@@ -55,6 +56,7 @@ public class UpdateThread extends Thread
     this.phaseoutput = phaseoutput;
     this.buffer = buffer;
     this.interval = interval;
+    this.ep = ep;
   }
 
   @Override
@@ -86,6 +88,7 @@ public class UpdateThread extends Thread
     message.setPHASEOUTPUT(phaseoutput);
     message.setBUFFER(buffer);
     message.setINTERVAL(interval);
+    message.setEP(ep);
 
     synchronized (Monitor.getInstance().Scheduler.Lock) {
       message.CurrentTime = System.currentTimeMillis();

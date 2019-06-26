@@ -39,6 +39,7 @@ public class Monitor extends Thread
 	public String phaseoutput = null;
 	public int buffer = 0;
 	public int interval = 0;
+	public double ep = 0;
 
 	private String messageHead = "[AGENT]:";
 
@@ -79,6 +80,9 @@ public class Monitor extends Thread
 			case "interval":
 				this.interval = Integer.valueOf(argumentValue);
 				break;
+			case "threshold":
+				this.ep = Double.valueOf(argumentValue);
+				break;
 			default:
 				System.out.println(messageHead + "ERROR Invalid argument:" + argumentTag);
 			}
@@ -90,8 +94,9 @@ public class Monitor extends Thread
 		System.out.println(messageHead + "phaseoutput = " + this.phaseoutput);
 		System.out.println(messageHead + "buffer = " + this.buffer);
 		System.out.println(messageHead + "interval = " + this.interval);
+		System.out.println(messageHead + "interval = " + this.ep);
 		System.out.println(messageHead + "---options---\n");
-		Scheduler = new Scheduler(learningData, bufferoutput, phaseoutput, buffer, interval);
+		Scheduler = new Scheduler(learningData, bufferoutput, phaseoutput, buffer, interval, ep);
 	}
 
 	public void run()

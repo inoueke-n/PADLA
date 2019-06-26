@@ -55,4 +55,7 @@ public class Message
 	@org.msgpack.annotation.Index(9)
 	public int INTERVAL = 0;
 
+	@org.msgpack.annotation.Index(10)
+	public double EP = 0;
+
 }

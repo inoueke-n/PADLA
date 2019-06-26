@@ -36,7 +36,7 @@ import jp.naist.ogami.message.Message;
 
 public class PhaseLogger extends Thread {
 	static int numOfMethods = 0; //
-	static final double ep = 0.95; //Threshold used to phase detection
+	static double EP = 0; //Threshold used to phase detection
 	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
 	static String OUTPUTFILENAME = null;
 	static BufferedWriter bwVector = null;
@@ -61,7 +61,7 @@ public class PhaseLogger extends Thread {
 		boolean isFirstData = true;
 		// Data receive roop
 		while (socket.isConnected()) {
-			// データを受信
+			// Data received
 			Message message = null;
 			try {
 				message = connector.read(Message.class);
@@ -131,9 +131,11 @@ public class PhaseLogger extends Thread {
 			throws UnsupportedEncodingException, FileNotFoundException, IOException, InterruptedException {
 		INTERVAL = message.INTERVAL;
 		OUTPUTFILENAME = message.PHASEOUTPUT;
+		EP = message.EP;
 		System.out.println("\n[PADLA]:---optionsForPhaseExporter---");
 		System.out.println(messageHead + "interval = " + INTERVAL);
 		System.out.println(messageHead + "output = " + OUTPUTFILENAME);
+		System.out.println(messageHead + "threshold = " + EP);
 		System.out.println(messageHead + "---optionsForPhaseExporter---\n");
 		numOfMethods = message.Methods.size();
 		System.out.println(messageHead + "Number of Methods:" + numOfMethods);
@@ -247,7 +249,7 @@ public class PhaseLogger extends Thread {
 				maxSimilarity = innerProduct;
 			}
 		}
-		if (maxSimilarity > ep) {
+		if (maxSimilarity > EP) {
 			return false;
 		}
 		return true;
