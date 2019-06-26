@@ -39,7 +39,7 @@ public class LearningData {
 
 		//forExperiment
 		try {
-			file = new FileWriter("..\\log4j2\\logs\\output.log");
+			file = new FileWriter("e:\\log4j2\\logs\\output.log");
 		} catch (IOException e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
@@ -66,7 +66,7 @@ public class LearningData {
 				if(exeTimeVector.length == numOfMethods) {
 					learningData.add(exeTimeVector);
 				}else {
-					System.out.println(messageHead + "ERROR Invalid Length of Learning Data");
+					//System.out.println(messageHead + "ERROR Invalid Length of Learning Data");
 					exitFlag = true;
 					break;
 				}
@@ -76,7 +76,7 @@ public class LearningData {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println(messageHead + "Learning data size:" + learningData.size());
+			//System.out.println(messageHead + "Learning data size:" + learningData.size());
 		}
 	}
 

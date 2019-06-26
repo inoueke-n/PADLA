@@ -32,7 +32,7 @@ import jp.naist.ogami.message.Message;
 
 public class LevelChanger extends Thread{
 	static int numOfMethods = 0;
-	static final double ep = 0.98; //Threshold used to phase detection
+	static final double ep = 0.95; //Threshold used to phase detection
 	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
 	static String FILENAME = null;
 	static MyLogCache mylogcache = null;
@@ -74,7 +74,7 @@ public class LevelChanger extends Thread{
 					firstReceive(message);
 					learningdata = new LearningData(FILENAME,ep,numOfMethods);
 					if(learningdata.isInvalidLearningData()) {
-						System.out.println(messageHead + "Exit PADLA...");
+						//System.out.println(messageHead + "Exit PADLA...");
 						break;
 					}
 
@@ -98,7 +98,7 @@ public class LevelChanger extends Thread{
 	}
 
 	private Socket connect2Agent() {
-		System.out.println(messageHead + "Waiting for Connection,,,");
+		//System.out.println(messageHead + "Waiting for Connection,,,");
 		ServerSocket server = null;
 		Socket socket = null;
 		try {
@@ -109,7 +109,7 @@ public class LevelChanger extends Thread{
 			e.printStackTrace();
 		}
 
-		System.out.println(messageHead + "Connection Complete");
+		//System.out.println(messageHead + "Connection Complete");
 		return socket;
 	}
 
@@ -132,16 +132,16 @@ public class LevelChanger extends Thread{
 		if(learningdata.isUnknownPhase(normalizedVector, numOfMethods)) {
 			if(this.isFirstLevel()) {
 				isFirstLevel = false;
-				System.out.println(messageHead + "Unknown Phase Detected!\n");
-				System.out.println(messageHead + "Logging Level Down\n↓↓↓↓↓↓↓↓");
+				//System.out.println(messageHead + "Unknown Phase Detected!\n");
+				//System.out.println(messageHead + "Logging Level Down\n↓↓↓↓↓↓↓↓");
 				mylogcache.outputLogs();
 			}
 			addLearningData(learningdata,ps,normalizedVector);
 		}else {
 			if(!this.isFirstLevel()) {
 				isFirstLevel = true;
-				System.out.println(messageHead + "Returned to Normal Phase\n");
-				System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
+				//System.out.println(messageHead + "Returned to Normal Phase\n");
+				//System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
 			}
 		}
 	}
@@ -163,8 +163,8 @@ public class LevelChanger extends Thread{
 				learningdata.add(cloneCurrent);
 				ps.refresh();
 				//isFirstLevel = true;
-				System.out.println(messageHead + "Learned\n");
-				//System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
+				//System.out.println(messageHead + "Learned\n");
+				////System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
 			}
 		}else {
 			ps.stayCount();
@@ -187,16 +187,16 @@ public class LevelChanger extends Thread{
 		mylogcache.setOUTPUT(message.BUFFEROUTPUT);
 		mylogcache.setCACHESIZE(message.BUFFER);
 		INTERVAL = message.INTERVAL;
-		System.out.println("\n"+ messageHead + "---optionsForLevelChanger---");
-		System.out.println(messageHead + "learningData = " + FILENAME);
-		System.out.println(messageHead + "output = " + mylogcache.getOUTPUT());
-		System.out.println(messageHead + "buffer = " + mylogcache.getCACHESIZE());
-		System.out.println(messageHead + "interval = " + INTERVAL);
-		System.out.println(messageHead + "---optionsForLevelChanger---\n");
+		//System.out.println("\n"+ messageHead + "---optionsForLevelChanger---");
+		//System.out.println(messageHead + "learningData = " + FILENAME);
+		//System.out.println(messageHead + "output = " + mylogcache.getOUTPUT());
+		//System.out.println(messageHead + "buffer = " + mylogcache.getCACHESIZE());
+		//System.out.println(messageHead + "interval = " + INTERVAL);
+		//System.out.println(messageHead + "---optionsForLevelChanger---\n");
 		Thread.sleep(5000);
 
 		numOfMethods = message.Methods.size();
-		System.out.println(messageHead + "Number of methods:" + numOfMethods);
+		//System.out.println(messageHead + "Number of methods:" + numOfMethods);
 	}
 
 
@@ -208,7 +208,7 @@ public class LevelChanger extends Thread{
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-				System.out.println(messageHead + "Target process finished");
+				//System.out.println(messageHead + "Target process finished");
 			}
 		});
 	}

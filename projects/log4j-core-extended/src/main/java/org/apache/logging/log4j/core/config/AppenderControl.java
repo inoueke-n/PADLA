@@ -65,7 +65,7 @@ public class AppenderControl extends AbstractFilterable {
 		this.intLevel = level == null ? Level.ALL.intLevel() : level.intLevel();
 		start();
 
-		System.out.println(messageHead + "appenderName:" + this.appenderName);
+		//System.out.println(messageHead + "appenderName:" + this.appenderName);
 		if(this.appenderName.equals("Adapter")) {
 			logcache = new MyLogCache();
 			levelchanger = new LevelChanger(logcache);
@@ -75,7 +75,7 @@ public class AppenderControl extends AbstractFilterable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.println(messageHead + "LevelChanger start!");
+			//System.out.println(messageHead + "LevelChanger start!");
 		}else if(this.appenderName.equals("Learning")){
 			phaselogger = new PhaseLogger();
 			phaselogger.start();
@@ -84,7 +84,7 @@ public class AppenderControl extends AbstractFilterable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.println(messageHead + "PhaseLogger start!");
+			//System.out.println(messageHead + "PhaseLogger start!");
 
 		}
 	}
