@@ -32,7 +32,6 @@ import org.apache.logging.log4j.util.PerformanceSensitive;
 
 import jp.ac.osaka_u.ist.padla.LevelChangerCombined;
 import jp.ac.osaka_u.ist.padla.MyLogCache;
-import jp.ac.osaka_u.ist.padla.PhaseLogger;
 
 /**
  * Wraps an {@link Appender} with details an appender implementation shouldn't need to know about.
@@ -47,7 +46,6 @@ public class AppenderControl extends AbstractFilterable {
 
 	MyLogCache logcache = null;
 	LevelChangerCombined levelchanger = null;
-	PhaseLogger phaselogger = null;
 
 	private final String messageHead = "[LOG4JCORE-EXTENDED]:";
 	/**
@@ -80,8 +78,6 @@ public class AppenderControl extends AbstractFilterable {
 			logcache = new MyLogCache();
 			levelchanger = new LevelChangerCombined(logcache,"Learning");
 			levelchanger.start();
-			//phaselogger = new PhaseLogger();
-			//phaselogger.start();
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
