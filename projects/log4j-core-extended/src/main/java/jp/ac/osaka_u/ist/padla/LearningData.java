@@ -32,12 +32,14 @@ public class LearningData {
 	private boolean exitFlag = false;
 	FileWriter file = null;
 	static boolean ISDEBUG = false;
+	static String MODE = null;
 
 	private final String messageHead = "[LOG4JCORE-EXTENDED]:";
 
-	public LearningData(String filename, double EP, int numOfMethods,boolean isDebug) throws FileNotFoundException {
+	public LearningData(String filename, double EP, int numOfMethods,boolean isDebug, String mode) throws FileNotFoundException {
 		ep = EP;
 		ISDEBUG = isDebug;
+		MODE = mode;
 		//forExperiment
 		try {
 			file = new FileWriter("e:\\log4j2\\logs\\output.log");
@@ -45,42 +47,55 @@ public class LearningData {
 			e1.printStackTrace();
 		}
 		//
-		if(filename != null) {
-			File learningDataFile = new File(filename);
-			BufferedReader learningDataBr = new BufferedReader(new FileReader(learningDataFile));
-			for (;;) {
-				String text = null;
-				try {
-					text = learningDataBr.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				if (text == null)
-					break;
-				String textWithoutBracket = text.substring(1, text.length() - 1);
-				String[] exeTimeVectorString = textWithoutBracket.split(",", 0);
-				double[] exeTimeVector = new double[exeTimeVectorString.length];
-				for (int i = 0; i < exeTimeVector.length; i++) {
-					exeTimeVector[i] = Double.parseDouble(exeTimeVectorString[i]);
-				}
-				if(exeTimeVector.length == numOfMethods) {
-					learningData.add(exeTimeVector);
-				}else {
-						System.out.println(messageHead + "ERROR Invalid Length of Learning Data");
-					exitFlag = true;
-					break;
-				}
-			}
+		if(MODE.equals("Adapter") && filename != null) {
+			loadLearningDataFile(filename, numOfMethods);
+		}
+	}
+
+
+
+	/**
+	 * Load Learning Data from "filename" to "List<double[]> learningData"
+	 * @param filename
+	 * @param numOfMethods
+	 * @throws FileNotFoundException
+	 */
+	private void loadLearningDataFile(String filename, int numOfMethods) throws FileNotFoundException {
+		File learningDataFile = new File(filename);
+		BufferedReader learningDataBr = new BufferedReader(new FileReader(learningDataFile));
+		for (;;) {
+			String text = null;
 			try {
-				learningDataBr.close();
+				text = learningDataBr.readLine();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if(ISDEBUG) {
-				System.out.println(messageHead + "Learning data size:" + learningData.size());
+			if (text == null)
+				break;
+			String textWithoutBracket = text.substring(1, text.length() - 1);
+			String[] exeTimeVectorString = textWithoutBracket.split(",", 0);
+			double[] exeTimeVector = new double[exeTimeVectorString.length];
+			for (int i = 0; i < exeTimeVector.length; i++) {
+				exeTimeVector[i] = Double.parseDouble(exeTimeVectorString[i]);
+			}
+			if(exeTimeVector.length == numOfMethods) {
+				learningData.add(exeTimeVector);
+			}else {
+				System.out.println(messageHead + "ERROR Invalid Length of Learning Data");
+				exitFlag = true;
+				break;
 			}
 		}
+		try {
+			learningDataBr.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(ISDEBUG) {
+			System.out.println(messageHead + "Learning data size:" + learningData.size());
+		}
 	}
+
 
 
 	public boolean isInvalidLearningData() {
@@ -127,23 +142,21 @@ public class LearningData {
 			}
 		}
 		if(maxSimilarity > ep) {
-	        //forExperiment
+			//forExperiment
 			try {
 				file.write(messageHead + "Sim: " + maxSimilarity + "  phaseNum: " + phaseNum +" <Known phase>\n" );
 				file.flush();
 			} catch (IOException e) {
-				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
 			//
 			return false;
 		}
-        //forExperiment
+		//forExperiment
 		try {
 			file.write(messageHead + "Sim: " + maxSimilarity + "  phaseNum: " + phaseNum +" <Unknown phase>\n" );
 			file.flush();
 		} catch (IOException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 		//
