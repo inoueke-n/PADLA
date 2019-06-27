@@ -40,6 +40,7 @@ public class Monitor extends Thread
 	public int buffer = 0;
 	public int interval = 0;
 	public double ep = 0;
+	public boolean isDebug = false;
 
 	private String messageHead = "[AGENT]:";
 
@@ -83,6 +84,11 @@ public class Monitor extends Thread
 			case "threshold":
 				this.ep = Double.valueOf(argumentValue);
 				break;
+			case "isDebug":
+				if(Integer.valueOf(argumentValue) == 1) {
+					this.isDebug = true;
+				}
+				break;
 			default:
 				System.out.println(messageHead + "ERROR Invalid argument:" + argumentTag);
 			}
@@ -95,8 +101,13 @@ public class Monitor extends Thread
 		System.out.println(messageHead + "buffer = " + this.buffer);
 		System.out.println(messageHead + "interval = " + this.interval);
 		System.out.println(messageHead + "threshold = " + this.ep);
+		if(this.isDebug) {
+			System.out.println(messageHead + "isDebug = true");
+		}else {
+			System.out.println(messageHead + "isDebug = false");
+		}
 		System.out.println(messageHead + "---options---\n");
-		Scheduler = new Scheduler(learningData, bufferoutput, phaseoutput, buffer, interval, ep);
+		Scheduler = new Scheduler(learningData, bufferoutput, phaseoutput, buffer, interval, ep, isDebug);
 	}
 
 	public void run()

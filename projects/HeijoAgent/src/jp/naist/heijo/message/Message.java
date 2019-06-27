@@ -81,4 +81,11 @@ public class Message
 	public void setEP(double eP) {
 		EP = eP;
 	}
+
+	@org.msgpack.annotation.Index(11)
+	public boolean ISDEBUG = false;
+
+	public void setIsDebug(boolean isDebug) {
+		ISDEBUG = isDebug;
+	}
 }

@@ -41,7 +41,6 @@ public class LearningData {
 		try {
 			file = new FileWriter("e:\\log4j2\\logs\\output.log");
 		} catch (IOException e1) {
-			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
 		//
