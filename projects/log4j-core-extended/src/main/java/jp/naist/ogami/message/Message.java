@@ -58,4 +58,8 @@ public class Message
 	@org.msgpack.annotation.Index(10)
 	public double EP = 0;
 
+	@org.msgpack.annotation.Index(11)
+	public boolean ISDEBUG = false;
+
+
 }

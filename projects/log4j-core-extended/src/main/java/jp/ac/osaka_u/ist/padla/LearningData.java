@@ -31,12 +31,13 @@ public class LearningData {
 	double ep = 0;
 	private boolean exitFlag = false;
 	FileWriter file = null;
+	static boolean ISDEBUG = false;
 
 	private final String messageHead = "[LOG4JCORE-EXTENDED]:";
 
-	public LearningData(String filename, double EP, int numOfMethods) throws FileNotFoundException {
+	public LearningData(String filename, double EP, int numOfMethods,boolean isDebug) throws FileNotFoundException {
 		ep = EP;
-
+		ISDEBUG = isDebug;
 		//forExperiment
 		try {
 			file = new FileWriter("e:\\log4j2\\logs\\output.log");
@@ -65,7 +66,7 @@ public class LearningData {
 				if(exeTimeVector.length == numOfMethods) {
 					learningData.add(exeTimeVector);
 				}else {
-					//System.out.println(messageHead + "ERROR Invalid Length of Learning Data");
+						System.out.println(messageHead + "ERROR Invalid Length of Learning Data");
 					exitFlag = true;
 					break;
 				}
@@ -75,7 +76,9 @@ public class LearningData {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			//System.out.println(messageHead + "Learning data size:" + learningData.size());
+			if(ISDEBUG) {
+				System.out.println(messageHead + "Learning data size:" + learningData.size());
+			}
 		}
 	}
 
