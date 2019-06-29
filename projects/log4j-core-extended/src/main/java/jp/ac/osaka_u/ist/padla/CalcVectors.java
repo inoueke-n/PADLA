@@ -3,10 +3,8 @@ package jp.ac.osaka_u.ist.padla;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class CalcVectors {
-	
-
-
 	/**
 	 * Compare vec with learningData and return false if the similarity is above threshold, otherwise return true
 	 * If vec and learningData are both zero vector, the similarity is 1
@@ -16,9 +14,11 @@ public class CalcVectors {
 	 * @param EP
 	 * @return
 	 */
-	public boolean isUnknownPhase(double[] vec, List<double[]> prevVectors, int numOfMethods, double EP) {
+	public ResultOfPhaseDetection isUnknownPhase(double[] vec, List<double[]> prevVectors, int numOfMethods, double EP) {
 		double maxSimilarity = 0;
 		double innerProduct = 0;
+		int phaseNum = 0;
+		ResultOfPhaseDetection result = new ResultOfPhaseDetection();
 
 		for (int i = 0; i < prevVectors.size(); i++) {
 			innerProduct = calcInnerProduct(vec, prevVectors.get(i), numOfMethods);
@@ -35,12 +35,19 @@ public class CalcVectors {
 			}
 			if (innerProduct > maxSimilarity) {
 				maxSimilarity = innerProduct;
+				phaseNum = i;
 			}
 		}
 		if (maxSimilarity > EP) {
-			return false;
+			result.setMaxSimilarity(maxSimilarity);
+			result.setPhaseNum(phaseNum);
+			result.setUnknownPhase(false);
+			return result;
 		}
-		return true;
+		result.setMaxSimilarity(maxSimilarity);
+		result.setPhaseNum(phaseNum);
+		result.setUnknownPhase(true);
+		return result;
 	}
 	
 	/**

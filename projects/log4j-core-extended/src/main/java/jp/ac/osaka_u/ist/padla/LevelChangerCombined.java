@@ -19,10 +19,8 @@ package jp.ac.osaka_u.ist.padla;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -43,10 +41,11 @@ public class LevelChangerCombined extends Thread{
 	static String MODE = null;
 	static String OUTPUTFILENAME = null;
 	static BufferedWriter bwVector = null;
+	static FileWriter file = null;
 	static boolean ISDEBUG = false;
 	static String DEBUGLOGOUTPUT = null;
 	List<double[]> samplingData = new ArrayList<double[]>();
-	
+
 	static DebugMessage debugmessage = null;
 	static CalcVectors calc = new CalcVectors();
 	static VectorOfAnInterval vec = new VectorOfAnInterval();
@@ -59,40 +58,32 @@ public class LevelChangerCombined extends Thread{
 
 	public void run() {
 		LearningData learningdata = null;
-
+		PrevState ps = null;
 		Socket socket = connect2Agent();
-
 		Connector connector = new Connector(socket);
 		List<ExeTimeJson> exeTimeJsons = new LinkedList<>();
-
-
 		boolean isFirstData = true;
-		PrevState ps = null;
-
+		
 		closeOnExit(exeTimeJsons);
-
 		// Data receive roop
 		while (socket.isConnected()) {
 			Message message = null;
-
 			try {
 				message = connector.read(Message.class);
 			} catch (Exception e) {
 				System.err.println("Cannot recieve");
 				break;
 			}
-
 			// Data receive (first)
 			if (message.Methods != null && 0 < message.Methods.size()) {
 				try {
 					firstReceive(message);
-					learningdata = new LearningData(FILENAME,EP,vec.getNumOfMethods(),ISDEBUG, MODE, DEBUGLOGOUTPUT);
+					learningdata = new LearningData(FILENAME,EP,vec.getNumOfMethods(),ISDEBUG, MODE);
 					if(learningdata.isInvalidLearningData()) {
-							debugmessage.print("Exit PADLA...");
+						debugmessage.print("Exit PADLA...");
 						break;
 					}
-
-				} catch (InterruptedException | IOException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				ps = new PrevState();
@@ -104,7 +95,7 @@ public class LevelChangerCombined extends Thread{
 				vec.incCountSamaple();
 				if(vec.getCountSample() == INTERVAL) {
 					vec.setNormalizedVector(calc.normalizeVector(vec.getSumOfVectors(), vec.getNumOfMethods()));
-					if (isFirstData || calc.isUnknownPhase(vec.getNormalizedVector(),samplingData,vec.getNumOfMethods(),EP)) {
+					if (isFirstData || calc.isUnknownPhase(vec.getNormalizedVector(),samplingData,vec.getNumOfMethods(),EP).isUnknownPhase()) {
 						try {
 							addSamplingData(vec.getNormalizedVector());
 							if(MODE.equals("Learning")) {
@@ -117,7 +108,7 @@ public class LevelChangerCombined extends Thread{
 						isFirstData = false;
 					}
 					vec.resetCountSample();
-					setLogLevel(learningdata, vec.getNormalizedVector(), ps);
+					adaptLogLevel(learningdata, vec.getNormalizedVector(), ps);
 					calc.initArray(vec.getSumOfVectors());
 					calc.initArray(vec.getNormalizedVector());
 				}
@@ -153,18 +144,21 @@ public class LevelChangerCombined extends Thread{
 
 
 	/**
-	 * It check whether sumOfVectors is known or unknown and change "isFirstLevel" flag
+	 * Check whether vectors is known or unknown and change "isFirstLevel" flag
 	 * @param learningdata
 	 * @param vectors
 	 * @param ps
 	 */
-	private void setLogLevel(LearningData learningdata, double[] vectors, PrevState ps) {
+	private void adaptLogLevel(LearningData learningdata, double[] vectors, PrevState ps) {
+		ResultOfPhaseDetection result = new ResultOfPhaseDetection();
+		result = calc.isUnknownPhase(vectors,learningdata.getLearningData(),vec.getNumOfMethods(),EP);
 		//Compare to learningData
-		if(learningdata.isUnknownPhase(vectors, vec.getNumOfMethods())) {
+		if(result.isUnknownPhase()) {
+			outputDebugLog(result, " <Unknown phase>\n");
 			if(this.isFirstLevel()) {
 				isFirstLevel = false;
-					debugmessage.printOnDebug("Unknown Phase Detected!\n");
-					debugmessage.printOnDebug("Logging Level Down\n↓↓↓↓↓↓↓↓");
+				debugmessage.printOnDebug("Unknown Phase Detected!\n");
+				debugmessage.printOnDebug("Logging Level Down\n↓↓↓↓↓↓↓↓");
 				if(MODE .equals("Adapter")) {
 					mylogcache.outputLogs();
 				}
@@ -173,11 +167,23 @@ public class LevelChangerCombined extends Thread{
 				addLearningData(learningdata,ps,vectors);
 			}
 		}else {
+			outputDebugLog(result, " <Known phase>\n");
 			if(!this.isFirstLevel()) {
 				isFirstLevel = true;
-					debugmessage.printOnDebug("Returned to Normal Phase\n");
-					debugmessage.printOnDebug("Logging Level Up\n↑↑↑↑↑↑↑↑");
+				debugmessage.printOnDebug("Returned to Normal Phase\n");
+				debugmessage.printOnDebug("Logging Level Up\n↑↑↑↑↑↑↑↑");
 			}
+		}
+	}
+
+	private void outputDebugLog(ResultOfPhaseDetection result, String phase) {
+		try {
+			if(file != null) {
+				file.write(debugmessage.getMessagehead() + "Sim: " + result.getMaxSimilarity() + "  phaseNum: " + result.getPhaseNum() + phase);
+				file.flush();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -190,9 +196,9 @@ public class LevelChangerCombined extends Thread{
 	private static void addLearningData(LearningData learningdata, PrevState ps, double[] current) {
 		double[] cloneCurrent = new double[vec.getNumOfMethods()];
 		cloneCurrent = current.clone();
-		learningdata.add(cloneCurrent);
+		learningdata.getLearningData().add(cloneCurrent);
 		ps.refresh();
-			debugmessage.printOnDebug("Learned\n");
+		debugmessage.printOnDebug("Learned\n");
 	}
 
 	/**
@@ -218,15 +224,10 @@ public class LevelChangerCombined extends Thread{
 	}
 
 	/**
-	 * It extracts options from message
+	 * Extract options from message
 	 * @param message
-	 * @throws UnsupportedEncodingException
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws InterruptedException
 	 */
-	private static void firstReceive(Message message)
-			throws UnsupportedEncodingException, FileNotFoundException, IOException, InterruptedException {
+	private static void firstReceive(Message message) {
 		FILENAME = message.LEARNINGDATA;
 		mylogcache.setOUTPUT(message.BUFFEROUTPUT);
 		mylogcache.setCACHESIZE(message.BUFFER);
@@ -236,25 +237,12 @@ public class LevelChangerCombined extends Thread{
 		OUTPUTFILENAME = message.PHASEOUTPUT;
 		DEBUGLOGOUTPUT = message.DEBUGLOGOUTPUT;
 		debugmessage.setISDEBUG(ISDEBUG);
-		
-
-		//Thread.sleep(5000);
-
 		vec.setNumOfMethods(message.Methods.size());
-			debugmessage.printOnDebug("\n"+ "---optionsForLevelChanger---");
-			debugmessage.printOnDebug("learningData = " + FILENAME);
-			debugmessage.printOnDebug("output = " + mylogcache.getOUTPUT());
-			debugmessage.printOnDebug("buffer = " + mylogcache.getCACHESIZE());
-			debugmessage.printOnDebug("interval = " + INTERVAL);
-			debugmessage.printOnDebug("threshold = " + EP);
-			debugmessage.printOnDebug("debugLogOutput = " + DEBUGLOGOUTPUT);
-			if(ISDEBUG) {
-				debugmessage.printOnDebug("isDebug = true");
-			}else {
-				debugmessage.printOnDebug("isDebug = false");
-			}
-			debugmessage.printOnDebug("---optionsForLevelChanger---\n");
-			debugmessage.printOnDebug("Number of methods:" + vec.getNumOfMethods());
+		printDebugMessages();
+		openOutputFiles();
+	}
+
+	private static void openOutputFiles() {
 		if(OUTPUTFILENAME != null) {
 			if(MODE.equals("Learning")) {
 				try {
@@ -265,6 +253,30 @@ public class LevelChangerCombined extends Thread{
 
 			}
 		}
+		if(DEBUGLOGOUTPUT != null) {
+			try {
+				file = new FileWriter(DEBUGLOGOUTPUT);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	private static void printDebugMessages() {
+		debugmessage.printOnDebug("\n"+ "---optionsForLevelChanger---");
+		debugmessage.printOnDebug("learningData = " + FILENAME);
+		debugmessage.printOnDebug("output = " + mylogcache.getOUTPUT());
+		debugmessage.printOnDebug("buffer = " + mylogcache.getCACHESIZE());
+		debugmessage.printOnDebug("interval = " + INTERVAL);
+		debugmessage.printOnDebug("threshold = " + EP);
+		debugmessage.printOnDebug("debugLogOutput = " + DEBUGLOGOUTPUT);
+		if(ISDEBUG) {
+			debugmessage.printOnDebug("isDebug = true");
+		}else {
+			debugmessage.printOnDebug("isDebug = false");
+		}
+		debugmessage.printOnDebug("---optionsForLevelChanger---\n");
+		debugmessage.printOnDebug("Number of methods:" + vec.getNumOfMethods());
 	}
 
 
@@ -276,7 +288,7 @@ public class LevelChangerCombined extends Thread{
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-					debugmessage.printOnDebug("Target process finished");
+				debugmessage.printOnDebug("Target process finished");
 			}
 		});
 	}
