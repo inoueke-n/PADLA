@@ -19,6 +19,7 @@ package jp.naist.heijo;
 
 import java.io.IOException;
 
+import jp.ac.osaka_u.padla.AgentMessage;
 import jp.ac.osaka_u.padla.Options;
 import jp.naist.heijo.debug.DebugValue;
 import jp.naist.heijo.timer.Scheduler;
@@ -33,7 +34,7 @@ public class Monitor extends Thread
 	public Connector Connector = new Connector();
 	public Scheduler Scheduler = null;
 	public String[] args = null;
-	private String messageHead = "[AGENT]:";
+	private AgentMessage agentmessage = new AgentMessage();
 	private static Monitor instance = null;
 	public Options options = null;
 
@@ -46,7 +47,7 @@ public class Monitor extends Thread
 
 	public void setArgs(String option) {
 		if(option == null) {
-			System.out.println(messageHead + "ERROR No option");
+			agentmessage.print("ERROR No option");
 			System.exit(0);
 		}
 		this.args = option.split(",",0);
@@ -58,7 +59,7 @@ public class Monitor extends Thread
 				options = new Options(argumentValue);
 				break;
 			default:
-				System.out.println(messageHead + "ERROR Invalid argument:" + argumentTag);
+				agentmessage.print("ERROR Invalid argument:" + argumentTag);
 			}
 		}
 		Scheduler = new Scheduler(options);
@@ -72,7 +73,7 @@ public class Monitor extends Thread
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
 		}
-		System.out.println(messageHead + "Setting agent...");
+		agentmessage.print("Setting agent...");
 
 		boolean success = true;
 
@@ -90,7 +91,7 @@ public class Monitor extends Thread
 				try {
 					getInstance().Connector.connect(getInstance().Config.Host, getInstance().Config.Port);
 				} catch (Exception e) {
-					System.err.println(messageHead + "Failed to connect " + getInstance().Config.Host + ":" + getInstance().Config.Port);
+					agentmessage.printerr("Failed to connect " + getInstance().Config.Host + ":" + getInstance().Config.Port);
 					success = false;
 					break;
 				}
@@ -103,7 +104,7 @@ public class Monitor extends Thread
 			try {
 				getInstance().StructureDB.collectFromClassPath();
 			} catch (IOException e) {
-				System.out.println(messageHead + "Failed to access to class files");
+				agentmessage.print("Failed to access to class files");
 				if (!(DebugValue.DEBUG_FLAG && DebugValue.DEBUG_NO_CONNECT)) {
 					getInstance().Connector.close();
 				}
@@ -114,7 +115,7 @@ public class Monitor extends Thread
 		} while (false);
 
 		if (success) {
-			System.out.println(messageHead + "Succeeded to set agent");
+			agentmessage.print("Succeeded to set agent");
 			getInstance().Scheduler.start();
 		}
 	}

@@ -103,7 +103,7 @@ public class Options {
 		this.debugLogOutput = debugLogOutput;
 	}
 
-	private String messageHead = "[AGENT]:";
+	private AgentMessage agentmessage = new AgentMessage();
 	
 	public Options(String optionfile) {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -156,26 +156,27 @@ public class Options {
 				this.setDebugLogOutput(option.getAttribute("value"));
 				break;
 			default:
-				System.out.println(messageHead + "ERROR Invalid argument:" + option.getAttribute("type"));
+				agentmessage.print("ERROR Invalid argument:" + option.getAttribute("type"));
 			}
 		}
 		
-		System.out.println("\n" + messageHead + "---options---");
-		System.out.println(messageHead + "target = " + this.getTarget());
-		System.out.println(messageHead + "learningData = " + this.getLearningData());
-		System.out.println(messageHead + "bufferoutput = " + this.getBufferoutput());
-		System.out.println(messageHead + "phaseoutput = " + this.getPhaseoutput());
-		System.out.println(messageHead + "buffer = " + this.getBuffer());
-		System.out.println(messageHead + "interval = " + this.getInterval());
-		System.out.println(messageHead + "threshold = " + this.getEp());
+		System.out.println();
+		agentmessage.print("---options---");
+		agentmessage.print("target = " + this.getTarget());
+		agentmessage.print("learningData = " + this.getLearningData());
+		agentmessage.print("bufferoutput = " + this.getBufferoutput());
+		agentmessage.print("phaseoutput = " + this.getPhaseoutput());
+		agentmessage.print("buffer = " + this.getBuffer());
+		agentmessage.print("interval = " + this.getInterval());
+		agentmessage.print("threshold = " + this.getEp());
 		if(this.isDebug()) {
-			System.out.println(messageHead + "isDebug = true");
+			agentmessage.print("isDebug = true");
 		}else {
-			System.out.println(messageHead + "isDebug = false");
+			agentmessage.print("isDebug = false");
 		}
-		System.out.println(messageHead + "agentWaitingTime = " + this.getAgentWaitingTime());
-		System.out.println(messageHead + "debugLogOutput = " + this.getDebugLogOutput());
-		System.out.println(messageHead + "---options---\n");
+		agentmessage.print("agentWaitingTime = " + this.getAgentWaitingTime());
+		agentmessage.print("debugLogOutput = " + this.getDebugLogOutput());
+		agentmessage.print("---options---\n");
 
 	}
 }

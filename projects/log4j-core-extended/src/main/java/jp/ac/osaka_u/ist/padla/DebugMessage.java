@@ -35,10 +35,3 @@ public class DebugMessage {
 	}
 }
 
-//public void print(String ... args) {
-//	System.out.print(messageHead);
-//	for(String s: args) {
-//		System.out.print(s);
-//	}
-//	System.out.println();
-//}
