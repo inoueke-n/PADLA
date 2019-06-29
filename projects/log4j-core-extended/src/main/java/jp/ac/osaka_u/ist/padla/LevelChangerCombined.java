@@ -35,7 +35,6 @@ import jp.naist.ogami.json.ExeTimeJson;
 import jp.naist.ogami.message.Message;
 
 public class LevelChangerCombined extends Thread{
-	static int numOfMethods = 0;
 	static double EP = 0; //Threshold used to phase detection
 	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
 	static String FILENAME = null;
@@ -49,6 +48,8 @@ public class LevelChangerCombined extends Thread{
 	List<double[]> samplingData = new ArrayList<double[]>();
 	
 	static DebugMessage debugmessage = null;
+	static CalcVectors calc = new CalcVectors();
+	static VectorOfAnInterval vec = new VectorOfAnInterval();
 
 	public LevelChangerCombined(MyLogCache logCache, String mode) {
 		mylogcache = logCache;
@@ -66,9 +67,6 @@ public class LevelChangerCombined extends Thread{
 
 
 		boolean isFirstData = true;
-		int countOfSample = 0;
-		double[] sumOfVectors = null;
-		double[] normalizedVector = null;
 		PrevState ps = null;
 
 		closeOnExit(exeTimeJsons);
@@ -88,31 +86,29 @@ public class LevelChangerCombined extends Thread{
 			if (message.Methods != null && 0 < message.Methods.size()) {
 				try {
 					firstReceive(message);
-					learningdata = new LearningData(FILENAME,EP,numOfMethods,ISDEBUG, MODE, DEBUGLOGOUTPUT);
+					learningdata = new LearningData(FILENAME,EP,vec.getNumOfMethods(),ISDEBUG, MODE, DEBUGLOGOUTPUT);
 					if(learningdata.isInvalidLearningData()) {
-							debugmessage.printOnDebug("Exit PADLA...");
+							debugmessage.print("Exit PADLA...");
 						break;
 					}
 
 				} catch (InterruptedException | IOException e) {
 					e.printStackTrace();
 				}
-				sumOfVectors = new double[numOfMethods];
-				normalizedVector= new double[numOfMethods];
 				ps = new PrevState();
 			}
 
 			// Data receive (after the second time)
 			if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
-				sumOfVectors =  addSamplingDataToSumOfVectors(message, sumOfVectors);
-				countOfSample++;
-				if(countOfSample == INTERVAL) {
-					normalizedVector = normalizeVector(sumOfVectors);
-					if (isFirstData || isUnknownPhase(normalizedVector)) {
+				vec.setSumOfVectors(addSamplingDataToSumOfVectors(message, vec.getSumOfVectors()));
+				vec.incCountSamaple();
+				if(vec.getCountSample() == INTERVAL) {
+					vec.setNormalizedVector(calc.normalizeVector(vec.getSumOfVectors(), vec.getNumOfMethods()));
+					if (isFirstData || calc.isUnknownPhase(vec.getNormalizedVector(),samplingData,vec.getNumOfMethods(),EP)) {
 						try {
-							addSamplingData(normalizedVector);
+							addSamplingData(vec.getNormalizedVector());
 							if(MODE.equals("Learning")) {
-								bwVector.write(Arrays.toString(normalizedVector) + "\n");
+								bwVector.write(Arrays.toString(vec.getNormalizedVector()) + "\n");
 								bwVector.flush();
 							}
 						} catch (IOException e) {
@@ -120,17 +116,17 @@ public class LevelChangerCombined extends Thread{
 						}
 						isFirstData = false;
 					}
-					countOfSample = 0;
-					setLogLevel(learningdata, normalizedVector, ps);
-					initArray(sumOfVectors);
-					initArray(normalizedVector);
+					vec.resetCountSample();
+					setLogLevel(learningdata, vec.getNormalizedVector(), ps);
+					calc.initArray(vec.getSumOfVectors());
+					calc.initArray(vec.getNormalizedVector());
 				}
 			}
 		}
 	}
 
 	private void addSamplingData(double[] vector) {
-		double[] cloneVector = new double[numOfMethods];
+		double[] cloneVector = new double[vec.getNumOfMethods()];
 		cloneVector = vector.clone();
 		samplingData.add(cloneVector);
 	}
@@ -164,7 +160,7 @@ public class LevelChangerCombined extends Thread{
 	 */
 	private void setLogLevel(LearningData learningdata, double[] vectors, PrevState ps) {
 		//Compare to learningData
-		if(learningdata.isUnknownPhase(vectors, numOfMethods)) {
+		if(learningdata.isUnknownPhase(vectors, vec.getNumOfMethods())) {
 			if(this.isFirstLevel()) {
 				isFirstLevel = false;
 					debugmessage.printOnDebug("Unknown Phase Detected!\n");
@@ -192,7 +188,7 @@ public class LevelChangerCombined extends Thread{
 	 * @param current
 	 */
 	private static void addLearningData(LearningData learningdata, PrevState ps, double[] current) {
-		double[] cloneCurrent = new double[numOfMethods];
+		double[] cloneCurrent = new double[vec.getNumOfMethods()];
 		cloneCurrent = current.clone();
 		learningdata.add(cloneCurrent);
 		ps.refresh();
@@ -206,7 +202,7 @@ public class LevelChangerCombined extends Thread{
 	 * @return
 	 */
 	private static boolean continuesIn2Intervals(PrevState ps, double[] current) {
-		double innerproduct = calcInnerProduct(ps.get(), current);
+		double innerproduct = calc.calcInnerProduct(ps.get(), current, vec.getNumOfMethods());
 		if(innerproduct > EP) {
 			ps.incCount();
 			ps.update(current);
@@ -244,7 +240,7 @@ public class LevelChangerCombined extends Thread{
 
 		//Thread.sleep(5000);
 
-		numOfMethods = message.Methods.size();
+		vec.setNumOfMethods(message.Methods.size());
 			debugmessage.printOnDebug("\n"+ "---optionsForLevelChanger---");
 			debugmessage.printOnDebug("learningData = " + FILENAME);
 			debugmessage.printOnDebug("output = " + mylogcache.getOUTPUT());
@@ -258,7 +254,7 @@ public class LevelChangerCombined extends Thread{
 				debugmessage.printOnDebug("isDebug = false");
 			}
 			debugmessage.printOnDebug("---optionsForLevelChanger---\n");
-			debugmessage.printOnDebug("Number of methods:" + numOfMethods);
+			debugmessage.printOnDebug("Number of methods:" + vec.getNumOfMethods());
 		if(OUTPUTFILENAME != null) {
 			if(MODE.equals("Learning")) {
 				try {
@@ -292,9 +288,9 @@ public class LevelChangerCombined extends Thread{
 	 * @return
 	 */
 	static double[] addSamplingDataToSumOfVectors(Message message, double[] sumOfVectors) {
-		double[] tmpArray = new double[numOfMethods];
+		double[] tmpArray = new double[vec.getNumOfMethods()];
 
-		initArray(tmpArray);
+		calc.initArray(tmpArray);
 
 		for (int index = 0; index < message.ExeTimes.size(); index++) {
 			if (tmpArray[message.ExeTimes.get(index).MethodID] < message.ExeTimes.get(index).ExeTime) { //If the method ID is the same but the thread ID is different, use the longer execution time
@@ -302,7 +298,7 @@ public class LevelChangerCombined extends Thread{
 			}
 		}
 
-		for (int i = 0; i < numOfMethods; i++) {
+		for (int i = 0; i < vec.getNumOfMethods(); i++) {
 			sumOfVectors[i] += tmpArray[i];
 		}
 
@@ -310,96 +306,13 @@ public class LevelChangerCombined extends Thread{
 	}
 
 
-	/**
-	 * It returns normalized vector
-	 * @param vector
-	 * @return
-	 */
-	static double[] normalizeVector(double[] vector) {
-		double[] normalizedVector = new double[numOfMethods];
-		double normOfVector = 0;
-
-		initArray(normalizedVector);
-
-		// calculate norm of the vector
-		for (int i = 0; i < numOfMethods; i++) {
-			normOfVector += vector[i] * vector[i];
-		}
-		normOfVector = Math.sqrt(normOfVector);
-
-		for (int i = 0; i < numOfMethods; i++) {
-			if (normOfVector != 0) {
-				normalizedVector[i] = vector[i] / normOfVector;
-			}
-		}
-
-		return normalizedVector;
-	}
-
-	/**
-	 * It initializes array
-	 * @param array
-	 */
-	static void initArray(double[] array) {
-		Arrays.fill(array, 0.0);
-	}
-
-	/**
-	 * It returns inner product of two vectors(array1 and array2)
-	 * @param array1
-	 * @param array2
-	 * @return
-	 */
-	static double calcInnerProduct(double[] array1, double[] array2) {
-		double innerProduct = 0;
-
-		for (int i = 0; i < numOfMethods; i++) {
-			innerProduct += array1[i] * array2[i];
-		}
-
-		return innerProduct;
-	}
-
-	/**
-	 * It compare vec with learningData and return false if the similarity is above threshold, otherwise return true
-	 * If vec and learningData are both zero vector, the similarity is 1
-	 * @param vec
-	 * @param numOfMethods
-	 * @return
-	 */
-	public boolean isUnknownPhase(double[] vec) {
-		double maxSimilarity = 0;
-		double innerProduct = 0;
-
-		for (int i = 0; i < samplingData.size(); i++) {
-			innerProduct = calcInnerProduct(vec, samplingData.get(i));
-			if (innerProduct == 0.0) {
-				double sum = 0.0;
-				for (double v : vec) {
-					sum += v;
-				}
-				for (int j = 0; j < vec.length; j++) {
-					sum += samplingData.get(i)[j];
-				}
-				if (sum == 0.0)
-					innerProduct = 1;
-			}
-			if (innerProduct > maxSimilarity) {
-				maxSimilarity = innerProduct;
-			}
-		}
-		if (maxSimilarity > EP) {
-			return false;
-		}
-		return true;
-	}
 
 	public static class PrevState {
 		private double[] prev;
 		private int count;
 
 		public PrevState() {
-			prev = new double[numOfMethods];
+			prev = new double[vec.getNumOfMethods()];
 			refresh();
 		}
 
@@ -411,7 +324,7 @@ public class LevelChangerCombined extends Thread{
 		}
 
 		public void refresh() {
-			initArray(prev);
+			calc.initArray(prev);
 			count = 0;
 		}
 

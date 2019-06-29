@@ -35,19 +35,24 @@ public class LearningData {
 	static String MODE = null;
 
 	static DebugMessage debugmessage = null;
+	
+	static CalcVectors calcvectors = null;
+	static VectorOfAnInterval vecofaninterval = null;
 
 	public LearningData(String filename, double EP, int numOfMethods,boolean isDebug, String mode, String debugLogOutput) throws FileNotFoundException {
 		ep = EP;
 		ISDEBUG = isDebug;
 		MODE = mode;
-		
+
 		debugmessage = new DebugMessage();
 		debugmessage.setISDEBUG(ISDEBUG);
 		//forExperiment
-		try {
-			file = new FileWriter(debugLogOutput);
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		if(debugLogOutput != null) {
+			try {
+				file = new FileWriter(debugLogOutput);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		//
 		if(MODE.equals("Adapter") && filename != null) {
@@ -94,7 +99,7 @@ public class LearningData {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			debugmessage.printOnDebug("Learning data size:" + learningData.size());
+		debugmessage.printOnDebug("Learning data size:" + learningData.size());
 	}
 
 
