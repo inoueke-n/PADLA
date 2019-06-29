@@ -25,7 +25,7 @@ import java.io.IOException;
 public class MyLogCache {
 	private int count = 0;
 	private int CACHESIZE = 0;
-	public String BUFFEROUTPUT = null;
+	private String BUFFEROUTPUT = null;
 	public String getOUTPUT() {
 		return BUFFEROUTPUT;
 	}

@@ -33,22 +33,17 @@ import jp.naist.ogami.json.ExeTimeJson;
 import jp.naist.ogami.message.Message;
 
 public class LevelChangerCombined extends Thread{
-	static double EP = 0; //Threshold used to phase detection
-	static int INTERVAL = 5; // Length of one intervel. INTERVEL=1 -> 0.1s
-	static String FILENAME = null;
 	static MyLogCache mylogcache = null;
 	static boolean isFirstLevel = true;
 	static String MODE = null;
-	static String OUTPUTFILENAME = null;
 	static BufferedWriter bwVector = null;
 	static FileWriter file = null;
-	static boolean ISDEBUG = false;
-	static String DEBUGLOGOUTPUT = null;
 	List<double[]> samplingData = new ArrayList<double[]>();
 
 	static DebugMessage debugmessage = null;
 	static CalcVectors calc = new CalcVectors();
 	static VectorOfAnInterval vec = new VectorOfAnInterval();
+	static AgentOptions options = new AgentOptions();
 
 	public LevelChangerCombined(MyLogCache logCache, String mode) {
 		mylogcache = logCache;
@@ -76,15 +71,11 @@ public class LevelChangerCombined extends Thread{
 			}
 			// Data receive (first)
 			if (message.Methods != null && 0 < message.Methods.size()) {
-				try {
-					firstReceive(message);
-					learningdata = new LearningData(FILENAME,EP,vec.getNumOfMethods(),ISDEBUG, MODE);
-					if(learningdata.isInvalidLearningData()) {
-						debugmessage.print("Exit PADLA...");
-						break;
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
+				firstReceive(message);
+				learningdata = new LearningData(options,vec.getNumOfMethods(),MODE);
+				if(learningdata.isInvalidLearningData()) {
+					debugmessage.print("Exit PADLA...");
+					break;
 				}
 				ps = new PrevState();
 			}
@@ -93,9 +84,9 @@ public class LevelChangerCombined extends Thread{
 			if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
 				vec.setSumOfVectors(addSamplingDataToSumOfVectors(message, vec.getSumOfVectors()));
 				vec.incCountSamaple();
-				if(vec.getCountSample() == INTERVAL) {
+				if(vec.getCountSample() == options.getINTERVAL()) {
 					vec.setNormalizedVector(calc.normalizeVector(vec.getSumOfVectors(), vec.getNumOfMethods()));
-					if (isFirstData || calc.isUnknownPhase(vec.getNormalizedVector(),samplingData,vec.getNumOfMethods(),EP).isUnknownPhase()) {
+					if (isFirstData || calc.isUnknownPhase(vec.getNormalizedVector(),samplingData,vec.getNumOfMethods(),options.getEP()).isUnknownPhase()) {
 						try {
 							addSamplingData(vec.getNormalizedVector());
 							if(MODE.equals("Learning")) {
@@ -151,7 +142,7 @@ public class LevelChangerCombined extends Thread{
 	 */
 	private void adaptLogLevel(LearningData learningdata, double[] vectors, PrevState ps) {
 		ResultOfPhaseDetection result = new ResultOfPhaseDetection();
-		result = calc.isUnknownPhase(vectors,learningdata.getLearningData(),vec.getNumOfMethods(),EP);
+		result = calc.isUnknownPhase(vectors,learningdata.getLearningData(),vec.getNumOfMethods(),options.getEP());
 		//Compare to learningData
 		if(result.isUnknownPhase()) {
 			outputDebugLog(result, " <Unknown phase>\n");
@@ -208,8 +199,7 @@ public class LevelChangerCombined extends Thread{
 	 * @return
 	 */
 	private static boolean continuesIn2Intervals(PrevState ps, double[] current) {
-		double innerproduct = calc.calcInnerProduct(ps.get(), current, vec.getNumOfMethods());
-		if(innerproduct > EP) {
+		if(calc.calcInnerProduct(ps.get(), current, vec.getNumOfMethods()) > options.getEP()) {
 			ps.incCount();
 			ps.update(current);
 			if(ps.getCount() >= 2) {
@@ -228,34 +218,36 @@ public class LevelChangerCombined extends Thread{
 	 * @param message
 	 */
 	private static void firstReceive(Message message) {
-		FILENAME = message.LEARNINGDATA;
-		mylogcache.setOUTPUT(message.BUFFEROUTPUT);
-		mylogcache.setCACHESIZE(message.BUFFER);
-		INTERVAL = message.INTERVAL;
-		EP = message.EP;
-		ISDEBUG = message.ISDEBUG;
-		OUTPUTFILENAME = message.PHASEOUTPUT;
-		DEBUGLOGOUTPUT = message.DEBUGLOGOUTPUT;
-		debugmessage.setISDEBUG(ISDEBUG);
+		options.setLEARNINGDATA(message.LEARNINGDATA);
+		options.setBUFFEROUTPUT(message.BUFFEROUTPUT);
+		mylogcache.setOUTPUT(options.getBUFFEROUTPUT());
+		options.setBUFFER(message.BUFFER);
+		mylogcache.setCACHESIZE(options.getBUFFER());
+		options.setINTERVAL(message.INTERVAL);
+		options.setEP(message.EP);
+		options.setISDEBUG(message.ISDEBUG);
+		options.setPHASEOUTPUT(message.PHASEOUTPUT);
+		options.setDEBUGLOGOUTPUT(message.DEBUGLOGOUTPUT);
+		debugmessage.setISDEBUG(options.isISDEBUG());
 		vec.setNumOfMethods(message.Methods.size());
 		printDebugMessages();
 		openOutputFiles();
 	}
 
 	private static void openOutputFiles() {
-		if(OUTPUTFILENAME != null) {
+		if(options.getPHASEOUTPUT() != null) {
 			if(MODE.equals("Learning")) {
 				try {
-					bwVector = new BufferedWriter(new FileWriter(new File(OUTPUTFILENAME)));
+					bwVector = new BufferedWriter(new FileWriter(new File(options.getPHASEOUTPUT())));
 				} catch (IOException e5) {
 					e5.printStackTrace();
 				}
 
 			}
 		}
-		if(DEBUGLOGOUTPUT != null) {
+		if(options.getDEBUGLOGOUTPUT() != null) {
 			try {
-				file = new FileWriter(DEBUGLOGOUTPUT);
+				file = new FileWriter(options.getDEBUGLOGOUTPUT());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -264,13 +256,14 @@ public class LevelChangerCombined extends Thread{
 
 	private static void printDebugMessages() {
 		debugmessage.printOnDebug("\n"+ "---optionsForLevelChanger---");
-		debugmessage.printOnDebug("learningData = " + FILENAME);
-		debugmessage.printOnDebug("output = " + mylogcache.getOUTPUT());
-		debugmessage.printOnDebug("buffer = " + mylogcache.getCACHESIZE());
-		debugmessage.printOnDebug("interval = " + INTERVAL);
-		debugmessage.printOnDebug("threshold = " + EP);
-		debugmessage.printOnDebug("debugLogOutput = " + DEBUGLOGOUTPUT);
-		if(ISDEBUG) {
+		debugmessage.printOnDebug("learningData = " + options.getLEARNINGDATA());
+		debugmessage.printOnDebug("bufferOutput = " + options.getBUFFEROUTPUT());
+		debugmessage.printOnDebug("buffer = " + options.getBUFFER());
+		debugmessage.printOnDebug("interval = " + options.getINTERVAL());
+		debugmessage.printOnDebug("threshold = " + options.getEP());
+		debugmessage.printOnDebug("phaseOutput = " + options.getPHASEOUTPUT());
+		debugmessage.printOnDebug("debugLogOutput = " + options.getDEBUGLOGOUTPUT());
+		if(options.isISDEBUG()) {
 			debugmessage.printOnDebug("isDebug = true");
 		}else {
 			debugmessage.printOnDebug("isDebug = false");

@@ -27,9 +27,7 @@ import java.util.List;
 
 public class LearningData {
 	private List<double[]> learningData = new ArrayList<double[]>();
-	double ep = 0;
 	private boolean exitFlag = false;
-	boolean ISDEBUG = false;
 	static String MODE = null;
 
 	static DebugMessage debugmessage = null;
@@ -37,16 +35,14 @@ public class LearningData {
 	static CalcVectors calcvectors = null;
 	static VectorOfAnInterval vecofaninterval = null;
 
-	public LearningData(String filename, double EP, int numOfMethods,boolean isDebug, String mode) throws FileNotFoundException {
-		ep = EP;
-		ISDEBUG = isDebug;
+	public LearningData(AgentOptions options,int numOfMethods,String mode) {
 		MODE = mode;
 
 		debugmessage = new DebugMessage();
-		debugmessage.setISDEBUG(ISDEBUG);
+		debugmessage.setISDEBUG(options.isISDEBUG());
 		
-		if(MODE.equals("Adapter") && filename != null) {
-			loadLearningDataFile(filename, numOfMethods);
+		if(MODE.equals("Adapter") && options.getLEARNINGDATA() != null) {
+			loadLearningDataFile(options.getLEARNINGDATA(), numOfMethods);
 		}
 	}
 
@@ -64,9 +60,14 @@ public class LearningData {
 	 * @param numOfMethods
 	 * @throws FileNotFoundException
 	 */
-	private void loadLearningDataFile(String filename, int numOfMethods) throws FileNotFoundException {
+	private void loadLearningDataFile(String filename, int numOfMethods) {
 		File learningDataFile = new File(filename);
-		BufferedReader learningDataBr = new BufferedReader(new FileReader(learningDataFile));
+		BufferedReader learningDataBr = null;
+		try {
+			learningDataBr = new BufferedReader(new FileReader(learningDataFile));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		for (;;) {
 			String text = null;
 			try {
