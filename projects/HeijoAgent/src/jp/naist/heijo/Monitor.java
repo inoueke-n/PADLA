@@ -67,7 +67,7 @@ public class Monitor extends Thread
 	public void run()
 	{
 		try {
-			Thread.sleep(26000);
+			Thread.sleep(options.getAgentWaitingTime());
 		} catch (InterruptedException e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();

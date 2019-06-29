@@ -45,6 +45,7 @@ public class LevelChangerCombined extends Thread{
 	static String OUTPUTFILENAME = null;
 	static BufferedWriter bwVector = null;
 	static boolean ISDEBUG = false;
+	static String DEBUGLOGOUTPUT = null;
 	List<double[]> samplingData = new ArrayList<double[]>();
 	
 	static DebugMessage debugmessage = null;
@@ -87,7 +88,7 @@ public class LevelChangerCombined extends Thread{
 			if (message.Methods != null && 0 < message.Methods.size()) {
 				try {
 					firstReceive(message);
-					learningdata = new LearningData(FILENAME,EP,numOfMethods,ISDEBUG, MODE);
+					learningdata = new LearningData(FILENAME,EP,numOfMethods,ISDEBUG, MODE, DEBUGLOGOUTPUT);
 					if(learningdata.isInvalidLearningData()) {
 							debugmessage.printOnDebug("Exit PADLA...");
 						break;
@@ -237,7 +238,9 @@ public class LevelChangerCombined extends Thread{
 		EP = message.EP;
 		ISDEBUG = message.ISDEBUG;
 		OUTPUTFILENAME = message.PHASEOUTPUT;
+		DEBUGLOGOUTPUT = message.DEBUGLOGOUTPUT;
 		debugmessage.setISDEBUG(ISDEBUG);
+		
 
 		//Thread.sleep(5000);
 
@@ -248,6 +251,7 @@ public class LevelChangerCombined extends Thread{
 			debugmessage.printOnDebug("buffer = " + mylogcache.getCACHESIZE());
 			debugmessage.printOnDebug("interval = " + INTERVAL);
 			debugmessage.printOnDebug("threshold = " + EP);
+			debugmessage.printOnDebug("debugLogOutput = " + DEBUGLOGOUTPUT);
 			if(ISDEBUG) {
 				debugmessage.printOnDebug("isDebug = true");
 			}else {

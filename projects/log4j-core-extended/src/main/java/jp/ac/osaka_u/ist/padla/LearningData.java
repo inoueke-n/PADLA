@@ -36,7 +36,7 @@ public class LearningData {
 
 	static DebugMessage debugmessage = null;
 
-	public LearningData(String filename, double EP, int numOfMethods,boolean isDebug, String mode) throws FileNotFoundException {
+	public LearningData(String filename, double EP, int numOfMethods,boolean isDebug, String mode, String debugLogOutput) throws FileNotFoundException {
 		ep = EP;
 		ISDEBUG = isDebug;
 		MODE = mode;
@@ -45,7 +45,7 @@ public class LearningData {
 		debugmessage.setISDEBUG(ISDEBUG);
 		//forExperiment
 		try {
-			file = new FileWriter("C:\\Users\\m-tys\\Desktop\\mizouchi\\tools\\dacapobench\\log4j2\\logs\\output.log");
+			file = new FileWriter(debugLogOutput);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

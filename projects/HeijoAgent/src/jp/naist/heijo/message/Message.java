@@ -88,4 +88,11 @@ public class Message
 	public void setIsDebug(boolean isDebug) {
 		ISDEBUG = isDebug;
 	}
+
+	@org.msgpack.annotation.Index(12)
+	public String DEBUGLOGOUTPUT = null;
+
+	public void setDEBUGLOGOUTPUT(String dEBUGLOGOUTPUT) {
+		DEBUGLOGOUTPUT = dEBUGLOGOUTPUT;
+	}
 }

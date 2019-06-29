@@ -80,6 +80,7 @@ public class UpdateThread extends Thread
     message.setINTERVAL(options.getInterval());
     message.setEP(options.getEp());
     message.setIsDebug(options.isDebug());
+    message.setDEBUGLOGOUTPUT(options.getDebugLogOutput());
 
     synchronized (Monitor.getInstance().Scheduler.Lock) {
       message.CurrentTime = System.currentTimeMillis();
@@ -129,6 +130,7 @@ public class UpdateThread extends Thread
     message.setINTERVAL(options.getInterval());
     message.setEP(options.getEp());
     message.setIsDebug(options.isDebug());
+    message.setDEBUGLOGOUTPUT(options.getDebugLogOutput());
     message.CurrentTime = 0;
     message.TimeLength = 0;
     message.Methods.addAll(Monitor.getInstance().StructureDB.IdDataMap.values());

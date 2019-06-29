@@ -42,7 +42,6 @@ public class Message
 	@org.msgpack.annotation.Index(5)
 	public String LEARNINGDATA = null;
 
-
 	@org.msgpack.annotation.Index(6)
 	public String BUFFEROUTPUT = null;
 
@@ -60,6 +59,7 @@ public class Message
 
 	@org.msgpack.annotation.Index(11)
 	public boolean ISDEBUG = false;
-
-
+	
+	@org.msgpack.annotation.Index(12)
+	public String DEBUGLOGOUTPUT = null;
 }
