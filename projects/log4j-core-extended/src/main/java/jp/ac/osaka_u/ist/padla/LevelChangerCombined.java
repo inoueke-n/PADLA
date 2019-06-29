@@ -46,12 +46,13 @@ public class LevelChangerCombined extends Thread{
 	static BufferedWriter bwVector = null;
 	static boolean ISDEBUG = false;
 	List<double[]> samplingData = new ArrayList<double[]>();
-
-	private final static String messageHead = "[LOG4JCORE-EXTENDED]:";
+	
+	static DebugMessage debugmessage = null;
 
 	public LevelChangerCombined(MyLogCache logCache, String mode) {
 		mylogcache = logCache;
 		MODE = mode;
+		debugmessage = new DebugMessage();
 	}
 
 	public void run() {
@@ -78,7 +79,7 @@ public class LevelChangerCombined extends Thread{
 			try {
 				message = connector.read(Message.class);
 			} catch (Exception e) {
-				System.err.println(messageHead + "Cannot recieve");
+				System.err.println("Cannot recieve");
 				break;
 			}
 
@@ -88,9 +89,7 @@ public class LevelChangerCombined extends Thread{
 					firstReceive(message);
 					learningdata = new LearningData(FILENAME,EP,numOfMethods,ISDEBUG, MODE);
 					if(learningdata.isInvalidLearningData()) {
-						if(ISDEBUG) {
-							System.out.println(messageHead + "Exit PADLA...");
-						}
+							debugmessage.printOnDebug("Exit PADLA...");
 						break;
 					}
 
@@ -136,9 +135,7 @@ public class LevelChangerCombined extends Thread{
 	}
 
 	private Socket connect2Agent() {
-		if(ISDEBUG) {
-			System.out.println(messageHead + "Waiting for Connection,,,");
-		}
+		debugmessage.print("Waiting for Connection,,,");
 		ServerSocket server = null;
 		Socket socket = null;
 		try {
@@ -149,9 +146,7 @@ public class LevelChangerCombined extends Thread{
 			e.printStackTrace();
 		}
 
-		if(ISDEBUG) {
-			System.out.println(messageHead + "Connection Complete");
-		}
+		debugmessage.print("Connection Complete");
 		return socket;
 	}
 
@@ -171,10 +166,8 @@ public class LevelChangerCombined extends Thread{
 		if(learningdata.isUnknownPhase(vectors, numOfMethods)) {
 			if(this.isFirstLevel()) {
 				isFirstLevel = false;
-				if(ISDEBUG) {
-					System.out.println(messageHead + "Unknown Phase Detected!\n");
-					System.out.println(messageHead + "Logging Level Down\n↓↓↓↓↓↓↓↓");
-				}
+					debugmessage.printOnDebug("Unknown Phase Detected!\n");
+					debugmessage.printOnDebug("Logging Level Down\n↓↓↓↓↓↓↓↓");
 				if(MODE .equals("Adapter")) {
 					mylogcache.outputLogs();
 				}
@@ -185,10 +178,8 @@ public class LevelChangerCombined extends Thread{
 		}else {
 			if(!this.isFirstLevel()) {
 				isFirstLevel = true;
-				if(ISDEBUG) {
-					System.out.println(messageHead + "Returned to Normal Phase\n");
-					System.out.println(messageHead + "Logging Level Up\n↑↑↑↑↑↑↑↑");
-				}
+					debugmessage.printOnDebug("Returned to Normal Phase\n");
+					debugmessage.printOnDebug("Logging Level Up\n↑↑↑↑↑↑↑↑");
 			}
 		}
 	}
@@ -204,9 +195,7 @@ public class LevelChangerCombined extends Thread{
 		cloneCurrent = current.clone();
 		learningdata.add(cloneCurrent);
 		ps.refresh();
-		if(ISDEBUG) {
-			System.out.println(messageHead + "Learned\n");
-		}
+			debugmessage.printOnDebug("Learned\n");
 	}
 
 	/**
@@ -248,25 +237,24 @@ public class LevelChangerCombined extends Thread{
 		EP = message.EP;
 		ISDEBUG = message.ISDEBUG;
 		OUTPUTFILENAME = message.PHASEOUTPUT;
+		debugmessage.setISDEBUG(ISDEBUG);
 
 		//Thread.sleep(5000);
 
 		numOfMethods = message.Methods.size();
-		if(ISDEBUG) {
-			System.out.println("\n"+ messageHead + "---optionsForLevelChanger---");
-			System.out.println(messageHead + "learningData = " + FILENAME);
-			System.out.println(messageHead + "output = " + mylogcache.getOUTPUT());
-			System.out.println(messageHead + "buffer = " + mylogcache.getCACHESIZE());
-			System.out.println(messageHead + "interval = " + INTERVAL);
-			System.out.println(messageHead + "threshold = " + EP);
+			debugmessage.printOnDebug("\n"+ "---optionsForLevelChanger---");
+			debugmessage.printOnDebug("learningData = " + FILENAME);
+			debugmessage.printOnDebug("output = " + mylogcache.getOUTPUT());
+			debugmessage.printOnDebug("buffer = " + mylogcache.getCACHESIZE());
+			debugmessage.printOnDebug("interval = " + INTERVAL);
+			debugmessage.printOnDebug("threshold = " + EP);
 			if(ISDEBUG) {
-				System.out.println(messageHead + "isDebug = true");
+				debugmessage.printOnDebug("isDebug = true");
 			}else {
-				System.out.println(messageHead + "isDebug = false");
+				debugmessage.printOnDebug("isDebug = false");
 			}
-			System.out.println(messageHead + "---optionsForLevelChanger---\n");
-			System.out.println(messageHead + "Number of methods:" + numOfMethods);
-		}
+			debugmessage.printOnDebug("---optionsForLevelChanger---\n");
+			debugmessage.printOnDebug("Number of methods:" + numOfMethods);
 		if(OUTPUTFILENAME != null) {
 			if(MODE.equals("Learning")) {
 				try {
@@ -288,9 +276,7 @@ public class LevelChangerCombined extends Thread{
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-				if(ISDEBUG) {
-					System.out.println(messageHead + "Target process finished");
-				}
+					debugmessage.printOnDebug("Target process finished");
 			}
 		});
 	}

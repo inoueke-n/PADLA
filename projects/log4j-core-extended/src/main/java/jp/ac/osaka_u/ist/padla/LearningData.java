@@ -31,18 +31,21 @@ public class LearningData {
 	double ep = 0;
 	private boolean exitFlag = false;
 	FileWriter file = null;
-	static boolean ISDEBUG = false;
+	boolean ISDEBUG = false;
 	static String MODE = null;
 
-	private final String messageHead = "[LOG4JCORE-EXTENDED]:";
+	static DebugMessage debugmessage = null;
 
 	public LearningData(String filename, double EP, int numOfMethods,boolean isDebug, String mode) throws FileNotFoundException {
 		ep = EP;
 		ISDEBUG = isDebug;
 		MODE = mode;
+		
+		debugmessage = new DebugMessage();
+		debugmessage.setISDEBUG(ISDEBUG);
 		//forExperiment
 		try {
-			file = new FileWriter("e:\\log4j2\\logs\\output.log");
+			file = new FileWriter("C:\\Users\\m-tys\\Desktop\\mizouchi\\tools\\dacapobench\\log4j2\\logs\\output.log");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -81,7 +84,7 @@ public class LearningData {
 			if(exeTimeVector.length == numOfMethods) {
 				learningData.add(exeTimeVector);
 			}else {
-				System.out.println(messageHead + "ERROR Invalid Length of Learning Data");
+				debugmessage.print("ERROR Invalid Length of Learning Data");
 				exitFlag = true;
 				break;
 			}
@@ -91,9 +94,7 @@ public class LearningData {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(ISDEBUG) {
-			System.out.println(messageHead + "Learning data size:" + learningData.size());
-		}
+			debugmessage.printOnDebug("Learning data size:" + learningData.size());
 	}
 
 
@@ -120,7 +121,6 @@ public class LearningData {
 	public boolean isUnknownPhase(double[] vec, int numOfMethods) {
 		double maxSimilarity = 0;
 		double innerProduct = 0;
-		double[] max = null;
 		int phaseNum = 0;
 
 		for (int i = 0; i < learningData.size(); i++) {
@@ -137,14 +137,13 @@ public class LearningData {
 			}
 			if (innerProduct > maxSimilarity) {
 				maxSimilarity = innerProduct;
-				max = learningData.get(i);
 				phaseNum = i;
 			}
 		}
 		if(maxSimilarity > ep) {
 			//forExperiment
 			try {
-				file.write(messageHead + "Sim: " + maxSimilarity + "  phaseNum: " + phaseNum +" <Known phase>\n" );
+				file.write(debugmessage.getMessagehead() + "Sim: " + maxSimilarity + "  phaseNum: " + phaseNum +" <Known phase>\n" );
 				file.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -154,7 +153,7 @@ public class LearningData {
 		}
 		//forExperiment
 		try {
-			file.write(messageHead + "Sim: " + maxSimilarity + "  phaseNum: " + phaseNum +" <Unknown phase>\n" );
+			file.write(debugmessage.getMessagehead() + "Sim: " + maxSimilarity + "  phaseNum: " + phaseNum +" <Unknown phase>\n" );
 			file.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
