@@ -20,6 +20,7 @@ package jp.naist.heijo.timer;
 import java.io.IOException;
 import java.util.Map;
 
+import jp.ac.osaka_u.padla.Options;
 import jp.naist.heijo.Monitor;
 import jp.naist.heijo.debug.DebugValue;
 import jp.naist.heijo.debug.IntervalPrinter;
@@ -36,29 +37,16 @@ public class UpdateThread extends Thread
 
   private IntervalPrinter debugIntervalPrinter = null;
 
-  public String learningData = null;
-  public String bufferoutput = null;
-  public String phaseoutput = null;
-  public int buffer = 0;
-  public int interval = 0;
-  public double ep = 0;
-  public boolean isDebug = false;
+  public Options options = null;
 
   private String messageHead = "[AGENT]:";
 
-  public UpdateThread(String learningData, String bufferoutput,String phaseoutput,int buffer, int interval, double ep, boolean isdebug)
+  public UpdateThread(Options options)
   {
     if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_FLAG) {
       debugIntervalPrinter = new IntervalPrinter(DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_TIME, "UPDATE");
     }
-
-    this.learningData = learningData;
-    this.bufferoutput = bufferoutput;
-    this.phaseoutput = phaseoutput;
-    this.buffer = buffer;
-    this.interval = interval;
-    this.ep = ep;
-    this.isDebug = isdebug;
+    this.options = options;
   }
 
   @Override
@@ -85,13 +73,13 @@ public class UpdateThread extends Thread
     if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_FLAG) debugIntervalPrinter.interval();
 
     Message message = new Message();
-    message.setLEARNINGDATA(learningData);
-    message.setBUFFEROUTPUT(bufferoutput);
-    message.setPHASEOUTPUT(phaseoutput);
-    message.setBUFFER(buffer);
-    message.setINTERVAL(interval);
-    message.setEP(ep);
-    message.setIsDebug(isDebug);
+    message.setLEARNINGDATA(options.getLearningData());
+    message.setBUFFEROUTPUT(options.getBufferoutput());
+    message.setPHASEOUTPUT(options.getPhaseoutput());
+    message.setBUFFER(options.getBuffer());
+    message.setINTERVAL(options.getInterval());
+    message.setEP(options.getEp());
+    message.setIsDebug(options.isDebug());
 
     synchronized (Monitor.getInstance().Scheduler.Lock) {
       message.CurrentTime = System.currentTimeMillis();
@@ -134,13 +122,13 @@ public class UpdateThread extends Thread
     if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_NO_CONNECT) return;
 
     Message message = new Message();
-    message.setLEARNINGDATA(learningData);
-    message.setBUFFEROUTPUT(bufferoutput);
-    message.setPHASEOUTPUT(phaseoutput);
-    message.setBUFFER(buffer);
-    message.setINTERVAL(interval);
-    message.setEP(ep);
-    message.setIsDebug(isDebug);
+    message.setLEARNINGDATA(options.getLearningData());
+    message.setBUFFEROUTPUT(options.getBufferoutput());
+    message.setPHASEOUTPUT(options.getPhaseoutput());
+    message.setBUFFER(options.getBuffer());
+    message.setINTERVAL(options.getInterval());
+    message.setEP(options.getEp());
+    message.setIsDebug(options.isDebug());
     message.CurrentTime = 0;
     message.TimeLength = 0;
     message.Methods.addAll(Monitor.getInstance().StructureDB.IdDataMap.values());

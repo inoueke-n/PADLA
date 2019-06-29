@@ -23,6 +23,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import jp.ac.osaka_u.padla.Options;
 import jp.naist.heijo.Monitor;
 import jp.naist.heijo.util.Pair;
 
@@ -35,6 +36,8 @@ public class Scheduler
 
 	public SampleThread Sampler;
 	public UpdateThread Updater;
+	
+	Options options = null;
 
 	// sampleした回数。updateでクリアされる
 	public int Counter = 0;
@@ -45,10 +48,11 @@ public class Scheduler
 
 	private static final int MILISEC_TO_NANOSEC = 1000000;
 
-	public Scheduler(String learningData, String bufferoutput, String phaseoutput,int buffer, int interval, double ep, boolean isdebug)
+	public Scheduler(Options options)
 	{
+		this.options = options;
 		Sampler = new SampleThread();
-		Updater = new UpdateThread(learningData,bufferoutput,phaseoutput, buffer,interval, ep, isdebug);
+		Updater = new UpdateThread(options);
 	}
 
 	public void start()

@@ -19,6 +19,7 @@ package jp.naist.heijo;
 
 import java.io.IOException;
 
+import jp.ac.osaka_u.padla.Options;
 import jp.naist.heijo.debug.DebugValue;
 import jp.naist.heijo.timer.Scheduler;
 
@@ -31,20 +32,10 @@ public class Monitor extends Thread
 	public StructureDB StructureDB = new StructureDB();
 	public Connector Connector = new Connector();
 	public Scheduler Scheduler = null;
-
 	public String[] args = null;
-	public String target = null;
-	public String learningData = null;
-	public String bufferoutput = null;
-	public String phaseoutput = null;
-	public int buffer = 0;
-	public int interval = 0;
-	public double ep = 0;
-	public boolean isDebug = false;
-
 	private String messageHead = "[AGENT]:";
-
 	private static Monitor instance = null;
+	public Options options = null;
 
 	// FIXME too long
 	public static Monitor getInstance()
@@ -63,51 +54,14 @@ public class Monitor extends Thread
 			String argumentTag = this.args[i].split("=",0)[0];
 			String argumentValue = this.args[i].split("=",0)[1];
 			switch(argumentTag) {
-			case "target":
-				this.target = argumentValue;
-				break;
-			case "learningData":
-				this.learningData = argumentValue;
-				break;
-			case "bufferOutput":
-				this.bufferoutput = argumentValue;
-				break;
-			case "phaseOutput":
-				this.phaseoutput = argumentValue;
-				break;
-			case "buffer":
-				this.buffer = Integer.valueOf(argumentValue);
-				break;
-			case "interval":
-				this.interval = Integer.valueOf(argumentValue);
-				break;
-			case "threshold":
-				this.ep = Double.valueOf(argumentValue);
-				break;
-			case "isDebug":
-				if(Integer.valueOf(argumentValue) == 1) {
-					this.isDebug = true;
-				}
+			case "OptionFile":
+				options = new Options(argumentValue);
 				break;
 			default:
 				System.out.println(messageHead + "ERROR Invalid argument:" + argumentTag);
 			}
 		}
-		System.out.println("\n" + messageHead + "---options---");
-		System.out.println(messageHead + "target = " + this.target);
-		System.out.println(messageHead + "learningData = " + this.learningData);
-		System.out.println(messageHead + "bufferoutput = " + this.bufferoutput);
-		System.out.println(messageHead + "phaseoutput = " + this.phaseoutput);
-		System.out.println(messageHead + "buffer = " + this.buffer);
-		System.out.println(messageHead + "interval = " + this.interval);
-		System.out.println(messageHead + "threshold = " + this.ep);
-		if(this.isDebug) {
-			System.out.println(messageHead + "isDebug = true");
-		}else {
-			System.out.println(messageHead + "isDebug = false");
-		}
-		System.out.println(messageHead + "---options---\n");
-		Scheduler = new Scheduler(learningData, bufferoutput, phaseoutput, buffer, interval, ep, isDebug);
+		Scheduler = new Scheduler(options);
 	}
 
 	public void run()
@@ -144,7 +98,7 @@ public class Monitor extends Thread
 
 			// クラスパス以下のクラスファイルを走査して、パッケージ・クラス・メソッド名を収集
 			getInstance().StructureDB = new StructureDB();
-			getInstance().StructureDB.setTarget(this.target);
+			getInstance().StructureDB.setTarget(options.getTarget());
 			getInstance().StructureDB.IgnorePackageNameSet.addAll(getInstance().Config.IgnorePackages);
 			try {
 				getInstance().StructureDB.collectFromClassPath();
