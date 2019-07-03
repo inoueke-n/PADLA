@@ -25,6 +25,7 @@ import java.io.IOException;
 public class MyLogCache {
 	private int count = 0;
 	private int CACHESIZE = 0;
+	private boolean isLocked = false;
 	private String BUFFEROUTPUT = null;
 	public String getOUTPUT() {
 		return BUFFEROUTPUT;
@@ -59,6 +60,8 @@ public class MyLogCache {
 	 * It output log messages that are kept in the cachedLogs
 	 */
 	public void outputLogs() {
+		isLocked = true;
+		int copyIndex = oldestIndex;
 		int numOfOutputLogs = 0;
 		if(count < CACHESIZE) {
 			numOfOutputLogs = count;
@@ -72,12 +75,13 @@ public class MyLogCache {
 		}
 		for(int i = 0; i < numOfOutputLogs; i++) {
 			try {
-				byteBw.write(cachedLogs[(oldestIndex + i) % CACHESIZE]);
+				byteBw.write(cachedLogs[(copyIndex + i) % CACHESIZE]);
 				byteBw.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		isLocked = false;
 	}
 
 
@@ -86,16 +90,18 @@ public class MyLogCache {
 	 * @param str
 	 */
 	public void appendLogToCache(String str) {
-		if(cachedLogs != null) {
-			cachedLogs[nextIndex] = str;
-			currentIndex = nextIndex;
-			if(count != 0) {
-				if(oldestIndex == currentIndex) {
-					oldestIndex = (oldestIndex + 1) % CACHESIZE;
+		if(!isLocked) {
+			if(cachedLogs != null) {
+				cachedLogs[nextIndex] = str;
+				currentIndex = nextIndex;
+				if(count != 0) {
+					if(oldestIndex == currentIndex) {
+						oldestIndex = (oldestIndex + 1) % CACHESIZE;
+					}
 				}
+				nextIndex = (nextIndex + 1) % CACHESIZE;
+				count++;
 			}
-			nextIndex = (nextIndex + 1) % CACHESIZE;
-			count++;
 		}
 	}
 }

@@ -38,18 +38,13 @@ public class CalcVectors {
 				phaseNum = i;
 			}
 		}
-		if (maxSimilarity > EP) {
-			result.setMaxSimilarity(maxSimilarity);
-			result.setPhaseNum(phaseNum);
-			result.setUnknownPhase(false);
-			return result;
-		}
+		//If maxSimilarity > EP is false, vec is an unknown phase.
 		result.setMaxSimilarity(maxSimilarity);
 		result.setPhaseNum(phaseNum);
-		result.setUnknownPhase(true);
+		result.setUnknownPhase(!(maxSimilarity > EP));
 		return result;
 	}
-	
+
 	/**
 	 * Return inner product of two vectors(array1 and array2)
 	 * @param array1
@@ -63,10 +58,9 @@ public class CalcVectors {
 		for (int i = 0; i < numOfMethods; i++) {
 			innerProduct += array1[i] * array2[i];
 		}
-
 		return innerProduct;
 	}
-	
+
 	/**
 	 * Return normalized vector
 	 * @param vector
@@ -78,7 +72,7 @@ public class CalcVectors {
 
 		initArray(normalizedVector);
 
-		// calculate norm of the vector
+		// Calculate norm of the vector
 		for (int i = 0; i < numOfMethods; i++) {
 			normOfVector += vector[i] * vector[i];
 		}
@@ -92,7 +86,7 @@ public class CalcVectors {
 
 		return normalizedVector;
 	}
-	
+
 	/**
 	 * Initialize array with 0
 	 * @param array

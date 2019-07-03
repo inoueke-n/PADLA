@@ -43,7 +43,7 @@ public class LevelChangerCombined extends Thread{
 	static DebugMessage debugmessage = null;
 	static CalcVectors calc = new CalcVectors();
 	static VectorOfAnInterval vec = new VectorOfAnInterval();
-	static AgentOptions options = new AgentOptions();
+	static AgentOptions options = null;
 
 	public LevelChangerCombined(MyLogCache logCache, String mode) {
 		mylogcache = logCache;
@@ -58,7 +58,7 @@ public class LevelChangerCombined extends Thread{
 		Connector connector = new Connector(socket);
 		List<ExeTimeJson> exeTimeJsons = new LinkedList<>();
 		boolean isFirstData = true;
-		
+
 		closeOnExit(exeTimeJsons);
 		// Data receive roop
 		while (socket.isConnected()) {
@@ -218,16 +218,9 @@ public class LevelChangerCombined extends Thread{
 	 * @param message
 	 */
 	private static void firstReceive(Message message) {
-		options.setLEARNINGDATA(message.LEARNINGDATA);
-		options.setBUFFEROUTPUT(message.BUFFEROUTPUT);
+		options = new AgentOptions(message);
 		mylogcache.setOUTPUT(options.getBUFFEROUTPUT());
-		options.setBUFFER(message.BUFFER);
 		mylogcache.setCACHESIZE(options.getBUFFER());
-		options.setINTERVAL(message.INTERVAL);
-		options.setEP(message.EP);
-		options.setISDEBUG(message.ISDEBUG);
-		options.setPHASEOUTPUT(message.PHASEOUTPUT);
-		options.setDEBUGLOGOUTPUT(message.DEBUGLOGOUTPUT);
 		debugmessage.setISDEBUG(options.isISDEBUG());
 		vec.setNumOfMethods(message.Methods.size());
 		printDebugMessages();

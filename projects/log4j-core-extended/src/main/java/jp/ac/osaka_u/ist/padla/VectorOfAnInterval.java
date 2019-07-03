@@ -1,8 +1,12 @@
 package jp.ac.osaka_u.ist.padla;
 
 public class VectorOfAnInterval {
-	private int numOfMethods = 0;
-	private int countSample = 0;
+	private int numOfMethods;
+	private int countSample;
+	private double[] sumOfVectors;
+	private double[] normalizedVector;
+
+
 	public int getNumOfMethods() {
 		return numOfMethods;
 	}
@@ -11,15 +15,13 @@ public class VectorOfAnInterval {
 		sumOfVectors = new double[this.numOfMethods];
 		normalizedVector= new double[this.numOfMethods];
 	}
-	private double[] sumOfVectors = null;
 	public double[] getSumOfVectors() {
 		return sumOfVectors;
 	}
 	public void setSumOfVectors(double[] sumOfVectors) {
 		this.sumOfVectors = sumOfVectors;
 	}
-	
-	private double[] normalizedVector = null;
+
 	public double[] getNormalizedVector() {
 		return normalizedVector;
 	}
@@ -32,8 +34,9 @@ public class VectorOfAnInterval {
 	public void resetCountSample() {
 		this.countSample = 0;
 	}
-	
+
 	public void incCountSamaple() {
 		this.countSample++;
 	}
+
 }
