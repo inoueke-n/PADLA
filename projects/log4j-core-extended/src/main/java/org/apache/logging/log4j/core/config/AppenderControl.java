@@ -43,11 +43,11 @@ public class AppenderControl extends AbstractFilterable {
 	private Level level;
 	private int intLevel;
 	private final String appenderName;
+	private boolean isAdapter;
 
 	MyLogCache logcache = null;
 	LevelChangerCombined levelchanger = null;
 
-	private final String messageHead = "[LOG4JCORE-EXTENDED]:";
 	/**
 	 * Constructor.
 	 *
@@ -65,6 +65,7 @@ public class AppenderControl extends AbstractFilterable {
 
 		//System.out.println(messageHead + "appenderName:" + this.appenderName);
 		if(this.appenderName.equals("Adapter")) {
+			isAdapter = true;
 			logcache = new MyLogCache();
 			levelchanger = new LevelChangerCombined(logcache,"Adapter");
 			levelchanger.start();
@@ -75,6 +76,7 @@ public class AppenderControl extends AbstractFilterable {
 			}
 			//System.out.println(messageHead + "LevelChanger start!");
 		}else if(this.appenderName.equals("Learning")){
+			isAdapter = false;
 			logcache = new MyLogCache();
 			levelchanger = new LevelChangerCombined(logcache,"Learning");
 			levelchanger.start();
@@ -85,6 +87,8 @@ public class AppenderControl extends AbstractFilterable {
 			}
 			//System.out.println(messageHead + "PhaseLogger start!");
 
+		}else {
+			isAdapter = false;
 		}
 	}
 
@@ -129,7 +133,7 @@ public class AppenderControl extends AbstractFilterable {
 	 * @param event The event to process.
 	 */
 	public void callAppender(final LogEvent event) {
-		if(this.appenderName.equals("Adapter")) {
+		if(isAdapter) {
 			final String str = getStringLayout().toSerializable(event);
 			logcache.appendLogToCache(str);
 			if(levelchanger.isFirstLevel()) {

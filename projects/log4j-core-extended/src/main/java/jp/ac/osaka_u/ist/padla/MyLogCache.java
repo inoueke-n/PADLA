@@ -70,17 +70,14 @@ public class MyLogCache {
 		}
 		try {
 			byteBw.write("[OUTPUT]\n");
+			for(int i = 0; i < numOfOutputLogs; i++) {
+				byteBw.write(cachedLogs[(copyIndex + i) % CACHESIZE]);
+			}
+			byteBw.flush();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		for(int i = 0; i < numOfOutputLogs; i++) {
-			try {
-				byteBw.write(cachedLogs[(copyIndex + i) % CACHESIZE]);
-				byteBw.flush();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+
 		isLocked = false;
 	}
 
