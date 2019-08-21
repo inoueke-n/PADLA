@@ -20,7 +20,6 @@ package jp.naist.heijo;
 import java.lang.instrument.Instrumentation;
 
 public class Start {
-	//argsの中身 "target=[監視対象のjar],learningData=[学習データのパス],bufferOutput=[メモリバッファの出力先],phaseOutput,=[学習データの出力先],buffer=[メモリバッファサイズ],interval=[区間の長さ]"
 	  public static void premain(String args, Instrumentation inst) {
 		  Monitor monitor = Monitor.getInstance();
 		  monitor.setArgs(args);
