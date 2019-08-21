@@ -15,7 +15,7 @@
  * limitations under the license.
  */
 
-package jp.ac.osaka_u.ist.padla;
+package jp.ac.osaka_u.padla;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,15 +25,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
-import jp.naist.ogami.Connector;
-import jp.naist.ogami.json.ExeTimeJson;
-import jp.naist.ogami.message.Message;
+import jp.naist.heijo.message.Message;
 
-public class LevelChangerCombined extends Thread{
-	static MyLogCache mylogcache = null;
+public class LevelChangerCombined extends Thread {
 	static boolean isFirstLevel = true;
 	static String MODE = null;
 	static BufferedWriter bwVector = null;
@@ -43,68 +39,48 @@ public class LevelChangerCombined extends Thread{
 	static DebugMessage debugmessage = null;
 	static CalcVectors calc = new CalcVectors();
 	static VectorOfAnInterval vec = new VectorOfAnInterval();
-	static AgentOptions options = null;
+	Options options = null;
+	PrevState ps;
+	LearningData learningdata;
+	private boolean isFirstData = true;
 
-	public LevelChangerCombined(MyLogCache logCache, String mode) {
-		mylogcache = logCache;
-		MODE = mode;
+	public LevelChangerCombined(Options options, LearningData learningdata) {
+		this.options = options;
 		debugmessage = new DebugMessage();
+		ps = new PrevState();
+		this.learningdata = learningdata;
 	}
 
-	public void run() {
-		LearningData learningdata = null;
-		PrevState ps = null;
-		Socket socket = connect2Agent();
-		Connector connector = new Connector(socket);
-		List<ExeTimeJson> exeTimeJsons = new LinkedList<>();
-		boolean isFirstData = true;
+	public void run(Message info) {
+		Message message = info;
 
-		closeOnExit(exeTimeJsons);
-		// Data receive roop
-		while (socket.isConnected()) {
-			Message message = null;
-			try {
-				message = connector.read(Message.class);
-			} catch (Exception e) {
-				System.err.println("Cannot recieve");
-				break;
-			}
-			// Data receive (first)
-			if (message.Methods != null && 0 < message.Methods.size()) {
-				firstReceive(message);
-				learningdata = new LearningData(options,vec.getNumOfMethods(),MODE);
-				if(learningdata.isInvalidLearningData()) {
-					debugmessage.print("Exit PADLA...");
-					break;
-				}
-				ps = new PrevState();
-			}
-
-			// Data receive (after the second time)
-			if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
-				vec.setSumOfVectors(addSamplingDataToSumOfVectors(message, vec.getSumOfVectors()));
-				vec.incCountSamaple();
-				if(vec.getCountSample() == options.getINTERVAL()) {
-					vec.setNormalizedVector(calc.normalizeVector(vec.getSumOfVectors(), vec.getNumOfMethods()));
-					if (isFirstData || calc.isUnknownPhase(vec.getNormalizedVector(),samplingData,vec.getNumOfMethods(),options.getEP()).isUnknownPhase()) {
-						try {
-							addSamplingData(vec.getNormalizedVector());
-							if(MODE.equals("Learning")) {
-								bwVector.write(Arrays.toString(vec.getNormalizedVector()) + "\n");
-								bwVector.flush();
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
+		// Data receive (after the second time)
+		if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
+			vec.setSumOfVectors(addSamplingDataToSumOfVectors(message, vec.getSumOfVectors()));
+			vec.incCountSamaple();
+			if (vec.getCountSample() == options.getInterval()) {
+				vec.setNormalizedVector(calc.normalizeVector(vec.getSumOfVectors(), vec.getNumOfMethods()));
+				if (isFirstData || calc
+						.isUnknownPhase(vec.getNormalizedVector(), samplingData, vec.getNumOfMethods(), options.getEp())
+						.isUnknownPhase()) {
+					try {
+						addSamplingData(vec.getNormalizedVector());
+						if (MODE.equals("Learning")) {
+							bwVector.write(Arrays.toString(vec.getNormalizedVector()) + "\n");
+							bwVector.flush();
 						}
-						isFirstData = false;
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-					vec.resetCountSample();
-					adaptLogLevel(learningdata, vec.getNormalizedVector(), ps);
-					calc.initArray(vec.getSumOfVectors());
-					calc.initArray(vec.getNormalizedVector());
+					isFirstData = false;
 				}
+				vec.resetCountSample();
+				adaptLogLevel(learningdata, vec.getNormalizedVector(), ps);
+				calc.initArray(vec.getSumOfVectors());
+				calc.initArray(vec.getNormalizedVector());
 			}
 		}
+
 	}
 
 	private void addSamplingData(double[] vector) {
@@ -133,7 +109,6 @@ public class LevelChangerCombined extends Thread{
 		return isFirstLevel;
 	}
 
-
 	/**
 	 * Check whether vectors is known or unknown and change "isFirstLevel" flag
 	 * @param learningdata
@@ -142,24 +117,23 @@ public class LevelChangerCombined extends Thread{
 	 */
 	private void adaptLogLevel(LearningData learningdata, double[] vectors, PrevState ps) {
 		ResultOfPhaseDetection result = new ResultOfPhaseDetection();
-		result = calc.isUnknownPhase(vectors,learningdata.getLearningData(),vec.getNumOfMethods(),options.getEP());
+		result = calc.isUnknownPhase(vectors, learningdata.getLearningData(), vec.getNumOfMethods(), options.getEp());
 		//Compare to learningData
-		if(result.isUnknownPhase()) {
+		if (result.isUnknownPhase()) {
 			outputDebugLog(result, " <Unknown phase>\n");
-			if(this.isFirstLevel()) {
+			if (this.isFirstLevel()) {
 				isFirstLevel = false;
 				debugmessage.printOnDebug("Unknown Phase Detected!\n");
 				debugmessage.printOnDebug("Logging Level Down\n↓↓↓↓↓↓↓↓");
-				if(MODE .equals("Adapter")) {
-					mylogcache.outputLogs();
+				if (MODE.equals("Adapter")) {
 				}
 			}
-			if(continuesIn2Intervals(ps,vectors)) {
-				addLearningData(learningdata,ps,vectors);
+			if (continuesIn2Intervals(ps, vectors)) {
+				addLearningData(learningdata, ps, vectors);
 			}
-		}else {
+		} else {
 			outputDebugLog(result, " <Known phase>\n");
-			if(!this.isFirstLevel()) {
+			if (!this.isFirstLevel()) {
 				isFirstLevel = true;
 				debugmessage.printOnDebug("Returned to Normal Phase\n");
 				debugmessage.printOnDebug("Logging Level Up\n↑↑↑↑↑↑↑↑");
@@ -169,8 +143,9 @@ public class LevelChangerCombined extends Thread{
 
 	private void outputDebugLog(ResultOfPhaseDetection result, String phase) {
 		try {
-			if(file != null) {
-				file.write(debugmessage.getMessagehead() + "Sim: " + result.getMaxSimilarity() + "  phaseNum: " + result.getPhaseNum() + phase);
+			if (file != null) {
+				file.write(debugmessage.getMessagehead() + "Sim: " + result.getMaxSimilarity() + "  phaseNum: "
+						+ result.getPhaseNum() + phase);
 				file.flush();
 			}
 		} catch (IOException e) {
@@ -199,14 +174,14 @@ public class LevelChangerCombined extends Thread{
 	 * @return
 	 */
 	private static boolean continuesIn2Intervals(PrevState ps, double[] current) {
-		if(calc.calcInnerProduct(ps.get(), current, vec.getNumOfMethods()) > options.getEP()) {
+		if (calc.calcInnerProduct(ps.get(), current, vec.getNumOfMethods()) > options.getEp()) {
 			ps.incCount();
 			ps.update(current);
-			if(ps.getCount() >= 2) {
+			if (ps.getCount() >= 2) {
 				return true;
 			}
 			return false;
-		}else {
+		} else {
 			ps.stayCount();
 			ps.update(current);
 			return false;
@@ -218,9 +193,6 @@ public class LevelChangerCombined extends Thread{
 	 * @param message
 	 */
 	private static void firstReceive(Message message) {
-		options = new AgentOptions(message);
-		mylogcache.setOUTPUT(options.getBUFFEROUTPUT());
-		mylogcache.setCACHESIZE(options.getBUFFER());
 		debugmessage.setISDEBUG(options.isISDEBUG());
 		vec.setNumOfMethods(message.Methods.size());
 		printDebugMessages();
@@ -228,8 +200,8 @@ public class LevelChangerCombined extends Thread{
 	}
 
 	private static void openOutputFiles() {
-		if(options.getPHASEOUTPUT() != null) {
-			if(MODE.equals("Learning")) {
+		if (options.getPHASEOUTPUT() != null) {
+			if (MODE.equals("Learning")) {
 				try {
 					bwVector = new BufferedWriter(new FileWriter(new File(options.getPHASEOUTPUT())));
 				} catch (IOException e5) {
@@ -238,45 +210,13 @@ public class LevelChangerCombined extends Thread{
 
 			}
 		}
-		if(options.getDEBUGLOGOUTPUT() != null) {
+		if (options.getDEBUGLOGOUTPUT() != null) {
 			try {
 				file = new FileWriter(options.getDEBUGLOGOUTPUT());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
-	}
-
-	private static void printDebugMessages() {
-		debugmessage.printOnDebug("\n"+ "---optionsForLevelChanger---");
-		debugmessage.printOnDebug("learningData = " + options.getLEARNINGDATA());
-		debugmessage.printOnDebug("bufferOutput = " + options.getBUFFEROUTPUT());
-		debugmessage.printOnDebug("buffer = " + options.getBUFFER());
-		debugmessage.printOnDebug("interval = " + options.getINTERVAL());
-		debugmessage.printOnDebug("threshold = " + options.getEP());
-		debugmessage.printOnDebug("phaseOutput = " + options.getPHASEOUTPUT());
-		debugmessage.printOnDebug("debugLogOutput = " + options.getDEBUGLOGOUTPUT());
-		if(options.isISDEBUG()) {
-			debugmessage.printOnDebug("isDebug = true");
-		}else {
-			debugmessage.printOnDebug("isDebug = false");
-		}
-		debugmessage.printOnDebug("---optionsForLevelChanger---\n");
-		debugmessage.printOnDebug("Number of methods:" + vec.getNumOfMethods());
-	}
-
-
-	/**
-	 * It prints a message when a target process ends
-	 * @param exeTimeJsons
-	 */
-	private static void closeOnExit(List<ExeTimeJson> exeTimeJsons) {
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				debugmessage.printOnDebug("Target process finished");
-			}
-		});
 	}
 
 	/**
@@ -302,8 +242,6 @@ public class LevelChangerCombined extends Thread{
 
 		return sumOfVectors;
 	}
-
-
 
 	public static class PrevState {
 		private double[] prev;

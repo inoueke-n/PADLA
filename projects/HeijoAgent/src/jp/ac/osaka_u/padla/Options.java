@@ -84,7 +84,7 @@ public class Options {
 	public void setDebug(boolean isDebug) {
 		this.isDebug = isDebug;
 	}
-	
+
 	private int agentWaitingTime = 0;
 	public int getAgentWaitingTime() {
 		return agentWaitingTime;
@@ -103,8 +103,16 @@ public class Options {
 		this.debugLogOutput = debugLogOutput;
 	}
 
+	private String mode = null;
+	public String getMode() {
+		return mode;
+	}
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
 	private AgentMessage agentmessage = new AgentMessage();
-	
+
 	public Options(String optionfile) {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
@@ -121,7 +129,7 @@ public class Options {
 
 		for (int i = 0; i < options.getLength(); i++) {
 			Element option = (Element) options.item(i);
-			
+
 			switch(option.getAttribute("type")) {
 			case "target":
 				this.setTarget(option.getAttribute("value"));
@@ -142,7 +150,7 @@ public class Options {
 				this.setInterval(Integer.valueOf(option.getAttribute("value")));
 				break;
 			case "threshold":
-				this.setEp(Double.valueOf(option.getAttribute("value"))); 
+				this.setEp(Double.valueOf(option.getAttribute("value")));
 				break;
 			case "isDebug":
 				if(Integer.valueOf(option.getAttribute("value")) == 1) {
@@ -155,11 +163,14 @@ public class Options {
 			case "debugLogOutput":
 				this.setDebugLogOutput(option.getAttribute("value"));
 				break;
+			case "mode":
+				this.setMode(option.getAttribute("value"));
+				break;
 			default:
 				agentmessage.print("ERROR Invalid argument:" + option.getAttribute("type"));
 			}
 		}
-		
+
 		System.out.println();
 		agentmessage.print("---options---");
 		agentmessage.print("target = " + this.getTarget());
@@ -169,6 +180,7 @@ public class Options {
 		agentmessage.print("buffer = " + this.getBuffer());
 		agentmessage.print("interval = " + this.getInterval());
 		agentmessage.print("threshold = " + this.getEp());
+		agentmessage.print("mode = " + this.getMode());
 		if(this.isDebug()) {
 			agentmessage.print("isDebug = true");
 		}else {

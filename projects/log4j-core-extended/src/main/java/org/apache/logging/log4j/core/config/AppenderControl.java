@@ -30,7 +30,7 @@ import org.apache.logging.log4j.core.filter.AbstractFilterable;
 import org.apache.logging.log4j.core.filter.Filterable;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 
-import jp.ac.osaka_u.ist.padla.LevelChangerCombined;
+import jp.ac.osaka_u.ist.padla.StatusReciever;
 import jp.ac.osaka_u.ist.padla.MyLogCache;
 
 /**
@@ -46,7 +46,7 @@ public class AppenderControl extends AbstractFilterable {
 	private boolean isAdapter;
 
 	MyLogCache logcache = null;
-	LevelChangerCombined levelchanger = null;
+	StatusReciever levelchanger = null;
 
 	/**
 	 * Constructor.
@@ -67,7 +67,7 @@ public class AppenderControl extends AbstractFilterable {
 		if(this.appenderName.equals("Adapter")) {
 			isAdapter = true;
 			logcache = new MyLogCache();
-			levelchanger = new LevelChangerCombined(logcache,"Adapter");
+			levelchanger = new StatusReciever(logcache,"Adapter");
 			levelchanger.start();
 			try {
 				Thread.sleep(10000);
@@ -78,7 +78,7 @@ public class AppenderControl extends AbstractFilterable {
 		}else if(this.appenderName.equals("Learning")){
 			isAdapter = false;
 			logcache = new MyLogCache();
-			levelchanger = new LevelChangerCombined(logcache,"Learning");
+			levelchanger = new StatusReciever(logcache,"Learning");
 			levelchanger.start();
 			try {
 				Thread.sleep(10000);
