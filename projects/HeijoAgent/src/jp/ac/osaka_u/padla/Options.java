@@ -49,13 +49,13 @@ public class Options {
 		this.phaseoutput = phaseoutput;
 	}
 
-	private int buffer = 0;
-	public int getBuffer() {
-		return buffer;
+	private int cachesize = 0;
+	public int getCacheSize() {
+		return cachesize;
 	}
 
-	public void setBuffer(int buffer) {
-		this.buffer = buffer;
+	public void setCacheSize(int buffer) {
+		this.cachesize = buffer;
 	}
 
 	private int interval = 0;
@@ -144,7 +144,7 @@ public class Options {
 				this.setPhaseoutput(option.getAttribute("value"));
 				break;
 			case "buffer":
-				this.setBuffer(Integer.valueOf(option.getAttribute("value")));
+				this.setCacheSize(Integer.valueOf(option.getAttribute("value")));
 				break;
 			case "interval":
 				this.setInterval(Integer.valueOf(option.getAttribute("value")));
@@ -177,7 +177,7 @@ public class Options {
 		agentmessage.print("learningData = " + this.getLearningData());
 		agentmessage.print("bufferoutput = " + this.getBufferoutput());
 		agentmessage.print("phaseoutput = " + this.getPhaseoutput());
-		agentmessage.print("buffer = " + this.getBuffer());
+		agentmessage.print("buffer = " + this.getCacheSize());
 		agentmessage.print("interval = " + this.getInterval());
 		agentmessage.print("threshold = " + this.getEp());
 		agentmessage.print("mode = " + this.getMode());

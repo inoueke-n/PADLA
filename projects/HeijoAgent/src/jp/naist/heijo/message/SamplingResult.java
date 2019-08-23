@@ -15,17 +15,19 @@
  * limitations under the license.
  */
 
-package jp.naist.ogami.json;
+package jp.naist.heijo.message;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import jp.naist.ogami.message.ExeTimeInfo;
+public class SamplingResult {
 
-public class ExeTimeJson
-{
+	public long CurrentTime = 0;
 
-  public long CurrentTime = 0;
-  public List<ExeTimeInfo> ExeTimes = new LinkedList<>();
+	public double TimeLength = 0;
+
+	public List<MethodInfo> Methods = new LinkedList<>();
+
+	public List<ExeTimeInfo> ExeTimes = new LinkedList<>();
 
 }

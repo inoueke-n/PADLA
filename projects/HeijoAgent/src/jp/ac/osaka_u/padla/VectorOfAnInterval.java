@@ -6,15 +6,16 @@ public class VectorOfAnInterval {
 	private double[] sumOfVectors;
 	private double[] normalizedVector;
 
-
-	public int getNumOfMethods() {
-		return numOfMethods;
-	}
-	public void setNumOfMethods(int numOfMethods) {
+	public VectorOfAnInterval(int numOfMethods) {
 		this.numOfMethods = numOfMethods;
 		sumOfVectors = new double[this.numOfMethods];
 		normalizedVector= new double[this.numOfMethods];
 	}
+
+	public int getNumOfMethods() {
+		return numOfMethods;
+	}
+
 	public double[] getSumOfVectors() {
 		return sumOfVectors;
 	}

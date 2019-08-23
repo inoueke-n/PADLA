@@ -22,16 +22,16 @@ import java.util.Map;
 
 import jp.ac.osaka_u.padla.LearningData;
 import jp.ac.osaka_u.padla.LevelChangerCombined;
+import jp.ac.osaka_u.padla.Message;
 import jp.ac.osaka_u.padla.Options;
 import jp.naist.heijo.Monitor;
 import jp.naist.heijo.debug.DebugValue;
 import jp.naist.heijo.debug.IntervalPrinter;
 import jp.naist.heijo.message.ExeTimeInfo;
-import jp.naist.heijo.message.Message;
+import jp.naist.heijo.message.SamplingResult;
 import jp.naist.heijo.util.Pair;
 
-public class UpdateThread extends Thread
-{
+public class UpdateThread extends Thread {
 
 	private boolean isFirstSend = true;
 
@@ -43,21 +43,16 @@ public class UpdateThread extends Thread
 
 	private String messageHead = "[AGENT]:";
 	private LevelChangerCombined levelchanger;
-	private boolean isFirstUpdate = true;
 
-	public UpdateThread(Options options)
-	{
+	public UpdateThread(Options options) {
 		if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_FLAG) {
 			debugIntervalPrinter = new IntervalPrinter(DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_TIME, "UPDATE");
 		}
 		this.options = options;
-		LearningData learningdata = new LearningData(options,int numOfMethods,options.get);
-		this.levelchanger = new LevelChangerCombined(options, learningdata);
 	}
 
 	@Override
-	public void run()
-	{
+	public void run() {
 		try {
 			if (isFirstSend) {
 				firstSend();
@@ -74,49 +69,37 @@ public class UpdateThread extends Thread
 		}
 	}
 
-	private void update()
-	{
-		if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_FLAG) debugIntervalPrinter.interval();
+	private void update() {
+		if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_FLAG)
+			debugIntervalPrinter.interval();
 
+		SamplingResult samplingresult = new SamplingResult();
 		Message message = new Message();
-		message.setLEARNINGDATA(options.getLearningData());
-		message.setBUFFEROUTPUT(options.getBufferoutput());
-		message.setPHASEOUTPUT(options.getPhaseoutput());
-		message.setBUFFER(options.getBuffer());
-		message.setINTERVAL(options.getInterval());
-		message.setEP(options.getEp());
-		message.setIsDebug(options.isDebug());
-		message.setDEBUGLOGOUTPUT(options.getDebugLogOutput());
 
 		synchronized (Monitor.getInstance().Scheduler.Lock) {
-			message.CurrentTime = System.currentTimeMillis();
+			samplingresult.CurrentTime = System.currentTimeMillis();
 
 			// 前回のupdateとのIntervalを計算。初回時は固定時間を信じる
 			if (before < 0) {
-				message.TimeLength = Monitor.getInstance().Config.UpdateInterval;
+				samplingresult.TimeLength = Monitor.getInstance().Config.UpdateInterval;
+			} else {
+				long diff = samplingresult.CurrentTime - before;
+				samplingresult.TimeLength = diff;
 			}
-			else {
-				long diff = message.CurrentTime - before;
-				message.TimeLength = diff;
-			}
-			before = message.CurrentTime;
+			before = samplingresult.CurrentTime;
 
-			for (Map.Entry<Pair<Integer, Long>, Integer> entry : Monitor.getInstance().Scheduler.SampleNumMap.entrySet()) {
+			for (Map.Entry<Pair<Integer, Long>, Integer> entry : Monitor.getInstance().Scheduler.SampleNumMap
+					.entrySet()) {
 				int methodID = entry.getKey().first();
 				long threadID = entry.getKey().second();
 				double exeRate = (double) entry.getValue() / Monitor.getInstance().Scheduler.Counter;
-				double exeTime = exeRate * message.TimeLength;
+				double exeTime = exeRate * samplingresult.TimeLength;
 				ExeTimeInfo info = new ExeTimeInfo(methodID, threadID, exeTime);
-				message.ExeTimes.add(info);
+				samplingresult.ExeTimes.add(info);
 			}
 
-			if(isFirstUpdate) {
-				LearningData learningdata = new LearningData(options,message.Methods.size(),options.getMode());
-				isFirstUpdate = false;
-			}
-
-			if (message.ExeTimes != null && 0 < message.ExeTimes.size()) {
-				levelchanger.isUnkownPhase(message);
+			if (samplingresult.ExeTimes != null && 0 < samplingresult.ExeTimes.size()) {
+				message.setISFIRSTLEVEL(levelchanger.isUnkownPhase(samplingresult));
 			}
 
 			Monitor.getInstance().Scheduler.Counter = 0;
@@ -133,22 +116,21 @@ public class UpdateThread extends Thread
 		}
 	}
 
-	private void firstSend()
-	{
-		if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_NO_CONNECT) return;
+	private void firstSend() {
+		if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_NO_CONNECT)
+			return;
 
+		SamplingResult samplingresult = new SamplingResult();
 		Message message = new Message();
-		message.setLEARNINGDATA(options.getLearningData());
+
+		samplingresult.CurrentTime = 0;
+		samplingresult.TimeLength = 0;
+		samplingresult.Methods.addAll(Monitor.getInstance().StructureDB.IdDataMap.values());
 		message.setBUFFEROUTPUT(options.getBufferoutput());
-		message.setPHASEOUTPUT(options.getPhaseoutput());
-		message.setBUFFER(options.getBuffer());
-		message.setINTERVAL(options.getInterval());
-		message.setEP(options.getEp());
-		message.setIsDebug(options.isDebug());
-		message.setDEBUGLOGOUTPUT(options.getDebugLogOutput());
-		message.CurrentTime = 0;
-		message.TimeLength = 0;
-		message.Methods.addAll(Monitor.getInstance().StructureDB.IdDataMap.values());
+		message.setCACHESIZE(options.getCacheSize());
+		message.setNUMOFMETHODS(samplingresult.Methods.size());
+		LearningData learningdata = new LearningData(options, message.getNUMOFMETHODS(), options.getMode());
+		this.levelchanger = new LevelChangerCombined(options, learningdata, message.getNUMOFMETHODS());
 		try {
 			Monitor.getInstance().Connector.write(message);
 		} catch (IOException e) {
