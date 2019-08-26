@@ -18,16 +18,17 @@
 package jp.naist.heijo.timer;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
 import jp.ac.osaka_u.padla.LearningData;
 import jp.ac.osaka_u.padla.LevelChangerCombined;
 import jp.ac.osaka_u.padla.Message;
+import jp.ac.osaka_u.padla.MethodVector;
 import jp.ac.osaka_u.padla.Options;
 import jp.naist.heijo.Monitor;
 import jp.naist.heijo.debug.DebugValue;
 import jp.naist.heijo.debug.IntervalPrinter;
-import jp.naist.heijo.message.ExeTimeInfo;
 import jp.naist.heijo.message.SamplingResult;
 import jp.naist.heijo.util.Pair;
 
@@ -43,6 +44,7 @@ public class UpdateThread extends Thread {
 
 	private String messageHead = "[AGENT]:";
 	private LevelChangerCombined levelchanger;
+	private int numOfMethods;
 
 	public UpdateThread(Options options) {
 		if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_PRINT_UPDATE_INTERVAL_FLAG) {
@@ -74,6 +76,8 @@ public class UpdateThread extends Thread {
 			debugIntervalPrinter.interval();
 
 		SamplingResult samplingresult = new SamplingResult();
+		MethodVector vector = new MethodVector(numOfMethods);
+		Arrays.fill(vector.getSumOfVectors(), 0.0);
 		Message message = new Message();
 
 		synchronized (Monitor.getInstance().Scheduler.Lock) {
@@ -91,16 +95,13 @@ public class UpdateThread extends Thread {
 			for (Map.Entry<Pair<Integer, Long>, Integer> entry : Monitor.getInstance().Scheduler.SampleNumMap
 					.entrySet()) {
 				int methodID = entry.getKey().first();
-				long threadID = entry.getKey().second();
 				double exeRate = (double) entry.getValue() / Monitor.getInstance().Scheduler.Counter;
 				double exeTime = exeRate * samplingresult.TimeLength;
-				ExeTimeInfo info = new ExeTimeInfo(methodID, threadID, exeTime);
-				samplingresult.ExeTimes.add(info);
+				vector.add(methodID, exeTime);
 			}
 
-			if (samplingresult.ExeTimes != null && 0 < samplingresult.ExeTimes.size()) {
-				message.setISFIRSTLEVEL(levelchanger.isUnkownPhase(samplingresult));
-			}
+			//Call phase detection
+			message.setISFIRSTLEVEL(levelchanger.isUnkownPhase(vector));
 
 			Monitor.getInstance().Scheduler.Counter = 0;
 			Monitor.getInstance().Scheduler.SampleNumMap.clear();
@@ -128,7 +129,8 @@ public class UpdateThread extends Thread {
 		samplingresult.Methods.addAll(Monitor.getInstance().StructureDB.IdDataMap.values());
 		message.setBUFFEROUTPUT(options.getBufferoutput());
 		message.setCACHESIZE(options.getCacheSize());
-		message.setNUMOFMETHODS(samplingresult.Methods.size());
+		numOfMethods = samplingresult.Methods.size();
+		message.setNUMOFMETHODS(numOfMethods);
 		LearningData learningdata = new LearningData(options, message.getNUMOFMETHODS(), options.getMode());
 		this.levelchanger = new LevelChangerCombined(options, learningdata, message.getNUMOFMETHODS());
 		try {

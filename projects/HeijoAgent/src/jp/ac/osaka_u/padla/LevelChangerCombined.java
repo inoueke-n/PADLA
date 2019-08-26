@@ -35,7 +35,7 @@ public class LevelChangerCombined extends Thread {
 
 	static DebugMessage debugmessage = null;
 	static CalcVectors calc = new CalcVectors();
-	static VectorOfAnInterval vec;
+	static MethodVector vec;
 	Options options = null;
 	PrevState ps;
 	LearningData learningdata;
@@ -43,7 +43,7 @@ public class LevelChangerCombined extends Thread {
 	int mode = 0;
 
 	public LevelChangerCombined(Options options, LearningData learningdata, int numOfMethods) {
-		vec = new VectorOfAnInterval(numOfMethods);
+		vec = new MethodVector(numOfMethods);
 		this.options = options;
 		debugmessage = new DebugMessage();
 		ps = new PrevState();
@@ -56,10 +56,17 @@ public class LevelChangerCombined extends Thread {
 		}
 	}
 
-	public boolean isUnkownPhase(SamplingResult info) {
-		SamplingResult samplingresult = info;
+	public void run() {
+
+	}
+
+	public void updateSamplingData(SamplingResult info) {
+
+	}
+
+	public boolean isUnkownPhase(MethodVector vector) {
 		boolean result = false;
-		vec.setSumOfVectors(addSamplingDataToSumOfVectors(samplingresult, vec.getSumOfVectors()));
+		vec.setSumOfVectors(vector.getSumOfVectors());
 		vec.incCountSamaple();
 		if (vec.getCountSample() == options.getInterval()) {
 			vec.setNormalizedVector(calc.normalizeVector(vec.getSumOfVectors(), vec.getNumOfMethods()));
@@ -68,6 +75,7 @@ public class LevelChangerCombined extends Thread {
 					.isUnknownPhase()) {
 				try {
 					addSamplingData(vec.getNormalizedVector());
+					//If mode == "Learning"
 					if (mode == 2) {
 						bwVector.write(Arrays.toString(vec.getNormalizedVector()) + "\n");
 						bwVector.flush();
@@ -111,6 +119,7 @@ public class LevelChangerCombined extends Thread {
 				isFirstLevel = false;
 				debugmessage.printOnDebug("Unknown Phase Detected!\n");
 				debugmessage.printOnDebug("Logging Level Down\n↓↓↓↓↓↓↓↓");
+				//If mode == "Adapter"
 				if (mode == 1) {
 				}
 			}
@@ -196,29 +205,6 @@ public class LevelChangerCombined extends Thread {
 		}
 	}
 
-	/**
-	 * It extracts method execution times from message and add them to sumOfVectors
-	 * @param message
-	 * @param sumOfVectors
-	 * @return
-	 */
-	static double[] addSamplingDataToSumOfVectors(SamplingResult message, double[] sumOfVectors) {
-		double[] tmpArray = new double[vec.getNumOfMethods()];
-
-		calc.initArray(tmpArray);
-
-		for (int index = 0; index < message.ExeTimes.size(); index++) {
-			if (tmpArray[message.ExeTimes.get(index).MethodID] < message.ExeTimes.get(index).ExeTime) { //If the method ID is the same but the thread ID is different, use the longer execution time
-				tmpArray[message.ExeTimes.get(index).MethodID] = message.ExeTimes.get(index).ExeTime;
-			}
-		}
-
-		for (int i = 0; i < vec.getNumOfMethods(); i++) {
-			sumOfVectors[i] += tmpArray[i];
-		}
-
-		return sumOfVectors;
-	}
 
 	public static class PrevState {
 		private double[] prev;

@@ -33,7 +33,7 @@ public class LearningData {
 	static DebugMessage debugmessage = null;
 
 	static CalcVectors calcvectors = null;
-	static VectorOfAnInterval vecofaninterval = null;
+	static MethodVector vecofaninterval = null;
 
 	public LearningData(Options options,int numOfMethods,String mode) {
 		MODE = mode;

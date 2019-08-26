@@ -1,12 +1,12 @@
 package jp.ac.osaka_u.padla;
 
-public class VectorOfAnInterval {
+public class MethodVector {
 	private int numOfMethods;
 	private int countSample;
 	private double[] sumOfVectors;
 	private double[] normalizedVector;
 
-	public VectorOfAnInterval(int numOfMethods) {
+	public MethodVector(int numOfMethods) {
 		this.numOfMethods = numOfMethods;
 		sumOfVectors = new double[this.numOfMethods];
 		normalizedVector= new double[this.numOfMethods];
@@ -38,6 +38,12 @@ public class VectorOfAnInterval {
 
 	public void incCountSamaple() {
 		this.countSample++;
+	}
+
+	public void add(int methodID, double exeTime) {
+		if(sumOfVectors[methodID] < exeTime) {
+			sumOfVectors[methodID] = exeTime;
+		}
 	}
 
 }
