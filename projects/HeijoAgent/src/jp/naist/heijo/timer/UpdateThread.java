@@ -78,7 +78,6 @@ public class UpdateThread extends Thread {
 		SamplingResult samplingresult = new SamplingResult();
 		MethodVector vector = new MethodVector(numOfMethods);
 		Arrays.fill(vector.getSumOfVectors(), 0.0);
-		Message message = new Message();
 
 		synchronized (Monitor.getInstance().Scheduler.Lock) {
 			samplingresult.CurrentTime = System.currentTimeMillis();
@@ -101,19 +100,7 @@ public class UpdateThread extends Thread {
 			}
 
 			//Call phase detection
-			message.setISFIRSTLEVEL(levelchanger.isUnkownPhase(vector));
-
-			Monitor.getInstance().Scheduler.Counter = 0;
-			Monitor.getInstance().Scheduler.SampleNumMap.clear();
-		}
-
-		if (!(DebugValue.DEBUG_FLAG && DebugValue.DEBUG_NO_CONNECT)) {
-			try {
-				Monitor.getInstance().Connector.write(message);
-			} catch (IOException e) {
-				System.err.println(messageHead + "Connection is closed");
-				Monitor.getInstance().Scheduler.Executor.shutdownNow();
-			}
+			levelchanger.updateSamplingData(vector);
 		}
 	}
 
@@ -133,6 +120,7 @@ public class UpdateThread extends Thread {
 		message.setNUMOFMETHODS(numOfMethods);
 		LearningData learningdata = new LearningData(options, message.getNUMOFMETHODS(), options.getMode());
 		this.levelchanger = new LevelChangerCombined(options, learningdata, message.getNUMOFMETHODS());
+		this.levelchanger.start();
 		try {
 			Monitor.getInstance().Connector.write(message);
 		} catch (IOException e) {

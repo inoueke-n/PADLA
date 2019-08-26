@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import jp.naist.heijo.message.SamplingResult;
+import jp.naist.heijo.Monitor;
+import jp.naist.heijo.debug.DebugValue;
 
 public class LevelChangerCombined extends Thread {
 	static boolean isFirstLevel = true;
@@ -41,6 +42,8 @@ public class LevelChangerCombined extends Thread {
 	LearningData learningdata;
 	private boolean isFirstData = true;
 	int mode = 0;
+	private boolean isNewData;
+	private String messageHead = "[AGENT]:";
 
 	public LevelChangerCombined(Options options, LearningData learningdata, int numOfMethods) {
 		vec = new MethodVector(numOfMethods);
@@ -49,24 +52,54 @@ public class LevelChangerCombined extends Thread {
 		ps = new PrevState();
 		this.learningdata = learningdata;
 		openOutputFiles(this.options);
-		if(this.options.getMode().equals("Adapter")) {
+		if (this.options.getMode().equals("Adapter")) {
 			mode = 1;
-		}else if(this.options.getMode().equals("Learning")) {
+		} else if (this.options.getMode().equals("Learning")) {
 			mode = 2;
 		}
+		isNewData = false;
 	}
 
 	public void run() {
 
+		while (true) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (isNewData) {
+				Message message = new Message();
+				message.setISFIRSTLEVEL(isUnkownPhase());
+				socketWrite(message);
+				isNewData = false;
+			}
+		}
+
 	}
 
-	public void updateSamplingData(SamplingResult info) {
+	private void socketWrite(Message message) {
+		Monitor.getInstance().Scheduler.Counter = 0;
+		Monitor.getInstance().Scheduler.SampleNumMap.clear();
 
+		if (!(DebugValue.DEBUG_FLAG && DebugValue.DEBUG_NO_CONNECT)) {
+			try {
+				Monitor.getInstance().Connector.write(message);
+			} catch (IOException e) {
+				System.err.println(messageHead + "Connection is closed");
+				Monitor.getInstance().Scheduler.Executor.shutdownNow();
+			}
+		}
 	}
 
-	public boolean isUnkownPhase(MethodVector vector) {
-		boolean result = false;
+	public synchronized void updateSamplingData(MethodVector vector) {
 		vec.setSumOfVectors(vector.getSumOfVectors());
+		isNewData = true;
+
+	}
+
+	public synchronized boolean isUnkownPhase() {
+		boolean result = false;
 		vec.incCountSamaple();
 		if (vec.getCountSample() == options.getInterval()) {
 			vec.setNormalizedVector(calc.normalizeVector(vec.getSumOfVectors(), vec.getNumOfMethods()));
@@ -204,7 +237,6 @@ public class LevelChangerCombined extends Thread {
 			}
 		}
 	}
-
 
 	public static class PrevState {
 		private double[] prev;
