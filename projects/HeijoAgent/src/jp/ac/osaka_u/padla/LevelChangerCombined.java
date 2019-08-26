@@ -64,7 +64,7 @@ public class LevelChangerCombined extends Thread {
 
 		while (true) {
 			try {
-				Thread.sleep(10);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
