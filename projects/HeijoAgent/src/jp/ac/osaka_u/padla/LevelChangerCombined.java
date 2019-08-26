@@ -40,6 +40,7 @@ public class LevelChangerCombined extends Thread {
 	PrevState ps;
 	LearningData learningdata;
 	private boolean isFirstData = true;
+	int mode = 0;
 
 	public LevelChangerCombined(Options options, LearningData learningdata, int numOfMethods) {
 		vec = new VectorOfAnInterval(numOfMethods);
@@ -48,6 +49,11 @@ public class LevelChangerCombined extends Thread {
 		ps = new PrevState();
 		this.learningdata = learningdata;
 		openOutputFiles(this.options);
+		if(this.options.getMode().equals("Adapter")) {
+			mode = 1;
+		}else if(this.options.getMode().equals("Learning")) {
+			mode = 2;
+		}
 	}
 
 	public boolean isUnkownPhase(SamplingResult info) {
@@ -62,7 +68,7 @@ public class LevelChangerCombined extends Thread {
 					.isUnknownPhase()) {
 				try {
 					addSamplingData(vec.getNormalizedVector());
-					if (options.getMode().equals("Learning")) {
+					if (mode == 2) {
 						bwVector.write(Arrays.toString(vec.getNormalizedVector()) + "\n");
 						bwVector.flush();
 					}
@@ -105,7 +111,7 @@ public class LevelChangerCombined extends Thread {
 				isFirstLevel = false;
 				debugmessage.printOnDebug("Unknown Phase Detected!\n");
 				debugmessage.printOnDebug("Logging Level Down\n↓↓↓↓↓↓↓↓");
-				if (options.getMode().equals("Adapter")) {
+				if (mode == 1) {
 				}
 			}
 			if (continuesIn2Intervals(ps, vectors)) {
@@ -170,9 +176,9 @@ public class LevelChangerCombined extends Thread {
 		}
 	}
 
-	private static void openOutputFiles(Options options) {
+	private void openOutputFiles(Options options) {
 		if (options.getPhaseoutput() != null) {
-			if (options.getMode().equals("Learning")) {
+			if (mode == 2) {
 				try {
 					bwVector = new BufferedWriter(new FileWriter(new File(options.getPhaseoutput())));
 				} catch (IOException e5) {
