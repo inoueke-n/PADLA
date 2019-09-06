@@ -22,6 +22,8 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+import jp.ac.osaka_u.padla.Options;
+
 public class Config
 {
 
@@ -31,14 +33,16 @@ public class Config
   public int UpdateInterval;
   public Set<String> IgnorePackages = new HashSet<String>() { { add(ConstValue.THIS_PACKAGE_NAME); } };
 
-  public void load() throws Exception
+  public void load(Options options) throws Exception
   {
     Properties properties = new Properties();
     properties.load(this.getClass().getResourceAsStream(ConstValue.CONFIG_FILE_PATH));
     Host = getStringProperty(properties, "HOST", true, ConstValue.DEFAULT_HOST);
     Port = getIntegerProperty(properties, "PORT", true, ConstValue.DEFAULT_PORT);
-    SampleInterval = getIntegerProperty(properties, "SAMPLE_INTERVAL", true, ConstValue.DEFAULT_SAMPLE_INTERVAL);
-    UpdateInterval = getIntegerProperty(properties, "UPDATE_INTERVAL", true, ConstValue.DEFAULT_UPDATE_INTERVAL);
+//    SampleInterval = getIntegerProperty(properties, "SAMPLE_INTERVAL", true, ConstValue.DEFAULT_SAMPLE_INTERVAL);
+//    UpdateInterval = getIntegerProperty(properties, "UPDATE_INTERVAL", true, ConstValue.DEFAULT_UPDATE_INTERVAL);
+    SampleInterval = options.getSampleInterval();
+    UpdateInterval = options.getUpdateInterval();
     String[] ignore = getStringArrayProperty(properties, "IGNORE_PACKAGE", true, new String[] {});
     IgnorePackages.addAll(Arrays.asList(ignore));
   }

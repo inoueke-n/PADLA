@@ -80,7 +80,7 @@ public class Monitor extends Thread
 		do {
 			// 設定ファイル読み込み
 			try {
-				getInstance().Config.load();
+				getInstance().Config.load(options);
 			} catch (Exception e) {
 				System.err.println("messageHead + Failed to load " + ConstValue.CONFIG_FILE_PATH);
 			}

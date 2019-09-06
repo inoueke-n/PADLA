@@ -99,7 +99,7 @@ public class UpdateThread extends Thread {
 				vector.add(methodID, exeTime);
 			}
 
-			//Call phase detection
+			//for LevelChanger
 			levelchanger.updateSamplingData(vector);
 		}
 	}

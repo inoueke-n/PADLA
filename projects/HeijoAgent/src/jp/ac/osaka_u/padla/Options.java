@@ -111,6 +111,25 @@ public class Options {
 		this.mode = mode;
 	}
 
+	private int SampleInterval = 10;
+	public int getSampleInterval() {
+		return SampleInterval;
+	}
+
+	public void setSampleInterval(int sampleInterval) {
+		SampleInterval = sampleInterval;
+	}
+
+	public int getUpdateInterval() {
+		return UpdateInterval;
+	}
+
+	public void setUpdateInterval(int updateInterval) {
+		UpdateInterval = updateInterval;
+	}
+
+	private int UpdateInterval = 500;
+
 	private AgentMessage agentmessage = new AgentMessage();
 
 	public Options(String optionfile) {
@@ -166,6 +185,12 @@ public class Options {
 			case "mode":
 				this.setMode(option.getAttribute("value"));
 				break;
+			case "sampleInterval":
+				this.setSampleInterval(Integer.valueOf(option.getAttribute("value")));
+				break;
+			case "updateInterval":
+				this.setUpdateInterval(Integer.valueOf(option.getAttribute("value")));
+				break;
 			default:
 				agentmessage.print("ERROR Invalid argument:" + option.getAttribute("type"));
 			}
@@ -181,6 +206,8 @@ public class Options {
 		agentmessage.print("interval = " + this.getInterval());
 		agentmessage.print("threshold = " + this.getEp());
 		agentmessage.print("mode = " + this.getMode());
+		agentmessage.print("sampleInterval = " + this.getSampleInterval());
+		agentmessage.print("updateInterval = " + this.getUpdateInterval());
 		if(this.isDebug()) {
 			agentmessage.print("isDebug = true");
 		}else {
