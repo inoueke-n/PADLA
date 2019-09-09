@@ -87,7 +87,7 @@ public class MyLogCache {
 	 * @param str
 	 */
 	public void appendLogToCache(String str) {
-		if(!isLocked) {
+		if(!isLocked && CACHESIZE > 0) {
 			if(cachedLogs != null) {
 				cachedLogs[nextIndex] = str;
 				currentIndex = nextIndex;
