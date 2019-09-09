@@ -103,7 +103,7 @@ public class Options {
 		this.debugLogOutput = debugLogOutput;
 	}
 
-	private String mode = null;
+	private String mode = "Normal";
 	public String getMode() {
 		return mode;
 	}

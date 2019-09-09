@@ -78,7 +78,6 @@ public class UpdateThread extends Thread {
 		SamplingResult samplingresult = new SamplingResult();
 		MethodVector vector = new MethodVector(numOfMethods);
 		Arrays.fill(vector.getSumOfVectors(), 0.0);
-
 		synchronized (Monitor.getInstance().Scheduler.Lock) {
 			samplingresult.CurrentTime = System.currentTimeMillis();
 
@@ -107,10 +106,8 @@ public class UpdateThread extends Thread {
 	private void firstSend() {
 		if (DebugValue.DEBUG_FLAG && DebugValue.DEBUG_NO_CONNECT)
 			return;
-
 		SamplingResult samplingresult = new SamplingResult();
 		Message message = new Message();
-
 		samplingresult.CurrentTime = 0;
 		samplingresult.TimeLength = 0;
 		samplingresult.Methods.addAll(Monitor.getInstance().StructureDB.IdDataMap.values());
