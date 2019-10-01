@@ -2,9 +2,12 @@ package jp.ac.osaka_u.ist.padla;
 
 @org.msgpack.annotation.Message
 public class Message {
+	public Message() {
+
+	}
 
 	@org.msgpack.annotation.Index(0)
-	private boolean ISFIRSTLEVEL = false;
+	public boolean ISFIRSTLEVEL = false;
 
 	public boolean isISFIRSTLEVEL() {
 		return ISFIRSTLEVEL;
@@ -15,7 +18,7 @@ public class Message {
 	}
 
 	@org.msgpack.annotation.Index(1)
-	private String BUFFEROUTPUT = null;
+	public String BUFFEROUTPUT = null;
 
 	public String getBUFFEROUTPUT() {
 		return BUFFEROUTPUT;
@@ -26,7 +29,7 @@ public class Message {
 	}
 
 	@org.msgpack.annotation.Index(2)
-	private int CACHESIZE = 0;
+	public int CACHESIZE = 0;
 
 	public int getCACHESIZE() {
 		return CACHESIZE;
@@ -37,7 +40,7 @@ public class Message {
 	}
 
 	@org.msgpack.annotation.Index(3)
-	private int NUMOFMETHODS = -1;
+	public int NUMOFMETHODS = -1;
 
 	public int getNUMOFMETHODS() {
 		return NUMOFMETHODS;

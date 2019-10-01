@@ -54,7 +54,7 @@ public class StatusReciever extends Thread{
 			try {
 				message = connector.read(Message.class);
 			} catch (Exception e) {
-				System.err.println("Cannot recieve");
+				debugmessage.print("Cannot recieve");
 				break;
 			}
 			// Data receive (first)

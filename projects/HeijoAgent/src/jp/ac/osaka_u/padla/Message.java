@@ -2,6 +2,9 @@ package jp.ac.osaka_u.padla;
 
 @org.msgpack.annotation.Message
 public class Message {
+	public Message() {
+
+	}
 
 	@org.msgpack.annotation.Index(0)
 	private boolean ISFIRSTLEVEL = false;

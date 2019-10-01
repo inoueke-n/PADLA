@@ -7,7 +7,7 @@ public class DebugMessage {
 	}
 
 	static boolean ISDEBUG = false;
-	
+
 	public void setISDEBUG(boolean iSDEBUG) {
 		ISDEBUG = iSDEBUG;
 	}
@@ -20,10 +20,10 @@ public class DebugMessage {
 	 * @param args
 	 */
 	public void print(String arg) {
-		System.out.print(messageHead);
-		System.out.println(arg);
+		System.err.print(messageHead);
+		System.err.println(arg);
 	}
-	
+
 	/**
 	 * Print messages when debug mode
 	 * @param args
