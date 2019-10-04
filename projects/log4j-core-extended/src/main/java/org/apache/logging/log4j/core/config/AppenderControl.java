@@ -30,8 +30,8 @@ import org.apache.logging.log4j.core.filter.AbstractFilterable;
 import org.apache.logging.log4j.core.filter.Filterable;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 
-import jp.ac.osaka_u.ist.padla.StatusReciever;
 import jp.ac.osaka_u.ist.padla.MyLogCache;
+import jp.ac.osaka_u.ist.padla.StatusReciever;
 
 /**
  * Wraps an {@link Appender} with details an appender implementation shouldn't need to know about.
@@ -46,7 +46,7 @@ public class AppenderControl extends AbstractFilterable {
 	private boolean isAdapter;
 
 	MyLogCache logcache = null;
-	StatusReciever levelchanger = null;
+	StatusReciever statusreciever = null;
 
 	/**
 	 * Constructor.
@@ -67,8 +67,8 @@ public class AppenderControl extends AbstractFilterable {
 		if(this.appenderName.equals("Adapter")) {
 			isAdapter = true;
 			logcache = new MyLogCache();
-			levelchanger = new StatusReciever(logcache,"Adapter");
-			levelchanger.start();
+			statusreciever = new StatusReciever(logcache,"Adapter");
+			statusreciever.start();
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
@@ -78,8 +78,8 @@ public class AppenderControl extends AbstractFilterable {
 		}else if(this.appenderName.equals("Learning")){
 			isAdapter = false;
 			logcache = new MyLogCache();
-			levelchanger = new StatusReciever(logcache,"Learning");
-			levelchanger.start();
+			statusreciever = new StatusReciever(logcache,"Learning");
+			statusreciever.start();
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
@@ -136,7 +136,7 @@ public class AppenderControl extends AbstractFilterable {
 		if(isAdapter) {
 			final String str = getStringLayout().toSerializable(event);
 			logcache.appendLogToCache(str);
-			if(levelchanger.isFirstLevel()) {
+			if(statusreciever.isFirstLevel()) {
 				if (shouldSkip(event)) {
 					return;
 				}

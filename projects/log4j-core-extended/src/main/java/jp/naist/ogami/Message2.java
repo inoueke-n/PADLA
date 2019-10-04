@@ -1,8 +1,8 @@
-package jp.ac.osaka_u.ist.padla;
+package jp.naist.ogami;
 
 @org.msgpack.annotation.Message
-public class Message {
-	public Message() {
+public class Message2 {
+	public Message2() {
 
 	}
 

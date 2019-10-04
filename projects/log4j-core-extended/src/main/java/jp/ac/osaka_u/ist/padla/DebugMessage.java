@@ -22,6 +22,7 @@ public class DebugMessage {
 	public void print(String arg) {
 		System.err.print(messageHead);
 		System.err.println(arg);
+		System.err.flush();
 	}
 
 	/**

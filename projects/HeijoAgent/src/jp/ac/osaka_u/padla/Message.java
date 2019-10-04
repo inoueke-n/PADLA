@@ -5,7 +5,6 @@ public class Message {
 	public Message() {
 
 	}
-
 	@org.msgpack.annotation.Index(0)
 	private boolean ISFIRSTLEVEL = false;
 

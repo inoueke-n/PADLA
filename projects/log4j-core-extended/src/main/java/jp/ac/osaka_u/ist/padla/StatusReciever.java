@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.naist.ogami.Connector;
+import jp.naist.ogami.Message2;
 
 public class StatusReciever extends Thread{
 	static MyLogCache mylogcache = null;
@@ -46,17 +47,22 @@ public class StatusReciever extends Thread{
 	public void run() {
 		Socket socket = connect2Agent();
 		Connector connector = new Connector(socket);
+		debugmessage.print("Connector created");
 
 		closeOnExit();
 		// Data receive roop
 		while (socket.isConnected()) {
-			Message message = null;
+			debugmessage.print("loop entered");
+			Message2 message = null;
 			try {
-				message = connector.read(Message.class);
+				debugmessage.print("before read");
+				message = connector.read(Message2.class);
 			} catch (Exception e) {
 				debugmessage.print("Cannot recieve");
+				e.printStackTrace();
 				break;
 			}
+			debugmessage.print("read end");
 			// Data receive (first)
 			if (message.getNUMOFMETHODS() > 0) {
 				firstReceive(message);
@@ -73,7 +79,7 @@ public class StatusReciever extends Thread{
 	 * Extract options from message
 	 * @param message
 	 */
-	private static void firstReceive(Message message) {
+	private static void firstReceive(Message2 message) {
 		mylogcache.setOUTPUT(message.getBUFFEROUTPUT());
 		mylogcache.setCACHESIZE(message.getCACHESIZE());
 	}
@@ -105,7 +111,7 @@ public class StatusReciever extends Thread{
 	 * @param vectors
 	 * @param ps
 	 */
-	private void adaptLogLevel(Message message) {
+	private void adaptLogLevel(Message2 message) {
 		//Compare to learningData
 		if(message.isISFIRSTLEVEL()) {
 			if(this.isFirstLevel()) {

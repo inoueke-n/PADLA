@@ -38,17 +38,11 @@
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
     </dependency>
-	<!-- https://mvnrepository.com/artifact/org.msgpack/msgpack -->
+    	<!-- https://mvnrepository.com/artifact/org.msgpack/msgpack -->
 	<dependency>
 	    <groupId>org.msgpack</groupId>
 	    <artifactId>msgpack</artifactId>
 	    <version>0.6.12</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/net.arnx/jsonic -->
-	<dependency>
-	    <groupId>net.arnx</groupId>
-	    <artifactId>jsonic</artifactId>
-	    <version>1.3.10</version>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
 	<dependency>
@@ -56,7 +50,6 @@
 	    <artifactId>javassist</artifactId>
 	    <version>3.22.0-GA</version>
 	</dependency>
-
     <!-- Classes and resources to be shaded into the core jar -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
