@@ -45,8 +45,6 @@ public class MyLogCache {
 		File byteFile= new File(BUFFEROUTPUT);
 		try {
 			byteBw = new BufferedWriter(new FileWriter(byteFile));
-			//Write partition string first
-			byteBw.write(PARTITIONSTRING);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -57,9 +55,11 @@ public class MyLogCache {
 	public void setCACHESIZE(int cACHESIZE) {
 		CACHESIZE = cACHESIZE;
 		cachedLogs = new String[CACHESIZE];
+		//Write partition string first
+		cachedLogs[0] = PARTITIONSTRING;
 	}
 
-	private int nextIndex = 0;
+	private int nextIndex = 1;
 	private int currentIndex = 0;
 	private int oldestIndex = 0;
 	String[] cachedLogs = null;
@@ -72,23 +72,44 @@ public class MyLogCache {
 	 * It output log messages that are kept in the cachedLogs
 	 */
 	public void outputLogs() {
+		try {
+			byteBw.write("[OUTPUT]\n");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		isLocked = true;
-		int copyIndex = oldestIndex;
+		int copyIndex = currentIndex;
+		int headIndex = 0;
 		int partitionCount = 0;
 		int i = 0;
+		int current = 0;
 		//When the num of partitions > 3, there are more than 2 intervals
+
 		while(partitionCount < (bufferedInterval + 1)) {
-			if(numOfPartitions == 1 && partitionCount == bufferedInterval) break;
-			if(cachedLogs[(copyIndex + i) % CACHESIZE].equals(PARTITIONSTRING)) {
+			if((copyIndex - i) < 0) {
+				current = CACHESIZE + (copyIndex - i);
+			}else {
+				current = (copyIndex - i);
+			}
+			if(numOfPartitions < bufferedInterval && partitionCount == bufferedInterval) {
+				break;
+			}
+			if(cachedLogs[(current) % CACHESIZE].equals(PARTITIONSTRING)) {
+				headIndex = current;
 				partitionCount++;
 			}
+			i++;
+		}
+
+		int j = 0;
+		while((headIndex + j) != copyIndex) {
 			try {
-				byteBw.write("[OUTPUT]\n");
-				byteBw.write(cachedLogs[(copyIndex + i) % CACHESIZE]);
+				byteBw.write(cachedLogs[(headIndex + j) % CACHESIZE]);
 				byteBw.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			j++;
 		}
 		isLocked = false;
 	}
