@@ -128,6 +128,17 @@ public class Options {
 		UpdateInterval = updateInterval;
 	}
 
+	public int bufferedInterval = 2;
+
+
+	public int getBufferedInterval() {
+		return bufferedInterval;
+	}
+
+	public void setBufferedInterval(int bufferedInterval) {
+		this.bufferedInterval = bufferedInterval;
+	}
+
 	private int UpdateInterval = 500;
 
 	private AgentMessage agentmessage = new AgentMessage();
@@ -192,6 +203,9 @@ public class Options {
 			case "updateInterval":
 				this.setUpdateInterval(Integer.valueOf(option.getAttribute("value")));
 				break;
+			case "bufferedInterval":
+				this.setBufferedInterval(Integer.valueOf(option.getAttribute("value")));
+				break;
 			default:
 				agentmessage.print("ERROR Invalid argument:" + option.getAttribute("type"));
 			}
@@ -209,6 +223,7 @@ public class Options {
 		agentmessage.print("mode = " + this.getMode());
 		agentmessage.print("sampleInterval = " + this.getSampleInterval());
 		agentmessage.print("updateInterval = " + this.getUpdateInterval());
+		agentmessage.print("bufferedInterval = " + this.getBufferedInterval());
 		if(this.isDebug()) {
 			agentmessage.print("isDebug = true");
 		}else {

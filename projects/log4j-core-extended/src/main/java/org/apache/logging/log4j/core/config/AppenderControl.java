@@ -135,7 +135,7 @@ public class AppenderControl extends AbstractFilterable {
 	public void callAppender(final LogEvent event) {
 		if(isAdapter) {
 			final String str = getStringLayout().toSerializable(event);
-			logcache.appendLogToCache(str);
+			logcache.appendMessageToCache(str, false);;
 			if(statusreciever.isFirstLevel()) {
 				if (shouldSkip(event)) {
 					return;

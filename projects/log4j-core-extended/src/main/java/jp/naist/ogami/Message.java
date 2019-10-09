@@ -1,8 +1,8 @@
 package jp.naist.ogami;
 
 @org.msgpack.annotation.Message
-public class Message2 {
-	public Message2() {
+public class Message {
+	public Message() {
 	}
 
 	@org.msgpack.annotation.Index(0)
@@ -49,4 +49,14 @@ public class Message2 {
 		this.NUMOFMETHODS = numOfMethods;
 	}
 
+	@org.msgpack.annotation.Index(4)
+	private int BUFFEREDINTERVAL = 2;
+
+	public int getBUFFEREDINTERVAL() {
+		return BUFFEREDINTERVAL;
+	}
+
+	public void setBUFFEREDINTERVAL(int bUFFEREDINTERVAL) {
+		BUFFEREDINTERVAL = bUFFEREDINTERVAL;
+	}
 }

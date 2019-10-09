@@ -48,5 +48,14 @@ public class Message {
 	public void setNUMOFMETHODS(int numOfMethods) {
 		this.NUMOFMETHODS = numOfMethods;
 	}
+	@org.msgpack.annotation.Index(4)
+	private int BUFFEREDINTERVAL = 2;
 
+	public int getBUFFEREDINTERVAL() {
+		return BUFFEREDINTERVAL;
+	}
+
+	public void setBUFFEREDINTERVAL(int bUFFEREDINTERVAL) {
+		BUFFEREDINTERVAL = bUFFEREDINTERVAL;
+	}
 }
