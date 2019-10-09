@@ -150,8 +150,6 @@ public class LevelChangerCombined extends Thread {
 			outputDebugLog(result, " <Unknown phase>\n");
 			if (this.isFirstLevel()) {
 				isFirstLevel = false;
-				debugmessage.printOnDebug("Unknown Phase Detected!\n");
-				debugmessage.printOnDebug("Logging Level Down\n↓↓↓↓↓↓↓↓");
 				//If mode == "Adapter"
 				if (mode == 1) {
 				}
@@ -164,8 +162,6 @@ public class LevelChangerCombined extends Thread {
 			outputDebugLog(result, " <Known phase>\n");
 			if (!this.isFirstLevel()) {
 				isFirstLevel = true;
-				debugmessage.printOnDebug("Returned to Normal Phase\n");
-				debugmessage.printOnDebug("Logging Level Up\n↑↑↑↑↑↑↑↑");
 			}
 			return false;
 		}
@@ -194,7 +190,6 @@ public class LevelChangerCombined extends Thread {
 		cloneCurrent = current.clone();
 		learningdata.getLearningData().add(cloneCurrent);
 		ps.refresh();
-		debugmessage.printOnDebug("Learned\n");
 	}
 
 	/**

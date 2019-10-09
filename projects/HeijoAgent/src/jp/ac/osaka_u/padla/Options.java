@@ -174,6 +174,7 @@ public class Options {
 			case "isDebug":
 				if(Integer.valueOf(option.getAttribute("value")) == 1) {
 					this.setDebug(true);
+					agentmessage.setDebugflag(true);
 				}
 				break;
 			case "agentWaitingTime":

@@ -3,7 +3,6 @@ package jp.naist.ogami;
 @org.msgpack.annotation.Message
 public class Message2 {
 	public Message2() {
-
 	}
 
 	@org.msgpack.annotation.Index(0)

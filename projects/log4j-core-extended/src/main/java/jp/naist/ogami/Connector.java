@@ -23,11 +23,8 @@ import java.nio.ByteBuffer;
 
 import org.msgpack.MessagePack;
 
-import jp.ac.osaka_u.ist.padla.DebugMessage;
-
 public class Connector
 {
-	static DebugMessage debugmessage = null;
 
 	public static final int HEADER_SIZE = 4;
 
@@ -38,19 +35,16 @@ public class Connector
 	public Connector(Socket socket)
 	{
 		this.Socket = socket;
-		debugmessage = new DebugMessage();
 	}
 
 	public <T> T read(Class<T> type) throws IOException
 	{
-		debugmessage.print("connector enter read");
 		return msgpack.read(readRaw(), type);
 	}
 
 	public byte[] readRaw() throws IOException
 	{
 		// ヘッダ受信
-		debugmessage.print("connector enter readraw");
 		int h_count = HEADER_SIZE;
 		byte[] header = new byte[HEADER_SIZE];
 		while (h_count != 0) {
@@ -58,9 +52,7 @@ public class Connector
 			int read = Socket.getInputStream().read(header, HEADER_SIZE - h_count, h_count);
 			h_count -= read;
 		}
-		debugmessage.print("connector out first loop");
 		int payload_size = ByteBuffer.wrap(header).getInt();
-		debugmessage.print("connector end wrap");
 		// ペイロード受信
 		int p_count = payload_size;
 		byte[] payload = new byte[payload_size];
@@ -69,7 +61,6 @@ public class Connector
 			int read = Socket.getInputStream().read(payload, payload_size - p_count, p_count);
 			p_count -= read;
 		}
-		debugmessage.print("connector out second loop");
 		return payload;
 	}
 

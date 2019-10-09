@@ -82,7 +82,7 @@ public class Monitor extends Thread
 			try {
 				getInstance().Config.load(options);
 			} catch (Exception e) {
-				System.err.println("messageHead + Failed to load " + ConstValue.CONFIG_FILE_PATH);
+				agentmessage.printerr("Failed to load " + ConstValue.CONFIG_FILE_PATH);
 			}
 
 			// ビジュアライザに接続

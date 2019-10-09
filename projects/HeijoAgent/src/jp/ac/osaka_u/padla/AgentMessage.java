@@ -5,22 +5,32 @@ public class AgentMessage {
 	public String getMessagehead() {
 		return messageHead;
 	}
+	private boolean debugflag = false;
+
+
+	public void setDebugflag(boolean debugflag) {
+		this.debugflag = debugflag;
+	}
 
 	/**
 	 * Print messages with messageHead
 	 * @param args
 	 */
 	public void print(String arg) {
-		System.out.print(messageHead);
-		System.out.println(arg);
+		if(debugflag) {
+			System.err.print(messageHead);
+			System.err.println(arg);
+		}
 	}
-	
+
 	/**
 	 * Print error messages with messageHead
 	 * @param arg
 	 */
 	public void printerr(String arg) {
-		System.err.print(messageHead);
-		System.err.println(arg);
+		if(debugflag) {
+			System.err.print(messageHead);
+			System.err.println(arg);
+		}
 	}
 }

@@ -6,13 +6,11 @@ public class DebugMessage {
 		return messageHead;
 	}
 
-	static boolean ISDEBUG = false;
+	boolean ISDEBUG = false;
+
 
 	public void setISDEBUG(boolean iSDEBUG) {
 		ISDEBUG = iSDEBUG;
-	}
-
-	public DebugMessage() {
 	}
 
 	/**
@@ -20,19 +18,12 @@ public class DebugMessage {
 	 * @param args
 	 */
 	public void print(String arg) {
-		System.err.print(messageHead);
-		System.err.println(arg);
-		System.err.flush();
-	}
-
-	/**
-	 * Print messages when debug mode
-	 * @param args
-	 */
-	public void printOnDebug(String arg) {
 		if(ISDEBUG) {
-			this.print(arg);
+			System.err.print(messageHead);
+			System.err.println(arg);
+			System.err.flush();
 		}
 	}
+
 }
 

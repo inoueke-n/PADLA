@@ -47,22 +47,17 @@ public class StatusReciever extends Thread{
 	public void run() {
 		Socket socket = connect2Agent();
 		Connector connector = new Connector(socket);
-		debugmessage.print("Connector created");
 
 		closeOnExit();
 		// Data receive roop
 		while (socket.isConnected()) {
-			debugmessage.print("loop entered");
 			Message2 message = null;
 			try {
-				debugmessage.print("before read");
 				message = connector.read(Message2.class);
 			} catch (Exception e) {
-				debugmessage.print("Cannot recieve");
 				e.printStackTrace();
 				break;
 			}
-			debugmessage.print("read end");
 			// Data receive (first)
 			if (message.getNUMOFMETHODS() > 0) {
 				firstReceive(message);
@@ -116,8 +111,6 @@ public class StatusReciever extends Thread{
 		if(message.isISFIRSTLEVEL()) {
 			if(this.isFirstLevel()) {
 				isFirstLevel = false;
-				debugmessage.printOnDebug("Unknown Phase Detected!\n");
-				debugmessage.printOnDebug("Logging Level Down\n↓↓↓↓↓↓↓↓");
 				if(MODE .equals("Adapter")) {
 					mylogcache.outputLogs();
 				}
@@ -125,8 +118,6 @@ public class StatusReciever extends Thread{
 		}else {
 			if(!this.isFirstLevel()) {
 				isFirstLevel = true;
-				debugmessage.printOnDebug("Returned to Normal Phase\n");
-				debugmessage.printOnDebug("Logging Level Up\n↑↑↑↑↑↑↑↑");
 			}
 		}
 	}
@@ -139,7 +130,6 @@ public class StatusReciever extends Thread{
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-				debugmessage.printOnDebug("Target process finished");
 			}
 		});
 	}
