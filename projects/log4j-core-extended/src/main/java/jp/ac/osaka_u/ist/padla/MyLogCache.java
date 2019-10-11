@@ -40,8 +40,8 @@ public class MyLogCache {
 	public String getOUTPUT() {
 		return BUFFEROUTPUT;
 	}
-	public void setOUTPUT(String oUTPUT) {
-		BUFFEROUTPUT = oUTPUT;
+	public void setOUTPUT(String output) {
+		BUFFEROUTPUT = output;
 		File byteFile= new File(BUFFEROUTPUT);
 		try {
 			byteBw = new BufferedWriter(new FileWriter(byteFile));
@@ -102,7 +102,7 @@ public class MyLogCache {
 		}
 
 		int j = 0;
-		while((headIndex + j) != copyIndex) {
+		while(((headIndex + j) % CACHESIZE) != copyIndex) {
 			try {
 				byteBw.write(cachedLogs[(headIndex + j) % CACHESIZE]);
 				byteBw.flush();
