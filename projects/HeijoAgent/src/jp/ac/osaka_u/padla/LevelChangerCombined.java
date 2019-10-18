@@ -51,12 +51,12 @@ public class LevelChangerCombined extends Thread {
 		debugmessage = new DebugMessage();
 		ps = new PrevState();
 		this.learningdata = learningdata;
-		openOutputFiles(this.options);
 		if (this.options.getMode().equals("Adapter")) {
 			mode = 1;
 		} else if (this.options.getMode().equals("Learning")) {
 			mode = 2;
 		}
+		openOutputFiles(this.options);
 		isNewData = false;
 	}
 
