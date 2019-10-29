@@ -47,7 +47,6 @@ public class StatusReciever extends Thread{
 	public void run() {
 		Socket socket = connect2Agent();
 		Connector connector = new Connector(socket);
-
 		closeOnExit();
 		// Data receive roop
 		while (socket.isConnected()) {

@@ -94,6 +94,10 @@ public class MyLogCache {
 			if(numOfPartitions < bufferedInterval && partitionCount == bufferedInterval) {
 				break;
 			}
+			if(i == (CACHESIZE - 1)) {
+				headIndex = current;
+				break;
+			}
 			if(cachedLogs[(current) % CACHESIZE].equals(PARTITIONSTRING)) {
 				headIndex = current;
 				partitionCount++;
