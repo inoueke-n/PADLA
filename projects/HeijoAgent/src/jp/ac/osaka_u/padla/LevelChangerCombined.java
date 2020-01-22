@@ -171,7 +171,7 @@ public class LevelChangerCombined extends Thread {
 		try {
 			if (file != null) {
 				file.write(debugmessage.getMessagehead() + "Sim: " + result.getMaxSimilarity() + "  phaseNum: "
-						+ result.getPhaseNum() + phase);
+						+ result.getPhaseNum() + " Learning Data Size: [" + learningdata.getLearningData().size() + "]; numOfMethods: [" + vec.getNumOfMethods() + "];" + phase );
 				file.flush();
 			}
 		} catch (IOException e) {
