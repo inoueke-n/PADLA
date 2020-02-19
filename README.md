@@ -14,7 +14,7 @@ PADLA is distributed under the [Apache License, version 2.0](http://www.apache.o
 * It contains the jar files of PADLA.
 * `executableFiles/HeijoAgent/HeijoAgent.jar` needs `javassist-3.22.0-GA.jar` and `msgpack-0.6.12.jar`, so put them in the same folder.
 ### projects
-* It contains projects for the development of the PADLA (HeijoAgent and log4j-core-extended).
+* It contains projects for the development of the PADLA (HeijoAgent, log4j-core-extended and selogger).
 ### sample
 * It contains sample software to try PADLA. <font color="Salmon">Download this folder and try PADLA easily if you want</font>. For detailed instructions, please refer to [sample/README.md](sample/README.md).
 
@@ -30,7 +30,7 @@ PADLA is distributed under the [Apache License, version 2.0](http://www.apache.o
 ### Running target system with "Learning" mode of PADLA
 * For the "Learning" mode, follow the steps below
 1. Replace log4j-core.jar of the target system with executableFiles/log4j-core-extended-2.11.0.jar.
-2. Edit log4j2.xml to add an appender named "Learning". A sample is below:
+2. Edit `log4j2.xml` to add an appender named "Learning". A sample is below:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project>
@@ -58,16 +58,36 @@ PADLA is distributed under the [Apache License, version 2.0](http://www.apache.o
 ```
 3. Add -javaagent option to include the Java agent with a JVM argument. A sample is below (sampleApp.jar is a your target program):
 ```bat
-java -javaagent:"executableFiles\HeijoAgent\HeijoAgent.jar=target=target.jar,phaseOutput=vecters.txt,interval=5"  -jar sampleApp.jar
+java -javaagent:"HeijoAgent.jar=OptionFile=AgentOptions.xml"  -jar sampleApp.jar
 ```
-for details of these options, please refer to  PADLA/projects/HeijoAgent/README.md.
+`AgentOptions.xml` is a option file for PADLA. In this situation, please make `AgentOptions.xml` which contains bellow.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Options>
+    <Option type="target" value="targetJars\kafka"></Option>
+    <Option type="phaseOutput" value="log4j2\logs\vecs.txt"></Option>
+    <!-- <Option type="learningData" value="e:\log4j2\logs\vecs.txt"></Option> -->
+    <Option type="interval" value="1"></Option>
+    <Option type="bufferOutput" value="log4j2\logs\buffer.log"></Option>
+    <Option type="buffer" value="100000"></Option>
+    <Option type="threshold" value="0.90"></Option>
+    <Option type="agentWaitingTime" value="16000"></Option>
+    <Option type="debugLogOutput" value="log4j2\logs\output.txt"></Option>
+    <Option type="sampleInterval" value="10"></Option>
+    <Option type="updateInterval" value="500"></Option>
+    <Option type="mode" value="Adapter"></Option>
+    <Option type="bufferedInterval" value="2"></Option>
+    <Option type="counterLimit" value="1000000"></Option>
+</Options>
+```
+For details of these options, please refer to  `PADLA/projects/HeijoAgent/README.md`.
 
-4. After you shut down the target system, you will get the learning data in vectors.txt with above sample setting.
+4. After you shut down the target system, you will get the learning data in `vectors.txt` with above sample setting.
 
 ### Running target system with "Adapter" mode of PADLA
  * For the "Adapter" mode, follow the steps below
-1. Replace log4j-core.jar of the target system with log4j-core-extended-2.11.0.jar.
-2. Edit log4j2.xml to add an appender named "Adapter". A sample is below:
+1. Replace `log4j-core.jar` of the target system with `log4j-core-extended-2.11.0`.jar.
+2. Edit `log4j2.xml` to add an appender named "Adapter". A sample is below:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project>
@@ -95,9 +115,9 @@ for details of these options, please refer to  PADLA/projects/HeijoAgent/README.
 ```
 3. Add -javaagent option to include the Java agent with a JVM argument. A sample is below (sampleApp.jar is a your target program):
 ```bat
-java -javaagent:"executableFiles\HeijoAgentHeijoAgent.jar=target=target.jar,learningData=vectors.txt,bufferOutput=buffer.txt,buffer=300,interval=5"  -jar sampleApp.jar
+java -javaagent:"HeijoAgent.jar=OptionFile=AgentOptions.xml"  -jar sampleApp.jar
 ```
-for details of these options, please refer to  PADLA\projects\HeijoAgent\README.md. You can use vectors.txt that was generated the "Learning" mode as learningData.
+`AgentOptions.xml` is a option file for PADLA. For details of these options, please refer to  `PADLA/projects/HeijoAgent/README.md`. You can use vectors.txt that was generated the "Learning" mode as learningData.
 
 4. If the target system performs an irregular behavior that does not exist in the learning data, PADLA will change the log level to emit more detailed logging.
 
