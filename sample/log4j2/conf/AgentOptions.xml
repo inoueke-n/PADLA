@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Options>
+    <Option type="target" value="..\targetJars\jpetstore_plus_tomcat-juli.jar"></Option>
+    <Option type="phaseOutput" value="..\..\logs\vectors.txt"></Option>
+    <Option type="learningData" value="..\learningdata\vectors.txt"></Option>
+    <Option type="interval" value="1"></Option>
+    <Option type="bufferOutput" value="..\..\logs\buffer.log"></Option>
+    <Option type="buffer" value="100000"></Option>
+    <Option type="threshold" value="0.95"></Option>
+    <Option type="agentWaitingTime" value="16000"></Option>
+    <Option type="debugLogOutput" value="..\..\logs\output.txt"></Option>
+    <Option type="sampleInterval" value="10"></Option>
+    <Option type="updateInterval" value="500"></Option>
+    <Option type="mode" value="Adapter"></Option>
+    <Option type="bufferedInterval" value="2"></Option>
+</Options>
