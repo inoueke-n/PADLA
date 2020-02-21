@@ -1,6 +1,6 @@
 # PADLA
 ## Overview
-![overview](fig1.JPG)
+![overview](fig1.png)
 * PADLA is a tool that dynamically adjusts the log level threshold of a running system. It is an extension of Apache Log4j.
 * For more detail, please refer to the paper ["PADLA: A Dynamic Log Level Adapter Using Online Phase Detection"](paper.pdf).
 

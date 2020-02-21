@@ -2,11 +2,11 @@
 
 ## HeijoAgent
 * A performance reporter for PADLA.
-* It reports the execution time for each method in a fixed interval. 
+* It represents the Phase Detection components.
+* The Phase Detection component comprises a Performance Reporter function which collects information necessary for the Phase Detection and a Phase Detection function which detects execution phases using the result from the Performance Reporter.
 
 
 ## log4j-core-extended
-* A main component of PADLA. It is an extension of the log4j-core.
-* It has two components: Phase Detection and Logging.
-* Phase Detection component judges whether a phase of current interval is known or unknown using performance reports from the HeijoAgent.
-* Logging component changes the log level according to the result of the Phase Detection.
+* It is an extension of the log4j-core.
+* It represents the Logging component.
+* The Logging component adapts the log level threshold according to the result of the Phase Detection function.
