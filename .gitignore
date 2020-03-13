@@ -26,7 +26,6 @@ target/
 .factorypath
 velocity.log
 felix-cache/
-bin/
 deploy_HeijoAgent.bat
 deploy_log4j.bat
 *.log
