@@ -59,5 +59,8 @@ java -javaagent:"HeijoAgent.jar=OptionFile=AgentOptions.xml"  -jar sampleApp.jar
  
 
 ## Build
-* Build using eclipse.
-* Use `res/MANIFEST.MF` as a manifest file.
+```
+$ gradlew jar
+```
+
+You can get `build/libs/HeijoAgent.jar`
