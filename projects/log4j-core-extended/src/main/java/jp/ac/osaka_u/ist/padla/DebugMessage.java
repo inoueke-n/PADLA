@@ -6,7 +6,7 @@ public class DebugMessage {
 		return messageHead;
 	}
 
-	boolean ISDEBUG = false;
+	boolean ISDEBUG = true;
 
 
 	public void setISDEBUG(boolean iSDEBUG) {
